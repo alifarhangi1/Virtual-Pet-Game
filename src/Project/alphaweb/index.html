@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Quest Game Menu Test</title>
+    <style>
+        /* Full-screen layout */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .main-menu {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background-image: url("images/petQuestMainMenu.webp");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: black;
+        }
+
+        /* Button banner style */
+        .banner-button {
+            position: absolute;
+            width: 350px;
+            height: 126px;
+            background-image: url("images/jungleBanner.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Specific button positions */
+        .play-button {
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .tutorial-button {
+            top: 68%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .parental-button {
+            top: 81%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-menu">
+        <div class="banner-button play-button">Play</div>
+        <div class="banner-button tutorial-button">Tutorial</div>
+        <div class="banner-button parental-button">Parental Control</div>
+    </div>
+</body>
+</html>
