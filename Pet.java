@@ -39,6 +39,13 @@ public class Pet
         hunger = Math.min(100, hunger + 10);
     }
 
+    public void vet()
+    {
+        happiness = Math.min(100, happiness - 20);
+        hunger = Math.min(100, hunger - 10);
+        energy = Math.max(0, energy + 15);
+    }
+
     // Update method to decrease stats over time
     public void update()
     {
