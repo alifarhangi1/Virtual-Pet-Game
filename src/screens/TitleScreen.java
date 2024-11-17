@@ -1,3 +1,5 @@
+package screens;
+
 import javax.swing.*;
 import javax.sound.sampled.*;
 import java.awt.*;
@@ -30,22 +32,33 @@ public class TitleScreen {
         frame.setSize(500, 500);
 
         // Background image
-        backgroundIcon = new ImageIcon("src/background.gif");
+        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
 
         // Logo
-        logo = new ImageIcon("src/logo.png");
+        logo = new ImageIcon("src/assets/visuals/logo.png");
 
         // Play button icons
-        playButtonDefaultIcon = new ImageIcon(new ImageIcon("src/playButtonDefault.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        playButtonHoverIcon = new ImageIcon(new ImageIcon("src/playButtonHover.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        playButtonDefaultIcon = new ImageIcon(
+                new ImageIcon("src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
+                        Image.SCALE_SMOOTH));
+        playButtonHoverIcon = new ImageIcon(
+                new ImageIcon("src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
+                        Image.SCALE_SMOOTH));
 
         // Tutorial button icons
-        tutorialButtonDefaultIcon = new ImageIcon(new ImageIcon("src/tutorialButtonDefault.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        tutorialButtonHoverIcon = new ImageIcon(new ImageIcon("src/tutorialButtonHover.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        tutorialButtonDefaultIcon = new ImageIcon(
+                new ImageIcon("src/assets/visuals/tutorialButtonDefault.png").getImage()
+                        .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        tutorialButtonHoverIcon = new ImageIcon(new ImageIcon("src/assets/visuals/tutorialButtonHover.png").getImage()
+                .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         // Parental Control button icons
-        parentalControlButtonDefaultIcon = new ImageIcon(new ImageIcon("src/parentalControlButtonDefault.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        parentalControlButtonHoverIcon = new ImageIcon(new ImageIcon("src/parentalControlButtonHover.png").getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        parentalControlButtonDefaultIcon = new ImageIcon(
+                new ImageIcon("src/assets/visuals/parentalControlButtonDefault.png")
+                        .getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        parentalControlButtonHoverIcon = new ImageIcon(
+                new ImageIcon("src/assets/visuals/parentalControlButtonHover.png").getImage()
+                        .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         // Main panel setup
         panel = new JPanel() {
@@ -86,7 +99,8 @@ public class TitleScreen {
         buttonPanelContainer.setOpaque(false);
 
         JLabel bottomLeftLabel = createLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true, 20);
-        JLabel bottomRightLabel = createLabel("Adam Yassine, Ali Farhangi, Luca Duarte, Robin (Sangjae) Lee, Yazan Abushirbi", false, 15);
+        JLabel bottomRightLabel = createLabel(
+                "Adam Yassine, Ali Farhangi, Luca Duarte, Robin (Sangjae) Lee, Yazan Abushirbi", false, 15);
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
@@ -118,7 +132,7 @@ public class TitleScreen {
     private void playIntroAudio() {
         if (!introPlayed) {
             try {
-                File audioFile = new File("src/pet_quest_intro.wav");
+                File audioFile = new File("src/assets/audio/pet_quest_intro.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
@@ -133,7 +147,7 @@ public class TitleScreen {
     // Method to play hover sound effect
     private void playHoverSound() {
         try {
-            File audioFile = new File("src/menu_hover.wav");
+            File audioFile = new File("src/assets/audio/menu_hover.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
@@ -146,7 +160,7 @@ public class TitleScreen {
     // Method to play background music in a loop
     private void playBackgroundMusic() {
         try {
-            File bgmFile = new File("src/menu_bgm.wav");
+            File bgmFile = new File("src/assets/audio/menu_bgm.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bgmFile);
             bgmClip = AudioSystem.getClip();
             bgmClip.open(audioStream);
