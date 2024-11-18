@@ -6,12 +6,11 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.*;
 
 public class SaveScreen extends JPanel {
     private ImageIcon backgroundIcon;
@@ -32,32 +31,33 @@ public class SaveScreen extends JPanel {
         setLayout(new BorderLayout());
 
         // Background image
-        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
+        backgroundIcon = new ImageIcon("group50/src/assets/visuals/background.gif");
 
         // Logo
-        logo = new ImageIcon("src/assets/visuals/logo.png");
+        logo = new ImageIcon("group50/src/assets/visuals/logo.png");
 
         // New Save button icons
         newButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
+                new ImageIcon("group50/src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
                         Image.SCALE_SMOOTH));
         newButtonHoverIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
+                new ImageIcon("group50/src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
                         Image.SCALE_SMOOTH));
 
         // Load button icons
         loadButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/tutorialButtonDefault.png").getImage()
+                new ImageIcon("group50/src/assets/visuals/tutorialButtonDefault.png").getImage()
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        loadButtonHoverIcon = new ImageIcon(new ImageIcon("src/assets/visuals/tutorialButtonHover.png").getImage()
-                .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
+        loadButtonHoverIcon = new ImageIcon(
+                new ImageIcon("group50/src/assets/visuals/tutorialButtonHover.png").getImage()
+                        .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
-        // Parental Control button icons
+        // Back button icons
         backButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/parentalControlButtonDefault.png")
+                new ImageIcon("group50/src/assets/visuals/parentalControlButtonDefault.png")
                         .getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
         backButtonHoverIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/parentalControlButtonHover.png").getImage()
+                new ImageIcon("group50/src/assets/visuals/parentalControlButtonHover.png").getImage()
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         setOpaque(false);
@@ -70,8 +70,9 @@ public class SaveScreen extends JPanel {
             }
         };
 
+        // Scale logo
         Image img = logo.getImage();
-        Image reSizedImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+        Image reSizedImg = img.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         logo = new ImageIcon(reSizedImg);
 
         label = new JLabel();
@@ -86,7 +87,7 @@ public class SaveScreen extends JPanel {
         logoWrapper.setOpaque(false);
         logoPanel.add(logoWrapper, BorderLayout.NORTH);
         // Add padding below the logo
-        logoPanel.add(Box.createRigidArea(new Dimension(0, 50)), BorderLayout.CENTER);
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 20, 0));
         logoPanel.setOpaque(false);
 
         buttonPanel = new JPanel(new GridLayout(1, 3, 10, 10));
@@ -118,7 +119,6 @@ public class SaveScreen extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
     }
 
-    // [Rest of the methods remain unchanged]
     private JLabel createNewButton() {
         JLabel playButton = new JLabel();
         playButton.setIcon(newButtonDefaultIcon);
@@ -193,7 +193,7 @@ public class SaveScreen extends JPanel {
 
     private void playHoverSound() {
         try {
-            File audioFile = new File("src/assets/audio/menu_hover.wav");
+            File audioFile = new File("group50/src/assets/audio/menu_hover.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);

@@ -3,20 +3,13 @@ package screens;
 import javax.swing.*;
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
-public class TitleScreen {
-
+public class TitleScreen extends JPanel {
     private JFrame frame;
     private JPanel mainContainer;
-    private JPanel titlePanel;
-    private JPanel logoPanel;
-    private JPanel buttonPanelContainer;
-    private JPanel buttonPanel;
-    private JLabel label;
     private ImageIcon backgroundIcon;
     private ImageIcon logo;
     private ImageIcon playButtonDefaultIcon;
@@ -27,146 +20,217 @@ public class TitleScreen {
     private ImageIcon parentalControlButtonHoverIcon;
     private Clip bgmClip;
     private static boolean introPlayed = false;
+    private final int BUTTON_WIDTH = 350;
+    private final int BUTTON_HEIGHT = 125;
 
     public TitleScreen() {
-        frame = new JFrame();
-        frame.setSize(500, 500);
+        frame = new JFrame("Pet Quest");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setPreferredSize(new Dimension(1024, 768));
 
         mainContainer = new JPanel(new CardLayout());
-
-        // Background image
-        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
-
-        // Logo
-        logo = new ImageIcon("src/assets/visuals/logo.png");
-
-        // Play button icons
-        playButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
-                        Image.SCALE_SMOOTH));
-        playButtonHoverIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
-                        Image.SCALE_SMOOTH));
-
-        // Tutorial button icons
-        tutorialButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/tutorialButtonDefault.png").getImage()
-                        .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        tutorialButtonHoverIcon = new ImageIcon(new ImageIcon("src/assets/visuals/tutorialButtonHover.png").getImage()
-                .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-
-        // Parental Control button icons
-        parentalControlButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/parentalControlButtonDefault.png")
-                        .getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-        parentalControlButtonHoverIcon = new ImageIcon(
-                new ImageIcon("src/assets/visuals/parentalControlButtonHover.png").getImage()
-                        .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
-
-        // Main panel setup
-        titlePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
-            }
-        };
-
-        Image img = logo.getImage();
-        Image reSizedImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
-        logo = new ImageIcon(reSizedImg);
-
-        label = new JLabel();
-        label.setIcon(logo);
-
-        titlePanel.setLayout(new BorderLayout());
-
-        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        logoPanel.add(label);
-        logoPanel.setOpaque(false);
-
-        buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
-        buttonPanel.setOpaque(false);
-
-        JLabel playButton = createPlayButton();
-        JLabel tutorialButton = createTutorialButton();
-        JLabel parentalControlButton = createParentalControlButton();
-
-        buttonPanel.add(playButton);
-        buttonPanel.add(tutorialButton);
-        buttonPanel.add(parentalControlButton);
-
-        buttonPanelContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        buttonPanelContainer.setPreferredSize(new Dimension(200, 200));
-        buttonPanelContainer.add(buttonPanel);
-        buttonPanelContainer.setOpaque(false);
-
-        JLabel bottomLeftLabel = createLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true, 20);
-        JLabel bottomRightLabel = createLabel(
-                "Adam Yassine, Ali Farhangi, Luca Duarte, Robin (Sangjae) Lee, Yazan Abushirbi", false, 15);
-
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setOpaque(false);
-
-        JPanel bottomLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        bottomLeftPanel.setOpaque(false);
-        bottomLeftPanel.add(bottomLeftLabel);
-
-        JPanel bottomRightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-        bottomRightPanel.setOpaque(false);
-        bottomRightPanel.add(bottomRightLabel);
-
-        bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
-        bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
-
-        titlePanel.add(logoPanel, BorderLayout.NORTH);
-        titlePanel.add(buttonPanelContainer, BorderLayout.CENTER);
-        titlePanel.add(bottomPanel, BorderLayout.SOUTH);
-
-        mainContainer.add(titlePanel, "titleScreen");
-        mainContainer.add(new SaveScreen(), "saveScreen");
+        setupUI();
 
         frame.add(mainContainer);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         playIntroAudio();
         playBackgroundMusic();
+
+        // Add window listener to handle resizing
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                resizeComponents();
+            }
+        });
     }
 
-    // Method to play the intro audio only once per run
+    private void setupUI() {
+        loadImages();
+
+        // Main game panel with background
+        JPanel gamePanel = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Image bg = backgroundIcon.getImage();
+                g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+
+        // Use GridBagLayout for precise control
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Logo section (top)
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(15, 0, 0, 0); // Top padding of 50 pixels
+        gamePanel.add(logoLabel, gbc);
+
+        // Buttons section (middle)
+        JPanel buttonPanel = createButtonPanel();
+        gbc.gridy = 1;
+        gbc.weighty = 0.6;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gamePanel.add(buttonPanel, gbc);
+
+        // Credits section (bottom)
+        JPanel creditsPanel = createCreditsPanel();
+        gbc.gridy = 2;
+        gbc.weighty = 0.1;
+        gbc.anchor = GridBagConstraints.SOUTH;
+        gamePanel.add(creditsPanel, gbc);
+
+        mainContainer.add(gamePanel, "titleScreen");
+        mainContainer.add(new SaveScreen(), "saveScreen");
+    }
+
+    private void loadImages() {
+        // Load and scale images based on screen size
+        backgroundIcon = new ImageIcon("group50/src/assets/visuals/background.gif");
+        logo = new ImageIcon("group50/src/assets/visuals/logo.png");
+
+        // Load button images
+        playButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/playButtonDefault.png");
+        playButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/playButtonHover.png");
+        tutorialButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/tutorialButtonDefault.png");
+        tutorialButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/tutorialButtonHover.png");
+        parentalControlButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/parentalControlButtonDefault.png");
+        parentalControlButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/parentalControlButtonHover.png");
+
+        // Scale logo initially
+        scaleLogo();
+    }
+
+    private ImageIcon loadScaledImage(String path) {
+        return new ImageIcon(
+                new ImageIcon(path).getImage().getScaledInstance(
+                        BUTTON_WIDTH, BUTTON_HEIGHT, Image.SCALE_SMOOTH
+                )
+        );
+    }
+
+    private void scaleLogo() {
+        Image img = logo.getImage();
+        int frameHeight = frame.getHeight();
+        // Logo height should be approximately 30% of frame height
+        int targetHeight = (int)(frameHeight * 0.5);  // Increased from 0.2
+        double ratio = (double)img.getWidth(null) / img.getHeight(null);
+        int targetWidth = (int)(targetHeight * ratio);
+
+        Image scaledImage = img.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        logo = new ImageIcon(scaledImage);
+    }
+
+    private JPanel createButtonPanel() {
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setOpaque(false);
+
+        // Create buttons with proper spacing
+        buttonPanel.add(Box.createVerticalGlue());
+        buttonPanel.add(createButton(playButtonDefaultIcon, playButtonHoverIcon, e -> {
+            CardLayout cl = (CardLayout) mainContainer.getLayout();
+            cl.show(mainContainer, "saveScreen");
+        }));
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        buttonPanel.add(createButton(tutorialButtonDefaultIcon, tutorialButtonHoverIcon, null));
+        buttonPanel.add(Box.createRigidArea(new Dimension(0, 15)));
+        buttonPanel.add(createButton(parentalControlButtonDefaultIcon, parentalControlButtonHoverIcon, null));
+        buttonPanel.add(Box.createVerticalGlue());
+
+        return buttonPanel;
+    }
+
+    private JLabel createButton(ImageIcon defaultIcon, ImageIcon hoverIcon, ActionListener action) {
+        JLabel button = new JLabel(defaultIcon);
+        button.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setIcon(hoverIcon);
+                playHoverSound();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setIcon(defaultIcon);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (action != null) {
+                    action.actionPerformed(new ActionEvent(button, ActionEvent.ACTION_PERFORMED, "click"));
+                }
+            }
+        });
+
+        return button;
+    }
+
+    private JPanel createCreditsPanel() {
+        JPanel creditsPanel = new JPanel(new BorderLayout());
+        creditsPanel.setOpaque(false);
+        creditsPanel.setBorder(BorderFactory.createEmptyBorder(5, 20, 5, 20));
+
+        JLabel teamLabel = createStyledLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true, 16);
+        JLabel namesLabel = createStyledLabel(
+                "Adam Yassine, Ali Farhangi, Luca Duarte, Robin (Sangjae) Lee, Yazan Abushirbi",
+                false,
+                12
+        );
+
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setOpaque(false);
+        leftPanel.add(teamLabel);
+
+        JPanel rightPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightPanel.setOpaque(false);
+        rightPanel.add(namesLabel);
+
+        creditsPanel.add(leftPanel, BorderLayout.WEST);
+        creditsPanel.add(rightPanel, BorderLayout.EAST);
+
+        return creditsPanel;
+    }
+
+    private JLabel createStyledLabel(String text, boolean isTeamLabel, int size) {
+        JLabel label = new JLabel(text);
+        label.setForeground(new Color(255, 215, 0));  // Gold color
+        int style = isTeamLabel ? (Font.BOLD | Font.ITALIC) : Font.BOLD;
+        label.setFont(new Font("Monospaced", style, size));
+        return label;
+    }
+
+    private void resizeComponents() {
+        scaleLogo();
+        mainContainer.revalidate();
+        mainContainer.repaint();
+    }
+
     private void playIntroAudio() {
         if (!introPlayed) {
-            try {
-                File audioFile = new File("src/assets/audio/pet_quest_intro.wav");
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioStream);
-                clip.start();
-                introPlayed = true;
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                e.printStackTrace();
-            }
+            playAudio("group50/src/assets/audio/pet_quest_intro.wav");
+            introPlayed = true;
         }
     }
 
-    // Method to play hover sound effect
     private void playHoverSound() {
-        try {
-            File audioFile = new File("src/assets/audio/menu_hover.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        playAudio("group50/src/assets/audio/menu_hover.wav");
     }
 
-    // Method to play background music in a loop
     private void playBackgroundMusic() {
         try {
-            File bgmFile = new File("src/assets/audio/menu_bgm.wav");
+            File bgmFile = new File("group50/src/assets/audio/menu_bgm.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bgmFile);
             bgmClip = AudioSystem.getClip();
             bgmClip.open(audioStream);
@@ -177,97 +241,23 @@ public class TitleScreen {
         }
     }
 
-    // Method to stop the background music
-    private void stopBackgroundMusic() {
+    private void playAudio(String path) {
+        try {
+            File audioFile = new File(path);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopBackgroundMusic() {
         if (bgmClip != null && bgmClip.isRunning()) {
             bgmClip.stop();
             bgmClip.close();
         }
-    }
-
-    // Create Play button with hover effect
-    private JLabel createPlayButton() {
-        JLabel playButton = new JLabel();
-        playButton.setIcon(playButtonDefaultIcon);
-        playButton.setPreferredSize(new Dimension(350, 125));
-        playButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        playButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                playButton.setIcon(playButtonHoverIcon);
-                playHoverSound();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                playButton.setIcon(playButtonDefaultIcon);
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Switch to save screen
-                CardLayout cardLayout = (CardLayout) mainContainer.getLayout();
-                cardLayout.show(mainContainer, "saveScreen");
-            }
-        });
-
-        return playButton;
-    }
-
-    // Create Tutorial button with hover effect
-    private JLabel createTutorialButton() {
-        JLabel tutorialButton = new JLabel();
-        tutorialButton.setIcon(tutorialButtonDefaultIcon);
-        tutorialButton.setPreferredSize(new Dimension(350, 125));
-        tutorialButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        tutorialButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                tutorialButton.setIcon(tutorialButtonHoverIcon);
-                playHoverSound();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                tutorialButton.setIcon(tutorialButtonDefaultIcon);
-            }
-        });
-
-        return tutorialButton;
-    }
-
-    // Create Parental Control button with hover effect
-    private JLabel createParentalControlButton() {
-        JLabel parentalControlButton = new JLabel();
-        parentalControlButton.setIcon(parentalControlButtonDefaultIcon);
-        parentalControlButton.setPreferredSize(new Dimension(350, 125));
-        parentalControlButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        parentalControlButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                parentalControlButton.setIcon(parentalControlButtonHoverIcon);
-                playHoverSound();
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                parentalControlButton.setIcon(parentalControlButtonDefaultIcon);
-            }
-        });
-
-        return parentalControlButton;
-    }
-
-    // Helper method to style bottom labels
-    private JLabel createLabel(String text, boolean isLeftLabel, int fontSize) {
-        JLabel label = new JLabel(text, SwingConstants.CENTER);
-        label.setOpaque(false);
-        label.setForeground(new Color(255, 215, 0)); // Gold color
-        label.setFont(new Font("Monospaced", Font.BOLD | (isLeftLabel ? Font.ITALIC : Font.PLAIN), fontSize));
-        return label;
     }
 
     public static void main(String[] args) {
