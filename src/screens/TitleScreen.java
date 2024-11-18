@@ -11,7 +11,8 @@ import java.io.IOException;
 public class TitleScreen {
 
     private JFrame frame;
-    private JPanel panel;
+    private JPanel mainContainer;
+    private JPanel titlePanel;
     private JPanel logoPanel;
     private JPanel buttonPanelContainer;
     private JPanel buttonPanel;
@@ -30,6 +31,8 @@ public class TitleScreen {
     public TitleScreen() {
         frame = new JFrame();
         frame.setSize(500, 500);
+
+        mainContainer = new JPanel(new CardLayout());
 
         // Background image
         backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
@@ -61,7 +64,7 @@ public class TitleScreen {
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         // Main panel setup
-        panel = new JPanel() {
+        titlePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -76,7 +79,7 @@ public class TitleScreen {
         label = new JLabel();
         label.setIcon(logo);
 
-        panel.setLayout(new BorderLayout());
+        titlePanel.setLayout(new BorderLayout());
 
         logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         logoPanel.add(label);
@@ -116,11 +119,14 @@ public class TitleScreen {
         bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
         bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
 
-        panel.add(logoPanel, BorderLayout.NORTH);
-        panel.add(buttonPanelContainer, BorderLayout.CENTER);
-        panel.add(bottomPanel, BorderLayout.SOUTH);
+        titlePanel.add(logoPanel, BorderLayout.NORTH);
+        titlePanel.add(buttonPanelContainer, BorderLayout.CENTER);
+        titlePanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        frame.add(panel);
+        mainContainer.add(titlePanel, "titleScreen");
+        mainContainer.add(new SaveScreen(), "saveScreen");
+
+        frame.add(mainContainer);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
@@ -196,6 +202,13 @@ public class TitleScreen {
             @Override
             public void mouseExited(MouseEvent e) {
                 playButton.setIcon(playButtonDefaultIcon);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Switch to save screen
+                CardLayout cardLayout = (CardLayout) mainContainer.getLayout();
+                cardLayout.show(mainContainer, "saveScreen");
             }
         });
 
