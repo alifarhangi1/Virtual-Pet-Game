@@ -31,33 +31,33 @@ public class SaveScreen extends JPanel {
         setLayout(new BorderLayout());
 
         // Background image
-        backgroundIcon = new ImageIcon("group50/src/assets/visuals/background.gif");
+        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
 
         // Logo
-        logo = new ImageIcon("group50/src/assets/visuals/logo.png");
+        logo = new ImageIcon("src/assets/visuals/logo.png");
 
         // New Save button icons
         newButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
+                new ImageIcon("src/assets/visuals/playButtonDefault.png").getImage().getScaledInstance(350, 125,
                         Image.SCALE_SMOOTH));
         newButtonHoverIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
+                new ImageIcon("src/assets/visuals/playButtonHover.png").getImage().getScaledInstance(350, 125,
                         Image.SCALE_SMOOTH));
 
         // Load button icons
         loadButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/tutorialButtonDefault.png").getImage()
+                new ImageIcon("src/assets/visuals/tutorialButtonDefault.png").getImage()
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
         loadButtonHoverIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/tutorialButtonHover.png").getImage()
+                new ImageIcon("src/assets/visuals/tutorialButtonHover.png").getImage()
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         // Back button icons
         backButtonDefaultIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/parentalControlButtonDefault.png")
+                new ImageIcon("src/assets/visuals/parentalControlButtonDefault.png")
                         .getImage().getScaledInstance(350, 125, Image.SCALE_SMOOTH));
         backButtonHoverIcon = new ImageIcon(
-                new ImageIcon("group50/src/assets/visuals/parentalControlButtonHover.png").getImage()
+                new ImageIcon("src/assets/visuals/parentalControlButtonHover.png").getImage()
                         .getScaledInstance(350, 125, Image.SCALE_SMOOTH));
 
         setOpaque(false);
@@ -193,7 +193,7 @@ public class SaveScreen extends JPanel {
 
     private void playHoverSound() {
         try {
-            File audioFile = new File("group50/src/assets/audio/menu_hover.wav");
+            File audioFile = new File("src/assets/audio/menu_hover.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);

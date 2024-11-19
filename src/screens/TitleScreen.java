@@ -93,16 +93,16 @@ public class TitleScreen extends JPanel {
 
     private void loadImages() {
         // Load and scale images based on screen size
-        backgroundIcon = new ImageIcon("group50/src/assets/visuals/background.gif");
-        logo = new ImageIcon("group50/src/assets/visuals/logo.png");
+        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
+        logo = new ImageIcon("src/assets/visuals/logo.png");
 
         // Load button images
-        playButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/playButtonDefault.png");
-        playButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/playButtonHover.png");
-        tutorialButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/tutorialButtonDefault.png");
-        tutorialButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/tutorialButtonHover.png");
-        parentalControlButtonDefaultIcon = loadScaledImage("group50/src/assets/visuals/parentalControlButtonDefault.png");
-        parentalControlButtonHoverIcon = loadScaledImage("group50/src/assets/visuals/parentalControlButtonHover.png");
+        playButtonDefaultIcon = loadScaledImage("src/assets/visuals/playButtonDefault.png");
+        playButtonHoverIcon = loadScaledImage("src/assets/visuals/playButtonHover.png");
+        tutorialButtonDefaultIcon = loadScaledImage("src/assets/visuals/tutorialButtonDefault.png");
+        tutorialButtonHoverIcon = loadScaledImage("src/assets/visuals/tutorialButtonHover.png");
+        parentalControlButtonDefaultIcon = loadScaledImage("src/assets/visuals/parentalControlButtonDefault.png");
+        parentalControlButtonHoverIcon = loadScaledImage("src/assets/visuals/parentalControlButtonHover.png");
 
         // Scale logo initially
         scaleLogo();
@@ -219,18 +219,18 @@ public class TitleScreen extends JPanel {
 
     private void playIntroAudio() {
         if (!introPlayed) {
-            playAudio("group50/src/assets/audio/pet_quest_intro.wav");
+            playAudio("src/assets/audio/pet_quest_intro.wav");
             introPlayed = true;
         }
     }
 
     private void playHoverSound() {
-        playAudio("group50/src/assets/audio/menu_hover.wav");
+        playAudio("src/assets/audio/menu_hover.wav");
     }
 
     private void playBackgroundMusic() {
         try {
-            File bgmFile = new File("group50/src/assets/audio/menu_bgm.wav");
+            File bgmFile = new File("src/assets/audio/menu_bgm.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(bgmFile);
             bgmClip = AudioSystem.getClip();
             bgmClip.open(audioStream);
