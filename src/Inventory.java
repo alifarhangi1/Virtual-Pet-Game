@@ -22,7 +22,7 @@ public class Inventory {
         frame.setSize(800, 600); // Set a default size for the frame
 
         // Create a custom background panel
-        backgroundPanel = new BackgroundPanel("src/Icons/inventoryBackground.gif");
+        backgroundPanel = new BackgroundPanel("group50/src/Icons/inventoryBackground.gif");
         backgroundPanel.setLayout(new BorderLayout());
 
         icons = new ArrayList<>();
@@ -60,9 +60,9 @@ public class Inventory {
 
     private void initializeIcons() {
         // Add icons to the list (you can expand this dynamically if needed)
-        icons.add(resizeIcon(new ImageIcon("src/Icons/wolf.png")));
-        icons.add(resizeIcon(new ImageIcon("src/Icons/panda.png")));
-        icons.add(resizeIcon(new ImageIcon("src/Icons/owl.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/wolf.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/panda.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/owl.png")));
     }
 
     private void initializeLabels() {
