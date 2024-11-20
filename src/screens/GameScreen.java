@@ -17,11 +17,13 @@ public class GameScreen extends JPanel {
     protected final JPanel contentPanel;
     private final JPanel logoPanel;
     private final JPanel bottomPanel;
+    private final JPanel topPanel;
     private final JLabel logoLabel;
     private final JLabel bottomLeftLabel;
     private final JLabel bottomRightLabel;
     private final ImageIcon backgroundIcon;
     private final ImageIcon logo;
+    private final ImageIcon exit;
 
     // Configuration constants
     private static final double TEXT_BASE_SCALE = 0.02;
@@ -36,6 +38,7 @@ public class GameScreen extends JPanel {
         // Load resources
         backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
         logo = new ImageIcon("src/assets/visuals/logo.png");
+        exit = new ImageIcon("src/assets/visuals/exitButtonDefault.png");
 
         // Initialize with background
         setBackground(new Color(0, 0, 0, 0));
@@ -53,6 +56,10 @@ public class GameScreen extends JPanel {
         // Bottom panel setup
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
+
+        // Top panel setup
+        topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
 
         // Create bottom labels
         bottomLeftLabel = createLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true);
@@ -198,7 +205,8 @@ public class GameScreen extends JPanel {
     }
 
     protected void initializeComponents() {
-
+        // Default empty implementation
+        // Child classes can override this if they need custom cleanup behavior
     }
 
 }

@@ -18,8 +18,8 @@ public class TitleScreen extends GameScreen {
     private ImageIcon parentalControlButtonHoverIcon;
     protected static final double BUTTON_WIDTH_SCALE = 0.19;
     protected static final double BUTTON_HEIGHT_SCALE = 0.13;
-    protected static final int MIN_BUTTON_WIDTH = 200;
-    protected static final int MIN_BUTTON_HEIGHT = 70;
+    protected static final int MIN_BUTTON_WIDTH = 190;
+    protected static final int MIN_BUTTON_HEIGHT = 65;
     protected static final int VERTICAL_SPACING = 20;
     protected int originalButtonWidth;
     protected int originalButtonHeight;
@@ -107,7 +107,7 @@ public class TitleScreen extends GameScreen {
 
         double widthScaleFactor = maxButtonWidth / originalButtonWidth;
         double heightScaleFactor = maxButtonHeight / originalButtonHeight;
-        double buttonScaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
+        double buttonScaleFactor = Math.min(widthScaleFactor, heightScaleFactor) * 1.2;
 
         int finalWidth = Math.max((int)(originalButtonWidth * buttonScaleFactor), MIN_BUTTON_WIDTH);
         int finalHeight = Math.max((int)(originalButtonHeight * buttonScaleFactor), MIN_BUTTON_HEIGHT);

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class SaveScreen extends TitleScreen {
     private static final double BACK_BUTTON_WIDTH_SCALE = 0.12;
@@ -83,6 +84,16 @@ public class SaveScreen extends TitleScreen {
                 button.setIcon(defaultIcon);
             }
         });
+
+        if (Objects.equals(buttonName, "newGameButton")) {
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    audioManager.playButtonClickSound();
+                    screenManager.showScreen("newgame");
+                }
+            });
+        }
 
         return button;
     }
