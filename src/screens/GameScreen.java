@@ -196,4 +196,9 @@ public class GameScreen extends JPanel {
         // Default empty implementation
         // Child classes can override this if they need custom cleanup behavior
     }
+
+    protected void initializeComponents() {
+
+    }
+
 }

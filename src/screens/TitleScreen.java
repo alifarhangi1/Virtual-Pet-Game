@@ -32,6 +32,7 @@ public class TitleScreen extends GameScreen {
         finalizeSetup();
     }
 
+    @Override
     protected void initializeComponents() {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
@@ -122,7 +123,7 @@ public class TitleScreen extends GameScreen {
         parentalControlButtonDefaultIcon = createScaledIcon("src/assets/visuals/parentalControlButtonDefault.png", width, height);
         parentalControlButtonHoverIcon = createScaledIcon("src/assets/visuals/parentalControlButtonHover.png", width, height);
     }
-    
+
 
     private JLabel createPlayButton() {
         JLabel playButton = new JLabel(playButtonDefaultIcon);
