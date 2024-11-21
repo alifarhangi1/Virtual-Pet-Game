@@ -135,7 +135,6 @@ public class GameScreen extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Get the current size and create a scaled default icon
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledDefaultIcon = createScaledIcon(
@@ -158,7 +157,6 @@ public class GameScreen extends JPanel {
             }
         });
 
-        // Add resize listener
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {

@@ -58,7 +58,12 @@ public class NewSaveScreen extends GameScreen {
                 gbc.anchor = GridBagConstraints.WEST;
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.weightx = 1.0;
-                boxPanel.add(new JTextField(10), gbc);
+                if (labels[i].equals("Password: ")) {
+                    JPasswordField passwordField = new JPasswordField(10);
+                    boxPanel.add(passwordField, gbc);
+                } else {
+                    boxPanel.add(new JTextField(10), gbc);
+                }
             }
             gbc.gridx = 0;
             gbc.gridy = 2;
