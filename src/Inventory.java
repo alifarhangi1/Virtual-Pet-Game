@@ -1,6 +1,9 @@
+package src;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Inventory {
 
@@ -8,15 +11,16 @@ public class Inventory {
     private JPanel backgroundPanel;
     private JPanel panel;
     private ArrayList<JLabel> labels; // Store dynamically created labels
-    private ArrayList<ImageIcon> icons; // Store the icons
-
+    private ImageIcon[] icons;
     public int petNumber = 8; // Adjust this variable to adjust amount of pet slots
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         new Inventory();
     }
 
-    Inventory() {
+    Inventory()
+    {
         frame = new JFrame();
         frame.setLayout(new BorderLayout()); // Use BorderLayout to center the inventory panel
         frame.setSize(800, 600); // Set a default size for the frame
@@ -25,10 +29,13 @@ public class Inventory {
         backgroundPanel = new BackgroundPanel("group50/src/Icons/inventoryBackground.gif");
         backgroundPanel.setLayout(new BorderLayout());
 
-        icons = new ArrayList<>();
+        icons = new ImageIcon[8];
+        icons [0] = resizeIcon(new ImageIcon("group50/src/Icons/wolf.png"));
+        icons [1] = resizeIcon(new ImageIcon("group50/src/Icons/panda.png"));
+        icons [2] = resizeIcon(new ImageIcon("group50/src/Icons/owl.png"));
         labels = new ArrayList<>();
 
-        initializeIcons();
+
         initializeLabels();
         initializePanel();
 
@@ -46,55 +53,63 @@ public class Inventory {
         frame.setVisible(true);
     }
 
-    private void initializePanel() {
+    private void initializePanel()
+    {
         panel = new JPanel(new GridLayout(2, petNumber / 2)); // Adjust grid to number of pets
         panel.setBackground(new Color(0, 0, 0, 150));
         panel.setOpaque(true);
         panel.setBorder(BorderFactory.createLineBorder(Color.white));
 
         // Add all dynamically created labels to the panel
-        for (JLabel label : labels) {
+        for (JLabel label : labels)
+        {
             panel.add(label);
         }
     }
 
-    private void initializeIcons() {
-        // Add icons to the list (you can expand this dynamically if needed)
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/wolf.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/panda.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/owl.png")));
-    }
-
     private void initializeLabels() {
         // Create labels based on petNumber and add icons
-        for (int i = 0; i < petNumber; i++) {
-            ImageIcon icon = (i < icons.size()) ? icons.get(i) : null; // Handle if more pets than icons
+        for (int i = 0; i < petNumber; i++)
+        {
+            ImageIcon icon = (i < icons.length) ? icons[i] : null; // Handle if more pets than icons
             JLabel label = initializeLabel(icon);
             labels.add(label);
         }
     }
 
-    private JLabel initializeLabel(ImageIcon icon) {
+    private JLabel initializeLabel(ImageIcon icon)
+    {
         JLabel label = new JLabel();
         label.setBorder(BorderFactory.createLineBorder(Color.white));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
 
-        if (icon != null) {
+        if (icon != null)
+        {
             label.setIcon(icon);
-        } else {
-//            ImageIcon placeholder = resizeIcon(new ImageIcon("src/Icons/logo.png"));
-//            label.setIcon(placeholder); // Placeholder for pets without icons
+        }
+        else
+        {
+            ImageIcon placeholder = resizeIcon(new ImageIcon("src/Icons/logo.png"));
+            label.setIcon(placeholder); // Placeholder for pets without icons
         }
 
         return label;
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    private ImageIcon resizeIcon(ImageIcon icon)
+    {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
 
+    private void unlock(int index)
+    {
+        if (GameManager.getInstance().getMyMap().get(index))
+        {
+            labels.get(index).setIcon(icons[index]);
+        }
+    }
 }
 
