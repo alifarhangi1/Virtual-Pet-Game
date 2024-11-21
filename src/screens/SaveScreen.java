@@ -80,6 +80,14 @@ public class SaveScreen extends TitleScreen {
                     screenManager.showScreen("newgame");
                 }
             });
+        } else {
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    audioManager.playButtonClickSound();
+                    screenManager.showScreen("loadgame");
+                }
+            });
         }
 
         return button;
