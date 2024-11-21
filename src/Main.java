@@ -23,11 +23,6 @@ public class Main {
         // Show main frame and initial screen
         screenManager.showMainFrame();
         screenManager.showScreen("title");
-
-        // Add shutdown hook for cleanup
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            screenManager.cleanup();
-        }));
     }
 }
 
