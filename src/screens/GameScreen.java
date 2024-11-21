@@ -1,4 +1,3 @@
-// GameScreen.java
 package screens;
 
 import managers.AudioManager;
@@ -21,20 +20,24 @@ public class GameScreen extends JPanel {
     protected static final double BACK_BUTTON_HEIGHT_SCALE = 0.11;
     protected static final int MIN_BACK_BUTTON_WIDTH = 140;
     protected static final int MIN_BACK_BUTTON_HEIGHT = 40;
+    private final JPanel exitPanel;
     private final JPanel logoPanel;
     private final JPanel bottomPanel;
     private final JPanel topPanel;
+    private final JLabel exitButton;
     private final JLabel logoLabel;
     private final JLabel bottomLeftLabel;
     private final JLabel bottomRightLabel;
     private final ImageIcon backgroundIcon;
     private final ImageIcon logo;
-    private final ImageIcon exit;
+    private final ImageIcon exitDefaultIcon;
+    private final ImageIcon exitHoverIcon;
 
     // Configuration constants
     private static final double TEXT_BASE_SCALE = 0.02;
     private static final int MIN_FONT_SIZE = 10;
-    private static final double LOGO_SCALE = 0.4;
+    private static final double LOGO_SCALE = 0.35;
+    private static final double EXIT_SCALE = 0.08;
 
     protected GameScreen() {
         setLayout(new BorderLayout());
@@ -44,16 +47,25 @@ public class GameScreen extends JPanel {
         // Load resources
         backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
         logo = new ImageIcon("src/assets/visuals/logo.png");
-        exit = new ImageIcon("src/assets/visuals/exitButtonDefault.png");
+        exitDefaultIcon = new ImageIcon("src/assets/visuals/exitButtonDefault.png");
+        exitHoverIcon = new ImageIcon("src/assets/visuals/exitButtonHover.png");
 
         // Initialize with background
         setBackground(new Color(0, 0, 0, 0));
 
         // Logo panel setup
-        logoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        logoPanel = new JPanel();
         logoPanel.setOpaque(false);
         logoLabel = new JLabel();
         logoPanel.add(logoLabel);
+        logoPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
+
+        // Exit button panel setup with margin
+        exitPanel = new JPanel();
+        exitPanel.setOpaque(false);
+        exitButton = new JLabel();
+        exitPanel.add(exitButton);
+        exitPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 30));
 
         // Content panel for child screens
         contentPanel = new JPanel();
@@ -63,9 +75,25 @@ public class GameScreen extends JPanel {
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
 
-        // Top panel setup
-        topPanel = new JPanel(new BorderLayout());
+        // Top panel setup with GridBagLayout
+        topPanel = new JPanel(new GridBagLayout());
         topPanel.setOpaque(false);
+
+        // Configure logo constraints to be centered
+        GridBagConstraints logoConstraints = new GridBagConstraints();
+        logoConstraints.gridx = 0;
+        logoConstraints.gridy = 0;
+        logoConstraints.gridwidth = GridBagConstraints.REMAINDER;
+        logoConstraints.anchor = GridBagConstraints.CENTER;
+        topPanel.add(logoPanel, logoConstraints);
+
+        // Configure exit button constraints to overlay in top-right
+        GridBagConstraints exitConstraints = new GridBagConstraints();
+        exitConstraints.gridx = 1;
+        exitConstraints.gridy = 0;
+        exitConstraints.anchor = GridBagConstraints.NORTHEAST;
+        exitConstraints.weightx = 1.0;
+        topPanel.add(exitPanel, exitConstraints);
 
         // Create bottom labels
         bottomLeftLabel = createLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true);
@@ -85,9 +113,50 @@ public class GameScreen extends JPanel {
         bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
 
         // Arrange panels
-        add(logoPanel, BorderLayout.NORTH);
+        add(topPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+
+        // Add mouse listener to exit button
+        exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        exitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                JLabel button = (JLabel) e.getComponent();
+                Dimension currentSize = button.getSize();
+                ImageIcon scaledHoverIcon = createScaledIcon(
+                        "src/assets/visuals/exitButtonHover.png",
+                        currentSize.width,
+                        currentSize.height
+                );
+                exitButton.setIcon(scaledHoverIcon);
+                audioManager.playHoverSound();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // Get the current size and create a scaled default icon
+                JLabel button = (JLabel) e.getComponent();
+                Dimension currentSize = button.getSize();
+                ImageIcon scaledDefaultIcon = createScaledIcon(
+                        "src/assets/visuals/exitButtonDefault.png",
+                        currentSize.width,
+                        currentSize.height
+                );
+                button.setIcon(scaledDefaultIcon);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                audioManager.playButtonClickSound();
+                int choice = JOptionPane.showConfirmDialog(null,"Do you want to exit the game?",
+                        "Confirmation",
+                        JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
 
         // Add resize listener
         addComponentListener(new ComponentAdapter() {
@@ -111,7 +180,6 @@ public class GameScreen extends JPanel {
     }
 
     protected int[] resizeBackButton() {
-        // Calculate back button dimensions
         double backButtonWidthScaleFactor = Math.max(getWidth() * BACK_BUTTON_WIDTH_SCALE / originalBackButtonWidth,
                 MIN_BACK_BUTTON_WIDTH / (double)originalBackButtonWidth);
         double backButtonHeightScaleFactor = Math.max(getHeight() * BACK_BUTTON_HEIGHT_SCALE / originalBackButtonHeight,
@@ -122,7 +190,6 @@ public class GameScreen extends JPanel {
         int newBackButtonHeight = (int)(originalBackButtonHeight * backButtonScaleFactor);
 
         int[] size = {newBackButtonWidth, newBackButtonHeight};
-
         return size;
     }
 
@@ -132,14 +199,12 @@ public class GameScreen extends JPanel {
 
         ImageIcon defaultIcon = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
         backButton.setIcon(defaultIcon);
-        backButton.putClientProperty("defaultIcon", defaultIcon);
 
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
-                // Create scaled hover icon based on current button size
                 ImageIcon scaledHoverIcon = createScaledIcon(
                         "src/assets/visuals/woodButtonHover.png",
                         currentSize.width,
@@ -152,8 +217,13 @@ public class GameScreen extends JPanel {
             @Override
             public void mouseExited(MouseEvent e) {
                 JLabel button = (JLabel) e.getComponent();
-                ImageIcon defaultIcon = (ImageIcon) button.getClientProperty("defaultIcon");
-                button.setIcon(defaultIcon);
+                Dimension currentSize = button.getSize();
+                ImageIcon scaledDefaultIcon = createScaledIcon(
+                        "src/assets/visuals/woodButtonDefault.png",
+                        currentSize.width,
+                        currentSize.height
+                );
+                button.setIcon(scaledDefaultIcon);
             }
 
             @Override
@@ -192,21 +262,42 @@ public class GameScreen extends JPanel {
         int windowHeight = getHeight();
 
         // Resize logo
-        Image originalImage = logo.getImage();
-        int originalWidth = logo.getIconWidth();
-        int originalHeight = logo.getIconHeight();
+        Image originalLogoImage = logo.getImage();
+        int originalLogoWidth = logo.getIconWidth();
+        int originalLogoHeight = logo.getIconHeight();
 
-        double scaleFactor = Math.min(
-                (windowWidth * LOGO_SCALE) / originalWidth,
-                (windowHeight * LOGO_SCALE) / originalHeight
+        double logoScaleFactor = Math.min(
+                (windowWidth * LOGO_SCALE) / originalLogoWidth,
+                (windowHeight * LOGO_SCALE) / originalLogoHeight
         );
 
-        int newLogoWidth = (int)(originalWidth * scaleFactor);
-        int newLogoHeight = (int)(originalHeight * scaleFactor);
+        int newLogoWidth = (int)(originalLogoWidth * logoScaleFactor);
+        int newLogoHeight = (int)(originalLogoHeight * logoScaleFactor);
 
-        Image resizedLogo = originalImage.getScaledInstance(
+        Image resizedLogo = originalLogoImage.getScaledInstance(
                 newLogoWidth, newLogoHeight, Image.SCALE_SMOOTH);
         logoLabel.setIcon(new ImageIcon(resizedLogo));
+
+        // Resize exit button
+        Image originalExitImage = exitDefaultIcon.getImage();
+        int originalExitWidth = exitDefaultIcon.getIconWidth();
+        int originalExitHeight = exitDefaultIcon.getIconHeight();
+
+        double exitScaleFactor = Math.min(
+                (windowWidth * EXIT_SCALE) / originalExitWidth,
+                (windowHeight * EXIT_SCALE) / originalExitHeight
+        );
+
+        int newExitWidth = (int)(originalExitWidth * exitScaleFactor);
+        int newExitHeight = (int)(originalExitHeight * exitScaleFactor);
+
+        // Create and set the scaled default icon
+        ImageIcon scaledDefaultIcon = createScaledIcon(
+                "src/assets/visuals/exitButtonDefault.png",
+                newExitWidth,
+                newExitHeight
+        );
+        exitButton.setIcon(scaledDefaultIcon);
 
         // Resize text
         int leftLabelSize = Math.max((int)(windowHeight * TEXT_BASE_SCALE * 1.2), MIN_FONT_SIZE);
@@ -242,5 +333,4 @@ public class GameScreen extends JPanel {
         // Default empty implementation
         // Child classes can override this if they need custom cleanup behavior
     }
-
 }
