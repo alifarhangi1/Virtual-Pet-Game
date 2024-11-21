@@ -15,6 +15,12 @@ public class GameScreen extends JPanel {
     public AudioManager audioManager;
     public ScreenManager screenManager;
     protected final JPanel contentPanel;
+    protected int originalBackButtonWidth;
+    protected int originalBackButtonHeight;
+    protected static final double BACK_BUTTON_WIDTH_SCALE = 0.12;
+    protected static final double BACK_BUTTON_HEIGHT_SCALE = 0.11;
+    protected static final int MIN_BACK_BUTTON_WIDTH = 140;
+    protected static final int MIN_BACK_BUTTON_HEIGHT = 40;
     private final JPanel logoPanel;
     private final JPanel bottomPanel;
     private final JPanel topPanel;
@@ -98,7 +104,29 @@ public class GameScreen extends JPanel {
         g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
-    protected JLabel createBackButton() {
+    protected void initializeBackButtonDimensions() {
+        ImageIcon originalBackButton = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
+        originalBackButtonWidth = originalBackButton.getIconWidth();
+        originalBackButtonHeight = originalBackButton.getIconHeight();
+    }
+
+    protected int[] resizeBackButton() {
+        // Calculate back button dimensions
+        double backButtonWidthScaleFactor = Math.max(getWidth() * BACK_BUTTON_WIDTH_SCALE / originalBackButtonWidth,
+                MIN_BACK_BUTTON_WIDTH / (double)originalBackButtonWidth);
+        double backButtonHeightScaleFactor = Math.max(getHeight() * BACK_BUTTON_HEIGHT_SCALE / originalBackButtonHeight,
+                MIN_BACK_BUTTON_HEIGHT / (double)originalBackButtonHeight);
+        double backButtonScaleFactor = Math.min(backButtonWidthScaleFactor, backButtonHeightScaleFactor);
+
+        int newBackButtonWidth = (int)(originalBackButtonWidth * backButtonScaleFactor);
+        int newBackButtonHeight = (int)(originalBackButtonHeight * backButtonScaleFactor);
+
+        int[] size = {newBackButtonWidth, newBackButtonHeight};
+
+        return size;
+    }
+
+    protected JLabel createBackButton(String screen) {
         JLabel backButton = new JLabel();
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -131,7 +159,7 @@ public class GameScreen extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 audioManager.playButtonClickSound();
-                screenManager.showScreen("title");
+                screenManager.showScreen(screen);
             }
         });
 
@@ -151,6 +179,12 @@ public class GameScreen extends JPanel {
                 Font.BOLD | (isLeftLabel ? Font.ITALIC : Font.PLAIN),
                 MIN_FONT_SIZE));
         return label;
+    }
+
+    protected void setButtonSize(JLabel button, Dimension size) {
+        button.setPreferredSize(size);
+        button.setMinimumSize(size);
+        button.setMaximumSize(size);
     }
 
     private void resizeComponents() {

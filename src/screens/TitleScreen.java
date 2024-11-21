@@ -87,12 +87,6 @@ public class TitleScreen extends GameScreen {
         buttonPanel.add(parentalControlButton);
     }
 
-    protected void setButtonSize(JLabel button, Dimension size) {
-        button.setPreferredSize(size);
-        button.setMinimumSize(size);
-        button.setMaximumSize(size);
-    }
-
     private void finalizeSetup() {
         revalidate();
         repaint();

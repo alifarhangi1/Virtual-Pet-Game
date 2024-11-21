@@ -7,23 +7,10 @@ import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 public class SaveScreen extends TitleScreen {
-    private static final double BACK_BUTTON_WIDTH_SCALE = 0.12;
-    private static final double BACK_BUTTON_HEIGHT_SCALE = 0.11;
-    private static final int MIN_BACK_BUTTON_WIDTH = 180;
-    private static final int MIN_BACK_BUTTON_HEIGHT = 60;
-    private int originalBackButtonWidth;
-    private int originalBackButtonHeight;
-
     public SaveScreen() {
         super();
         initializeBackButtonDimensions();
         replaceButtons();
-    }
-
-    private void initializeBackButtonDimensions() {
-        ImageIcon originalBackButton = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
-        originalBackButtonWidth = originalBackButton.getIconWidth();
-        originalBackButtonHeight = originalBackButton.getIconHeight();
     }
 
     private void replaceButtons() {
@@ -39,7 +26,7 @@ public class SaveScreen extends TitleScreen {
         // Create back button panel
         JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         backButtonPanel.setOpaque(false);
-        backButtonPanel.add(createBackButton());
+        backButtonPanel.add(createBackButton("title"));
 
         // Add components with spacing
         buttonPanel.add(buttonRowPanel);
@@ -105,15 +92,7 @@ public class SaveScreen extends TitleScreen {
         int newButtonWidth = buttonDimensions[0];
         int newButtonHeight = buttonDimensions[1];
 
-        // Calculate back button dimensions
-        double backButtonWidthScaleFactor = Math.max(width * BACK_BUTTON_WIDTH_SCALE / originalBackButtonWidth,
-                MIN_BACK_BUTTON_WIDTH / (double)originalBackButtonWidth);
-        double backButtonHeightScaleFactor = Math.max(height * BACK_BUTTON_HEIGHT_SCALE / originalBackButtonHeight,
-                MIN_BACK_BUTTON_HEIGHT / (double)originalBackButtonHeight);
-        double backButtonScaleFactor = Math.min(backButtonWidthScaleFactor, backButtonHeightScaleFactor);
-
-        int newBackButtonWidth = (int)(originalBackButtonWidth * backButtonScaleFactor);
-        int newBackButtonHeight = (int)(originalBackButtonHeight * backButtonScaleFactor);
+        int[] backButtonDimensions = resizeBackButton();
 
         // Update game buttons
         JPanel buttonRowPanel = (JPanel)buttonPanel.getComponent(0);
@@ -136,10 +115,10 @@ public class SaveScreen extends TitleScreen {
         if (backButtonPanel.getComponentCount() > 0) {
             JLabel backButton = (JLabel)backButtonPanel.getComponent(0);
             ImageIcon defaultIcon = createScaledIcon("src/assets/visuals/woodButtonDefault.png",
-                    newBackButtonWidth, newBackButtonHeight);
+                    backButtonDimensions[0], backButtonDimensions[1]);
             backButton.setIcon(defaultIcon);
             backButton.putClientProperty("defaultIcon", defaultIcon);
-            setButtonSize(backButton, new Dimension(newBackButtonWidth, newBackButtonHeight));
+            setButtonSize(backButton, new Dimension(backButtonDimensions[0], backButtonDimensions[1]));
         }
 
         revalidate();
