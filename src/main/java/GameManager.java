@@ -63,6 +63,11 @@ public class GameManager
         pet = pets[index];
     }
 
+    public Pet[] getPetArr()
+    {
+        return pets;
+    }
+
     private void checkPetStatus()
     {
         if (pet.getHunger() >= 100 || pet.getEnergy() <= 0)

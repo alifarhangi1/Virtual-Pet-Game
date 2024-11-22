@@ -7,7 +7,22 @@ public class player
     private HashMap<String, Item> inventory;
     private Pet[] petList;
     private long playTime;
+    private Pet playerPet;
 
+
+    player()
+    {
+        this.score = 0;
+        this.inventory = new HashMap<>();
+        this.petList = GameManager.getInstance().getPetArr();
+        this.playTime = 0;
+        this.playerPet = petList[0];
+    }
+
+    Pet getPet()
+    {
+        return this.playerPet;
+    }
 
     void feedPet (Pet pet, Item item)
     {
@@ -67,6 +82,11 @@ public class player
     public void setPlayTime(long playTime)
     {
         this.playTime = playTime;
+    }
+
+    public void updatePet(int index)
+    {
+        this.playerPet = petList[index];
     }
 
     /* have no clue until the minigame is updated

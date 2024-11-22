@@ -44,6 +44,11 @@ public class Pet
         return energy;
     }
 
+    public int getHP()
+    {
+        return HP;
+    }
+
     public int getPetCooldown()
     {
         return petCooldown;

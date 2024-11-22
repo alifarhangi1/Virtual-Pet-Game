@@ -8,24 +8,33 @@ public class WaterDragonBoss {
     private JFrame frame;
     private JPanel mainPanel;
     private Color backgroundColor;
-    private HealthBarLabel healthBarLabel;
+    private HealthBarLabel bossHealthBarLabel;
+    private HealthBarLabel playerHealthBarLabel;
     private JLabel monkeyLabel;
     private ImageIcon monkeyIconOriginal;
     private ImageIcon monkeyIconAttack;
+    private player player;
+    private int playerHealth;
 
     public static void main(String[] args) {
         new WaterDragonBoss();
     }
 
     WaterDragonBoss() {
+        // player = new player(); // Initialize the player
+        //playerHealth = player.getPet().getHP(); // Get health from player's pet
+        playerHealth = 100;
         initializeFrame();
         initializeMainPanel();
-        createHealthBarPanel();
+        createBossHealthBarPanel();
+        createPlayerHealthBarPanel();
         createGifPanel();
         createMonkeyPanel();
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
+
+        startPlayerHealthDecay();
     }
 
     private void initializeFrame() {
@@ -46,10 +55,10 @@ public class WaterDragonBoss {
         mainPanel.setLayout(new BorderLayout());
     }
 
-    private void createHealthBarPanel() {
+    private void createBossHealthBarPanel() {
         // Boss health state
         int maxHealth = 300;
-        healthBarLabel = new HealthBarLabel(maxHealth);
+        bossHealthBarLabel = new HealthBarLabel(maxHealth);
 
         // Create a label for the boss health title
         JLabel healthLabel = new JLabel("KAELTHARION THE ABYSSBOUND", SwingConstants.CENTER);
@@ -57,19 +66,35 @@ public class WaterDragonBoss {
         healthLabel.setFont(new Font("Serif", Font.BOLD, 26)); // bold serif font
 
         // Add padding and a new background color to the title
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBackground(new Color(0, 64, 128)); // Dark teal background for contrast
-        titlePanel.add(healthLabel, BorderLayout.CENTER);
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0)); // Top padding: 20, Bottom padding: 10
+        JPanel bossTitlePanel  = new JPanel(new BorderLayout());
+        bossTitlePanel .setBackground(new Color(0, 64, 128)); // Dark teal background for contrast
+        bossTitlePanel .add(healthLabel, BorderLayout.CENTER);
+        bossTitlePanel .setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0)); // Top padding: 20, Bottom padding: 10
 
         // Add the health bar below the title
-        JPanel healthPanel = new JPanel(new BorderLayout());
-        healthPanel.setBackground(backgroundColor);
-        healthPanel.add(titlePanel, BorderLayout.NORTH);
-        healthPanel.add(healthBarLabel, BorderLayout.CENTER);
+        JPanel bossHealthPanel  = new JPanel(new BorderLayout());
+        bossHealthPanel .setBackground(backgroundColor);
+        bossHealthPanel .add(bossTitlePanel , BorderLayout.NORTH);
+        bossHealthPanel .add(bossHealthBarLabel, BorderLayout.CENTER);
 
         // Add the health panel to the top of the frame
-        frame.add(healthPanel, BorderLayout.NORTH);
+        frame.add(bossHealthPanel , BorderLayout.NORTH);
+    }
+
+    private void createPlayerHealthBarPanel()
+    {
+        playerHealthBarLabel = new HealthBarLabel(playerHealth);
+
+        JLabel playerLabel = new JLabel("PLAYER HEALTH", SwingConstants.CENTER);
+        playerLabel.setForeground(Color.WHITE);
+        playerLabel.setFont(new Font("Serif", Font.BOLD, 20));
+
+        JPanel playerHealthPanel = new JPanel(new BorderLayout());
+        playerHealthPanel.setBackground(backgroundColor);
+        playerHealthPanel.add(playerLabel, BorderLayout.NORTH);
+        playerHealthPanel.add(playerHealthBarLabel, BorderLayout.CENTER);
+
+        frame.add(playerHealthPanel, BorderLayout.SOUTH);
     }
 
     private void createGifPanel() {
@@ -88,6 +113,17 @@ public class WaterDragonBoss {
         mainPanel.add(gifPanel, BorderLayout.EAST); // Place in the northeast corner
     }
 
+    private void checkGameOver()
+    {
+        if (bossHealthBarLabel.getCurrentHealth() <= 0) {
+            JOptionPane.showMessageDialog(frame, "You Win!");
+            System.exit(0);
+        } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
+            JOptionPane.showMessageDialog(frame, "You Lose!");
+            System.exit(0);
+        }
+    }
+
     // ADJUST MONKEY SPRITES BASED ON ATTACK HERE
     private void createMonkeyPanel() {
         // Load original and attack monkey icons
@@ -98,7 +134,7 @@ public class WaterDragonBoss {
         monkeyLabel = new JLabel(monkeyIconOriginal);
 
         // Create attack button
-        JLabel attackButton = new JLabel("ATTACK");
+        JLabel attackButton = new JLabel("MASH!");
         attackButton.setForeground(Color.WHITE);
         attackButton.setBackground(new Color(139, 0, 0)); // Dark red color
         attackButton.setOpaque(true);
@@ -112,21 +148,17 @@ public class WaterDragonBoss {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Decrease the boss health
-                healthBarLabel.decreaseHealth(10);
+                bossHealthBarLabel.decreaseHealth(10);
 
                 // Change monkey icon to attack image
                 monkeyLabel.setIcon(monkeyIconAttack);
 
                 // Create a timer to revert back after 1 second
-                Timer timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {
-                        // Revert monkey icon back to original
-                        monkeyLabel.setIcon(monkeyIconOriginal);
-                    }
-                });
-                timer.setRepeats(false); // Only execute once
+                Timer timer = new Timer(500, evt -> monkeyLabel.setIcon(monkeyIconOriginal));
+                timer.setRepeats(false);
                 timer.start();
+
+                checkGameOver();
             }
 
             @Override
@@ -150,7 +182,17 @@ public class WaterDragonBoss {
         mainPanel.add(containerPanel, BorderLayout.SOUTH);
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    private void startPlayerHealthDecay()
+    {
+        Timer playerHealthDecayTimer = new Timer(1000, e -> {
+            playerHealthBarLabel.decreaseHealth(2); // Player loses 2 health per second
+            checkGameOver();
+        });
+        playerHealthDecayTimer.start();
+    }
+
+    private ImageIcon resizeIcon(ImageIcon icon)
+    {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
@@ -173,6 +215,10 @@ public class WaterDragonBoss {
                 currentHealth = 0;
             }
             repaint();
+        }
+
+        public int getCurrentHealth() {
+            return currentHealth;
         }
 
         @Override
