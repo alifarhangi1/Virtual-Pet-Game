@@ -2,18 +2,23 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class GameManager
 {
     private Pet pet;
     private Pet[] pets = new Pet[8];
     private Timer timer;
+    private LocalDateTime startTime; // Track when the game started
+    private player player;
     public HashMap<Integer, Boolean> miniGame;
     private static GameManager instance;
 
     public GameManager()
     {
-        // Set up a timer to update pet stats every second
+        player = new player();
+        startTime = LocalDateTime.now();
         timer = new Timer(1000, new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
@@ -24,6 +29,19 @@ public class GameManager
             }
         });
         timer.start();
+    }
+
+    public void updatePlayTime()
+    {
+        // Calculate the difference in seconds between the current time and the start time
+        long secondsElapsed = ChronoUnit.SECONDS.between(startTime, LocalDateTime.now());
+        player.setPlayTime(secondsElapsed);
+    }
+
+    public long getPlayTime()
+    {
+        updatePlayTime();
+        return player.getPlayTime();
     }
 
     public static GameManager getInstance()
@@ -43,25 +61,6 @@ public class GameManager
     public void setPet(int index)
     {
         pet = pets[index];
-        // Update UI as needed
-    }
-
-    public void feedPet()
-    {
-        pet.feed();
-        // Update UI as needed
-    }
-
-    public void playWithPet()
-    {
-        pet.play();
-        // Update UI as needed
-    }
-
-    public void sleepPet()
-    {
-        pet.sleep();
-        // Update UI as needed
     }
 
     private void checkPetStatus()
