@@ -1,9 +1,6 @@
-package src;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Inventory {
 
@@ -33,7 +30,7 @@ public class Inventory {
         icons [0] = resizeIcon(new ImageIcon("group50/src/Icons/wolf.png"));
         icons [1] = resizeIcon(new ImageIcon("group50/src/Icons/panda.png"));
         icons [2] = resizeIcon(new ImageIcon("group50/src/Icons/owl.png"));
-        labels = new ArrayList<>();
+        labels = new ArrayList<JLabel>();
 
 
         initializeLabels();
@@ -90,7 +87,7 @@ public class Inventory {
         }
         else
         {
-            ImageIcon placeholder = resizeIcon(new ImageIcon("src/Icons/logo.png"));
+            ImageIcon placeholder = resizeIcon(new ImageIcon("logo.png"));
             label.setIcon(placeholder); // Placeholder for pets without icons
         }
 

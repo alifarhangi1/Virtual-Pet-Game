@@ -1,5 +1,3 @@
-package src;
-
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +16,6 @@ public class GameManager
         // Set up a timer to update pet stats every second
         timer = new Timer(1000, new ActionListener()
         {
-            @Override
             public void actionPerformed(ActionEvent e)
             {
                 pet.update();

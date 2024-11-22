@@ -1,6 +1,7 @@
 import javax.swing.*;
 
-public class PetInteractionScreen {
+public class PetInteractionScreen
+{
     JFrame frame;
     JPanel panel;
 
