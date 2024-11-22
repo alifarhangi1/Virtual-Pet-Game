@@ -3,6 +3,7 @@ package managers;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class AudioManager {
     private static AudioManager instance;
@@ -24,8 +25,8 @@ public class AudioManager {
     public void playIntroSound() {
         if (!introPlayed) {
             try {
-                File audioFile = new File("src/assets/audio/pet_quest_intro.wav");
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+                URL audioURL = getClass().getResource("/audio/pet_quest_intro.wav");
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioURL);
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioStream);
                 setVolume(clip, currentVolume);
@@ -40,7 +41,7 @@ public class AudioManager {
     public void startBackgroundMusic() {
         if (bgmClip == null || !bgmClip.isRunning()) {
             try {
-                File bgmFile = new File("src/assets/audio/menu_bgm.wav");
+                URL bgmFile = getClass().getResource("/audio/menu_bgm.wav");
                 AudioInputStream audioStream = AudioSystem.getAudioInputStream(bgmFile);
                 bgmClip = AudioSystem.getClip();
                 bgmClip.open(audioStream);
@@ -54,8 +55,8 @@ public class AudioManager {
     }
     public void playHoverSound() {
         try {
-            File audioFile = new File("src/assets/audio/menu_hover.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            URL audioURL = getClass().getResource("/audio/menu_hover.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioURL);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
@@ -66,8 +67,8 @@ public class AudioManager {
 
     public void playButtonClickSound() {
         try {
-            File audioFile = new File("src/assets/audio/button_click.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            URL audioURL = getClass().getResource("/audio/button_click.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioURL);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
@@ -78,8 +79,8 @@ public class AudioManager {
 
     public static void playBackButtonClickSound() {
         try {
-            File audioFile = new File("src/assets/audio/back_button_click.wav");
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+            URL audioURL = AudioManager.class.getResource("/audio/back_button_click.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioURL);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();

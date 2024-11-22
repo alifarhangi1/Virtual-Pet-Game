@@ -9,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 
 public class GameScreen extends JPanel {
     public AudioManager audioManager;
@@ -45,10 +46,10 @@ public class GameScreen extends JPanel {
         screenManager = ScreenManager.getInstance();
 
         // Load resources
-        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
-        logo = new ImageIcon("src/assets/visuals/logo.png");
-        exitDefaultIcon = new ImageIcon("src/assets/visuals/exitButtonDefault.png");
-        exitHoverIcon = new ImageIcon("src/assets/visuals/exitButtonHover.png");
+        backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
+        logo = new ImageIcon(getClass().getResource("/visuals/logo.png"));
+        exitDefaultIcon = new ImageIcon(getClass().getResource("/visuals/exitButtonDefault.png"));
+        exitHoverIcon = new ImageIcon(getClass().getResource("/visuals/exitButtonHover.png"));
 
         // Initialize with background
         setBackground(new Color(0, 0, 0, 0));
@@ -125,7 +126,7 @@ public class GameScreen extends JPanel {
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledHoverIcon = createScaledIcon(
-                        "src/assets/visuals/exitButtonHover.png",
+                        "/visuals/exitButtonHover.png",
                         currentSize.width,
                         currentSize.height
                 );
@@ -138,7 +139,7 @@ public class GameScreen extends JPanel {
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledDefaultIcon = createScaledIcon(
-                        "src/assets/visuals/exitButtonDefault.png",
+                        "/visuals/exitButtonDefault.png",
                         currentSize.width,
                         currentSize.height
                 );
@@ -172,7 +173,7 @@ public class GameScreen extends JPanel {
     }
 
     protected void initializeBackButtonDimensions() {
-        ImageIcon originalBackButton = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
+        ImageIcon originalBackButton = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
         originalBackButtonWidth = originalBackButton.getIconWidth();
         originalBackButtonHeight = originalBackButton.getIconHeight();
     }
@@ -191,11 +192,11 @@ public class GameScreen extends JPanel {
         return size;
     }
 
-    protected JLabel createBackButton(String screen) {
+    protected JLabel createBackButton(final String screen) {
         JLabel backButton = new JLabel();
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        ImageIcon defaultIcon = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
+        ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
         backButton.setIcon(defaultIcon);
 
         backButton.addMouseListener(new MouseAdapter() {
@@ -204,7 +205,7 @@ public class GameScreen extends JPanel {
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledHoverIcon = createScaledIcon(
-                        "src/assets/visuals/woodButtonHover.png",
+                        "/visuals/woodButtonHover.png",
                         currentSize.width,
                         currentSize.height
                 );
@@ -217,7 +218,7 @@ public class GameScreen extends JPanel {
                 JLabel button = (JLabel) e.getComponent();
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledDefaultIcon = createScaledIcon(
-                        "src/assets/visuals/woodButtonDefault.png",
+                        "/visuals/woodButtonDefault.png",
                         currentSize.width,
                         currentSize.height
                 );
@@ -235,7 +236,12 @@ public class GameScreen extends JPanel {
     }
 
     protected ImageIcon createScaledIcon(String path, int width, int height) {
-        return new ImageIcon(new ImageIcon(path).getImage()
+        URL resourceUrl = getClass().getResource(path);
+        if (resourceUrl == null) {
+            System.err.println("Could not find resource: " + path);
+            return null;
+        }
+        return new ImageIcon(new ImageIcon(resourceUrl).getImage()
                 .getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
@@ -291,7 +297,7 @@ public class GameScreen extends JPanel {
 
         // Create and set the scaled default icon
         ImageIcon scaledDefaultIcon = createScaledIcon(
-                "src/assets/visuals/exitButtonDefault.png",
+                "/visuals/exitButtonDefault.png",
                 newExitWidth,
                 newExitHeight
         );

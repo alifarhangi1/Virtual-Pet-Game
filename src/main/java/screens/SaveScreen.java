@@ -36,14 +36,14 @@ public class SaveScreen extends TitleScreen {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0)); // Top padding: 20px
     }
 
-    private JLabel createGameButton(String buttonName) {
+    private JLabel createGameButton(final String buttonName) {
         JLabel button = new JLabel();
         button.putClientProperty("buttonName", buttonName);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Initial sizing will be handled in onResize
-        ImageIcon defaultIcon = new ImageIcon("src/assets/visuals/" + buttonName + "Default.png");
-        ImageIcon hoverIcon = new ImageIcon("src/assets/visuals/" + buttonName + "Hover.png");
+        ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/visuals/" + buttonName + "Default.png"));
+        ImageIcon hoverIcon = new ImageIcon(getClass().getResource("/visuals/" + buttonName + "Hover.png"));
 
         button.setIcon(defaultIcon);
         button.putClientProperty("defaultIcon", defaultIcon);
@@ -56,7 +56,7 @@ public class SaveScreen extends TitleScreen {
                 ImageIcon hoverIcon = (ImageIcon) button.getClientProperty("hoverIcon");
                 Dimension currentSize = button.getSize();
                 ImageIcon scaledHoverIcon = createScaledIcon(
-                        "src/assets/visuals/" + buttonName + "Hover.png",
+                        "/visuals/" + buttonName + "Hover.png",
                         currentSize.width,
                         currentSize.height
                 );
@@ -109,7 +109,7 @@ public class SaveScreen extends TitleScreen {
                 JLabel button = (JLabel)comp;
                 String buttonName = (String)button.getClientProperty("buttonName");
                 if (buttonName != null) {
-                    ImageIcon defaultIcon = createScaledIcon("src/assets/visuals/" + buttonName + "Default.png",
+                    ImageIcon defaultIcon = createScaledIcon("/visuals/" + buttonName + "Default.png",
                             newButtonWidth, newButtonHeight);
                     button.setIcon(defaultIcon);
                     button.putClientProperty("defaultIcon", defaultIcon);
@@ -122,7 +122,7 @@ public class SaveScreen extends TitleScreen {
         JPanel backButtonPanel = (JPanel)buttonPanel.getComponent(2);
         if (backButtonPanel.getComponentCount() > 0) {
             JLabel backButton = (JLabel)backButtonPanel.getComponent(0);
-            ImageIcon defaultIcon = createScaledIcon("src/assets/visuals/woodButtonDefault.png",
+            ImageIcon defaultIcon = createScaledIcon("/visuals/woodButtonDefault.png",
                     backButtonDimensions[0], backButtonDimensions[1]);
             backButton.setIcon(defaultIcon);
             backButton.putClientProperty("defaultIcon", defaultIcon);

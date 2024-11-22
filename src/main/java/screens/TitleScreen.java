@@ -54,7 +54,7 @@ public class TitleScreen extends GameScreen {
         int initialHeight = (int)(screenSize.height * 0.8);
 
         // Get original button dimensions
-        ImageIcon originalIcon = new ImageIcon("src/assets/visuals/playButtonDefault.png");
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/visuals/playButtonDefault.png"));
         originalButtonWidth = originalIcon.getIconWidth();
         originalButtonHeight = originalIcon.getIconHeight();
 
@@ -110,12 +110,12 @@ public class TitleScreen extends GameScreen {
     }
 
     private void initializeButtonImages(int width, int height) {
-        playButtonDefaultIcon = createScaledIcon("src/assets/visuals/playButtonDefault.png", width, height);
-        playButtonHoverIcon = createScaledIcon("src/assets/visuals/playButtonHover.png", width, height);
-        tutorialButtonDefaultIcon = createScaledIcon("src/assets/visuals/tutorialButtonDefault.png", width, height);
-        tutorialButtonHoverIcon = createScaledIcon("src/assets/visuals/tutorialButtonHover.png", width, height);
-        parentalControlButtonDefaultIcon = createScaledIcon("src/assets/visuals/parentalControlButtonDefault.png", width, height);
-        parentalControlButtonHoverIcon = createScaledIcon("src/assets/visuals/parentalControlButtonHover.png", width, height);
+        playButtonDefaultIcon = createScaledIcon("/visuals/playButtonDefault.png", width, height);
+        playButtonHoverIcon = createScaledIcon("/visuals/playButtonHover.png", width, height);
+        tutorialButtonDefaultIcon = createScaledIcon("/visuals/tutorialButtonDefault.png", width, height);
+        tutorialButtonHoverIcon = createScaledIcon("/visuals/tutorialButtonHover.png", width, height);
+        parentalControlButtonDefaultIcon = createScaledIcon("/visuals/parentalControlButtonDefault.png", width, height);
+        parentalControlButtonHoverIcon = createScaledIcon("/visuals/parentalControlButtonHover.png", width, height);
     }
 
 
@@ -146,7 +146,7 @@ public class TitleScreen extends GameScreen {
         return parentalControlButton;
     }
 
-    protected void addButtonListeners(JLabel button, ImageIcon hoverIcon, ImageIcon defaultIcon) {
+    protected void addButtonListeners(final JLabel button, final ImageIcon hoverIcon, final ImageIcon defaultIcon) {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

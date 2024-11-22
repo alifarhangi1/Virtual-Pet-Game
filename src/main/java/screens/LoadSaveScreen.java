@@ -5,13 +5,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class NewSaveScreen extends GameScreen {
+public class LoadSaveScreen extends GameScreen {
     private ImageIcon backgroundIcon;
     private JPanel mainPanel;
     private JPanel boxPanel;
     private JButton signUpButton;
 
-    public NewSaveScreen() {
+    public LoadSaveScreen() {
         initializeComponents();
         initializeBackButtonDimensions();
     }
@@ -19,8 +19,8 @@ public class NewSaveScreen extends GameScreen {
     @Override
     protected void initializeComponents() {
         try {
-            backgroundIcon = new ImageIcon("src/assets/visuals/boxbackground.jpg");
-            Font customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/assets/visuals/ProtestRevolution-Regular.ttf"));
+            backgroundIcon = new ImageIcon(getClass().getResource("/visuals/boxbackground.jpg"));
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/visuals/ProtestRevolution-Regular.ttf").openStream());
             Font derivedFont = customFont.deriveFont(16f);
             mainPanel = new JPanel(new BorderLayout());
             boxPanel = new JPanel(new GridBagLayout()) {
@@ -71,7 +71,7 @@ public class NewSaveScreen extends GameScreen {
             gbc.insets = new Insets(10, 5, 5, 5); // Add vertical spacing
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
-            signUpButton = new JButton("Sign Up");
+            signUpButton = new JButton("Log in");
             signUpButton.setBackground(Color.WHITE);
             signUpButton.setFont(derivedFont);
 
@@ -99,7 +99,7 @@ public class NewSaveScreen extends GameScreen {
         JPanel backButtonPanel = (JPanel)mainPanel.getComponent(1);
         if (backButtonPanel.getComponentCount() > 0) {
             JLabel backButton = (JLabel)backButtonPanel.getComponent(0);
-            ImageIcon defaultIcon = createScaledIcon("src/assets/visuals/woodButtonDefault.png",
+            ImageIcon defaultIcon = createScaledIcon("/visuals/woodButtonDefault.png",
                     backButtonDimensions[0], backButtonDimensions[1]);
             backButton.setIcon(defaultIcon);
             backButton.putClientProperty("defaultIcon", defaultIcon);
