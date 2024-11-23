@@ -8,6 +8,8 @@ public class player
     private Pet[] petList;
     private long playTime;
     private Pet playerPet;
+    private String id;
+    private String password;
 
 
     player()
