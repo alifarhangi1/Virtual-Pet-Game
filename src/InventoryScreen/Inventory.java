@@ -1,3 +1,5 @@
+package InventoryScreen;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class Inventory {
         frame.setSize(800, 600); // Set a default size for the frame
 
         // Create a custom background panel
-        backgroundPanel = new BackgroundPanel("group50/src/Icons/inventoryBackground.gif");
+        backgroundPanel = new BackgroundPanel("group50/src/InventoryScreen.Icons/inventoryBackground.gif");
         backgroundPanel.setLayout(new BorderLayout());
 
         icons = new ArrayList<>();
@@ -60,9 +62,9 @@ public class Inventory {
 
     private void initializeIcons() {
         // Add icons to the list (you can expand this dynamically if needed)
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/wolf.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/panda.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/Icons/owl.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/wolf.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/panda.png")));
+        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/owl.png")));
     }
 
     private void initializeLabels() {
@@ -83,7 +85,7 @@ public class Inventory {
         if (icon != null) {
             label.setIcon(icon);
         } else {
-//            ImageIcon placeholder = resizeIcon(new ImageIcon("src/Icons/logo.png"));
+//            ImageIcon placeholder = resizeIcon(new ImageIcon("src/InventoryScreen.Icons/logo.png"));
 //            label.setIcon(placeholder); // Placeholder for pets without icons
         }
 

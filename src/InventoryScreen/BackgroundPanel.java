@@ -1,3 +1,5 @@
+package InventoryScreen;
+
 import javax.swing.*;
 import java.awt.*;
 
