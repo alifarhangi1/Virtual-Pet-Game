@@ -13,7 +13,7 @@ public class WaterDragonBoss {
     private JLabel monkeyLabel;
     private ImageIcon monkeyIconOriginal;
     private ImageIcon monkeyIconAttack;
-    private player player;
+    private Player player;
     private int playerHealth;
 
     public static void main(String[] args) {

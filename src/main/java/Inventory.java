@@ -101,12 +101,24 @@ public class Inventory {
         return new ImageIcon(reSizedImg);
     }
 
-    private void unlock(int index)
+    private void unlock(int index, Player player)
     {
-        if (GameManager.getInstance().getMyMap().get(index))
+        if (index >= 0 && index < petNumber) // Ensure index is valid
         {
-            labels.get(index).setIcon(icons[index]);
+            if (player.getMiniGame()[index]) // Check if the pet is unlocked
+            {
+                labels.get(index).setIcon(icons[index]);
+            }
+            else
+            {
+                System.out.println("Pet is still locked!");
+            }
+        }
+        else
+        {
+            System.out.println("Invalid pet index: " + index);
         }
     }
+
 }
 

@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class player
+public class Player
 {
 
     private int score;
@@ -10,15 +10,20 @@ public class player
     private Pet playerPet;
     private String id;
     private String password;
+    public boolean[] miniGame;
 
 
-    player()
+    Player()
     {
         this.score = 0;
         this.inventory = new HashMap<>();
-        this.petList = GameManager.getInstance().getPetArr();
+        Pet John = new Pet("JohnDo", "Human");
+        Pet Steve = new Pet("steve", "Human");
+        Pet Alex = new Pet("Alex", "Human");
+        this.petList = new Pet[] {John, Steve, Alex};
         this.playTime = 0;
-        this.playerPet = petList[0];
+        this.playerPet = null;
+        this.miniGame = new boolean[petList.length];
     }
 
     Pet getPet()
@@ -26,11 +31,15 @@ public class player
         return this.playerPet;
     }
 
+    public boolean[] getMiniGame() {
+         return this.miniGame;
+    }
+
     void feedPet (Pet pet, Item item)
     {
         if (inventory.containsKey(item.getName()))
         {
-            pet.feed(item.getHealAmount(), item.getHappyAmount());
+            pet.feed();
         }
     }
 
@@ -38,7 +47,7 @@ public class player
     {
         if (inventory.containsKey(item.getName()))
         {
-            pet.feed(item.getHealAmount(), item.getHappyAmount());
+            pet.giveGift(item.getHealAmount(), item.getHappyAmount());
         }
     }
 
@@ -61,6 +70,7 @@ public class player
     {
         this.score += score;
     }
+
     void decreaseScore(int score)
     {
         this.score -= score;
@@ -86,16 +96,19 @@ public class player
         this.playTime = playTime;
     }
 
-    public void updatePet(int index)
+    public HashMap<String, Item> getInventory() { return inventory; }
+
+    public void setPlayerPet(int index)
     {
-        this.playerPet = petList[index];
+        if (index >= 0 && index < petList.length && miniGame[index]) {
+            this.playerPet = petList[index];
+        }
     }
 
-    /* have no clue until the minigame is updated
-    void playMinigame(Minigame)
+    public void finishMinigame(int index)
     {
+        miniGame[index] = true;
+    }
 
-    }*/
-
-
+    public Pet[] getPetList() { return petList; }
 }

@@ -1,4 +1,4 @@
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -11,24 +11,36 @@ public class GameManager
     private Pet[] pets = new Pet[8];
     private Timer timer;
     private LocalDateTime startTime; // Track when the game started
-    private player player;
-    public HashMap<Integer, Boolean> miniGame;
+    private Player player;
+
     private static GameManager instance;
 
-    public GameManager()
+    private GameManager(Player player)
     {
-        player = new player();
-        startTime = LocalDateTime.now();
-        timer = new Timer(1000, new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                pet.update();
-                checkPetStatus();
-                // Additional code to update the UI based on pet’s status
+        this.player = player;
+        this.pets = player.getPetList(); // Initialize pets from Player
+        this.pet = player.getPet();      // Set the active pet
+        this.startTime = LocalDateTime.now();
+
+        // Start a timer to periodically update the pet and check status
+        this.timer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (pet != null) {
+                    pet.update();
+                    checkPetStatus();
+                }
             }
         });
-        timer.start();
+        this.timer.start();
+    }
+
+    public static GameManager getInstance(Player player)
+    {
+        if (instance == null)
+        {
+            instance = new GameManager(player);
+        }
+        return instance;
     }
 
     public void updatePlayTime()
@@ -44,23 +56,12 @@ public class GameManager
         return player.getPlayTime();
     }
 
-    public static GameManager getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new GameManager();
-        }
-        return instance;
-    }
-
-    public HashMap<Integer, Boolean> getMyMap()
-    {
-        return miniGame;
-    }
-
     public void setPet(int index)
     {
-        pet = pets[index];
+        if (index >= 0 && index < pets.length) {
+            pet = pets[index];
+            player.setPlayerPet(index); // Update the Player's pet
+        }
     }
 
     public Pet[] getPetArr()

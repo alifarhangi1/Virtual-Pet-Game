@@ -8,7 +8,7 @@ public class Pet
     private int happiness;
     private int energy;
     private boolean[] states = new boolean[4];
-    private int maxHp;
+    private int maxHP;
     private int maxEnergy;
     private boolean isSick;
 
@@ -21,7 +21,7 @@ public class Pet
         this.petCooldown = 0;
         this.happiness = 100;
         this.energy = 100;
-        this.maxHp = 100;
+        this.maxHP = 100;
         this.maxEnergy = 100;
         this.isSick = false;
     }
@@ -49,6 +49,16 @@ public class Pet
         return HP;
     }
 
+    public int getMaxHP()
+    {
+        return maxHP;
+    }
+
+    public int getMaxEnergy()
+    {
+        return maxEnergy;
+    }
+
     public int getPetCooldown()
     {
         return petCooldown;
@@ -64,17 +74,23 @@ public class Pet
     }
 
     // Actions that affect the pet's stats
-    public void feed(int healAmount, int happinessAmount)
+    public void giveGift(int healAmount, int happinessAmount)
     {
-        fullness = Math.min(100, fullness + healAmount);
-        happiness = Math.min(100, happiness + happinessAmount);
+        fullness = Math.min(100, fullness + 10);
+        happiness = Math.min(100, happiness + 10);
+    }
+
+    public void feed()
+    {
+        fullness = Math.min(100, fullness + 10);
+        happiness = Math.min(100, happiness + 10);
     }
 
     public void play()
     {
         happiness = Math.min(100, happiness + 10);
         energy = Math.max(0, energy - 15);
-        fullness = Math.max(100, fullness - 5);
+        fullness = Math.max(0, fullness - 5);
         maxEnergy = maxEnergy + 5;
     }
 
@@ -89,21 +105,21 @@ public class Pet
         happiness = Math.min(100, happiness - 20);
         fullness = Math.min(100, fullness + 10);
         energy = Math.max(0, energy + 15);
-        HP = Math.min(maxHp, HP + 10);
+        HP = Math.min(maxHP, HP + 10);
     }
 
     public void exercise()
     {
-        maxHp = maxHp + 5;
+        maxHP = maxHP + 5;
         maxEnergy = maxEnergy + 10;
     }
 
     public void getGift(Item item)
     {
         happiness = Math.min(100, happiness + item.getHappyAmount());
-        HP = Math.min(maxHp, HP + item.getHealAmount());
+        HP = Math.min(maxHP, HP + item.getHealAmount());
         energy = Math.min(maxEnergy, energy + item.getEnergyAmount());
-        maxHp = maxHp + item.getMaxHpControl();
+        maxHP = maxHP + item.getMaxHpControl();
         energy = maxEnergy + item.getEnergyAmount();
         fullness = Math.min(100, fullness + item.getFullAmount());
     }
@@ -119,6 +135,4 @@ public class Pet
             HP = Math.min(100, HP + 1);
         }
     }
-
-
 }
