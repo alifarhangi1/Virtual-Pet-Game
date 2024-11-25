@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class GameManager
 {
-    private Pet pet;
-    private Pet[] pets = new Pet[8];
+//    private Pet pet;
+//    private Pet[] pets = new Pet[8];
     private Timer timer;
     public HashMap<Integer, Boolean> miniGame;
     private static GameManager instance;
@@ -18,8 +18,8 @@ public class GameManager
         {
             public void actionPerformed(ActionEvent e)
             {
-                pet.update();
-                checkPetStatus();
+//                pet.update();
+//                checkPetStatus();
                 // Additional code to update the UI based on pet’s status
             }
         });
@@ -42,35 +42,35 @@ public class GameManager
 
     public void setPet(int index)
     {
-        pet = pets[index];
+//        pet = pets[index];
         // Update UI as needed
     }
 
     public void feedPet()
     {
-        pet.feed();
+//        pet.feed();
         // Update UI as needed
     }
 
     public void playWithPet()
     {
-        pet.play();
+//        pet.play();
         // Update UI as needed
     }
 
     public void sleepPet()
     {
-        pet.sleep();
+//        pet.sleep();
         // Update UI as needed
     }
 
-    private void checkPetStatus()
-    {
-        if (pet.getHunger() >= 100 || pet.getEnergy() <= 0)
-        {
-            timer.stop();
-            System.out.println("Game Over! Your pet needs better care.");
-        }
-    }
+//    private void checkPetStatus()
+//    {
+//        if (pet.getHunger() >= 100 || pet.getEnergy() <= 0)
+//        {
+//            timer.stop();
+//            System.out.println("Game Over! Your pet needs better care.");
+//        }
+//    }
 }
 

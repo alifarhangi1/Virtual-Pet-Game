@@ -1,8 +1,12 @@
-package InventoryScreen;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+
+
+
+
+
 
 public class Inventory {
 
@@ -25,13 +29,11 @@ public class Inventory {
         frame.setSize(800, 600); // Set a default size for the frame
 
         // Create a custom background panel
-        backgroundPanel = new BackgroundPanel("group50/src/InventoryScreen.Icons/inventoryBackground.gif");
+        backgroundPanel = new BackgroundPanel(getClass().getResource("inventoryBackground.gif").toExternalForm());
         backgroundPanel.setLayout(new BorderLayout());
 
         icons = new ImageIcon[8];
-        icons [0] = resizeIcon(new ImageIcon("group50/src/Icons/wolf.png"));
-        icons [1] = resizeIcon(new ImageIcon("group50/src/Icons/panda.png"));
-        icons [2] = resizeIcon(new ImageIcon("group50/src/Icons/owl.png"));
+       initializeIcons();
         labels = new ArrayList<JLabel>();
 
 
@@ -66,16 +68,14 @@ public class Inventory {
         }
     }
 
-<<<<<<<< HEAD:src/InventoryScreen/Inventory.java
+
     private void initializeIcons() {
-        // Add icons to the list (you can expand this dynamically if needed)
-        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/wolf.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/panda.png")));
-        icons.add(resizeIcon(new ImageIcon("group50/src/InventoryScreen.Icons/owl.png")));
+        icons[0] = resizeIcon(new ImageIcon(getClass().getResource("wolf.png")));
+        icons[1] = resizeIcon(new ImageIcon(getClass().getResource("panda.png")));
+        icons[2] = resizeIcon(new ImageIcon(getClass().getResource("owl.png")));
     }
 
-========
->>>>>>>> origin/Ali:src/main/java/Inventory.java
+
     private void initializeLabels() {
         // Create labels based on petNumber and add icons
         for (int i = 0; i < petNumber; i++)
@@ -96,18 +96,11 @@ public class Inventory {
         if (icon != null)
         {
             label.setIcon(icon);
-<<<<<<<< HEAD:src/InventoryScreen/Inventory.java
         } else {
 //            ImageIcon placeholder = resizeIcon(new ImageIcon("src/InventoryScreen.Icons/logo.png"));
 //            label.setIcon(placeholder); // Placeholder for pets without icons
-========
         }
-        else
-        {
-            ImageIcon placeholder = resizeIcon(new ImageIcon("logo.png"));
-            label.setIcon(placeholder); // Placeholder for pets without icons
->>>>>>>> origin/Ali:src/main/java/Inventory.java
-        }
+
 
         return label;
     }
