@@ -1,6 +1,7 @@
 import managers.ScreenManager;
 import managers.AudioManager;
 import screens.NewSaveScreen;
+//import screens.ParentalControl;
 import screens.SaveScreen;
 import screens.TitleScreen;
 // Import other screens as needed
@@ -19,15 +20,12 @@ public class Main {
         screenManager.addScreen("title", new TitleScreen());
         screenManager.addScreen("save", new SaveScreen());
         screenManager.addScreen("newgame", new NewSaveScreen());
+//        screenManager.addScreen("Parental", new ParentalControlScreen());
+
 
         // Show main frame and initial screen
         screenManager.showMainFrame();
         screenManager.showScreen("title");
-
-        // Add shutdown hook for cleanup
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            screenManager.cleanup();
-        }));
     }
 }
 

@@ -1,6 +1,5 @@
 package managers;
 
-import screens.GameScreen;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ public class ScreenManager {
     private final JFrame mainFrame;
     private final CardLayout cardLayout;
     private final JPanel mainPanel;
-    private final Map<String, GameScreen> screens;
+    private final Map<String, JPanel> screens;
 
     private ScreenManager() {
         mainFrame = new JFrame("Pet Quest");
@@ -32,7 +31,7 @@ public class ScreenManager {
         return instance;
     }
 
-    public void addScreen(String name, GameScreen screen) {
+    public void addScreen(String name, JPanel screen) {
         screens.put(name, screen);
         mainPanel.add(screen, name);
     }
@@ -40,7 +39,7 @@ public class ScreenManager {
     public void showScreen(String name) {
         cardLayout.show(mainPanel, name);
         if (screens.containsKey(name)) {
-            screens.get(name).onShow();
+            screens.get(name).show();
         }
     }
 
@@ -50,8 +49,4 @@ public class ScreenManager {
         mainFrame.setVisible(true);
     }
 
-    public void cleanup() {
-        AudioManager.getInstance().cleanup();
-        screens.values().forEach(GameScreen::cleanup);
-    }
 }
