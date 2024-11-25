@@ -23,13 +23,13 @@ public class Inventory {
         frame.setSize(800, 600); // Set a default size for the frame
 
         // Create a custom background panel
-        backgroundPanel = new BackgroundPanel("group50/src/Icons/inventoryBackground.gif");
+        backgroundPanel = new BackgroundPanel("inventoryBackground.gif");
         backgroundPanel.setLayout(new BorderLayout());
 
         icons = new ImageIcon[8];
-        icons [0] = resizeIcon(new ImageIcon("group50/src/Icons/wolf.png"));
-        icons [1] = resizeIcon(new ImageIcon("group50/src/Icons/panda.png"));
-        icons [2] = resizeIcon(new ImageIcon("group50/src/Icons/owl.png"));
+        icons [0] = resizeIcon(new ImageIcon("wolf.png"));
+        icons [1] = resizeIcon(new ImageIcon("panda.png"));
+        icons [2] = resizeIcon(new ImageIcon("owl.png"));
         labels = new ArrayList<JLabel>();
 
 

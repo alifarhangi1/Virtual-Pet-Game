@@ -31,7 +31,8 @@ public class Player
         return this.playerPet;
     }
 
-    public boolean[] getMiniGame() {
+    public boolean[] getMiniGame()
+    {
          return this.miniGame;
     }
 

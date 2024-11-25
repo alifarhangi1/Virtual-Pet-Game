@@ -91,7 +91,8 @@ public class PetStatusScreen extends JPanel
         });
     }
 
-    private JProgressBar createStatusBar(String name, int currentValue, int maxValue) {
+    private JProgressBar createStatusBar(String name, int currentValue, int maxValue)
+    {
         JProgressBar progressBar = new JProgressBar(0, maxValue);
         progressBar.setValue(currentValue);
         progressBar.setStringPainted(true);

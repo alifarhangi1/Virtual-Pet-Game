@@ -97,7 +97,7 @@ public class Pet
     public void sleep()
     {
         energy = Math.min(maxEnergy, energy + 20);
-        fullness = Math.min(100, fullness - 10);
+        fullness = Math.max(0, fullness - 10);
     }
 
     public void vet()
@@ -112,6 +112,7 @@ public class Pet
     {
         maxHP = maxHP + 5;
         maxEnergy = maxEnergy + 10;
+        energy = Math.max(0, energy - 15);
     }
 
     public void getGift(Item item)

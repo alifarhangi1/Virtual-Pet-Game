@@ -10,9 +10,9 @@ public class Item
     private int MaxHpControl;
     private int MaxEnergyControl;
     private String discription;
-    private Icon img;
+    private ImageIcon img;
 
-    public Item(Icon icon, String s)
+    public Item(ImageIcon icon, String s)
     {
     this.img = icon;
     this.discription = s;
@@ -74,5 +74,5 @@ public class Item
         return fullAmount;
     }
     String getDiscription() { return discription; }
-    Icon getImg() { return img; }
+    ImageIcon getImg() { return img; }
 }

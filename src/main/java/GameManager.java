@@ -23,9 +23,12 @@ public class GameManager
         this.startTime = LocalDateTime.now();
 
         // Start a timer to periodically update the pet and check status
-        this.timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (pet != null) {
+        this.timer = new Timer(1000, new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                if (pet != null)
+                {
                     pet.update();
                     checkPetStatus();
                 }
@@ -58,7 +61,8 @@ public class GameManager
 
     public void setPet(int index)
     {
-        if (index >= 0 && index < pets.length) {
+        if (index >= 0 && index < pets.length)
+        {
             pet = pets[index];
             player.setPlayerPet(index); // Update the Player's pet
         }

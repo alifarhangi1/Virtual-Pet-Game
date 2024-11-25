@@ -29,18 +29,16 @@ public class ItemInventoryScreen extends JPanel
             itemPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             itemPanel.setBackground(Color.WHITE);
 
-            // Add an image (placeholder for now)
-            JLabel imageLabel = new JLabel(item.getImg());
-            itemPanel.add(imageLabel, BorderLayout.WEST);
-
-            // Add the item description
-            JLabel descriptionLabel = new JLabel(itemName + ": " + item.getDiscription());
-            itemPanel.add(descriptionLabel, BorderLayout.CENTER);
+            // Add an image on the left (placeholder for now)
+            JLabel imageLabelLeft = new JLabel(item.getImg()); // Assuming item.getImg() returns an ImageIcon
+            itemPanel.add(imageLabelLeft, BorderLayout.WEST);
 
             // Add click listener for the panel
-            itemPanel.addMouseListener(new MouseAdapter() {
+            itemPanel.addMouseListener(new MouseAdapter()
+            {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(MouseEvent e)
+                {
                     player.giveGift(player.getPet(), item); // Give gift to the pet
                     JOptionPane.showMessageDialog(ItemInventoryScreen.this,
                             itemName + " has been given to the pet!");
@@ -50,12 +48,14 @@ public class ItemInventoryScreen extends JPanel
                 }
 
                 @Override
-                public void mouseEntered(MouseEvent e) {
+                public void mouseEntered(MouseEvent e)
+                {
                     itemPanel.setBackground(Color.YELLOW); // Highlight the panel on hover
                 }
 
                 @Override
-                public void mouseExited(MouseEvent e) {
+                public void mouseExited(MouseEvent e)
+                {
                     itemPanel.setBackground(Color.WHITE); // Reset panel background
                 }
             });
