@@ -1,4 +1,38 @@
+# Ignore IntelliJ IDEA project files
 .idea/
 *.iml
+
+# Ignore build output directories
 out/
 target/
+
+# Ignore OS-specific files
+.DS_Store           # macOS Finder metadata
+Thumbs.db           # Windows thumbnail cache
+
+# Ignore temporary files
+*.log               # Log files
+*.tmp               # Temporary files
+*.swp               # Swap files created by text editors
+
+# Ignore compiled code and binaries
+*.class             # Java bytecode files
+*.jar               # Java archive files
+*.war               # Web archive files
+*.ear               # Enterprise archive files
+
+# Ignore dependency directories
+node_modules/       # If using Node.js
+vendor/             # PHP Composer dependencies
+__pycache__/        # Python cache directory
+
+# Ignore IDE-specific files (optional, depending on your tools)
+.vscode/            # Visual Studio Code project settings
+*.code-workspace    # VSCode workspace files
+
+# Ignore version control metadata
+*.orig              # Merge conflict backup files
+
+# Ignore environment and configuration files (if applicable)
+.env                # Environment variables
+*.env.local         # Local environment variables
