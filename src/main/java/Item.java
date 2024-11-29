@@ -1,7 +1,6 @@
 import javax.swing.*;
 
-public class Item
-{
+public class Item {
     private String name = "";
     private int healAmount;
     private int happyAmount;
@@ -9,19 +8,25 @@ public class Item
     private int energyAmount;
     private int MaxHpControl;
     private int MaxEnergyControl;
-    private String discription;
+    private String description;
     private ImageIcon img;
+    private int type;
+    private int amount;
 
-    public Item(ImageIcon icon, String s)
-    {
-    this.img = icon;
-    this.discription = s;
-    this.healAmount = 0;
-    this.happyAmount = 0;
-    this.fullAmount = 0;
-    this.energyAmount = 0;
-    this.MaxHpControl = 0;
-    this.MaxEnergyControl = 0;
+    public Item(String description) {
+        this.description = description;
+        this.healAmount = 0;
+        this.happyAmount = 0;
+        this.fullAmount = 0;
+        this.energyAmount = 0;
+        this.MaxHpControl = 0;
+        this.MaxEnergyControl = 0;
+        this.type = 0;
+        this.amount = 0;
+    }
+
+    public void setImage(ImageIcon icon) {
+        this.img = icon;
     }
 
     public void setHealAmount(int healAmount) {
@@ -48,31 +53,55 @@ public class Item
         MaxEnergyControl = maxEnergyControl;
     }
 
-    String getName()
-    {
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getName() {
         return name;
     }
-    int getHealAmount()
-    {
+
+    public int getHealAmount() {
         return healAmount;
     }
-    int getHappyAmount()
-    {
+
+    public int getHappyAmount() {
         return happyAmount;
     }
-    int getMaxEnergyControl() { return MaxEnergyControl; }
-    int getMaxHpControl()
-    {
+
+    public int getMaxEnergyControl() {
+        return MaxEnergyControl;
+    }
+
+    public int getMaxHpControl() {
         return MaxHpControl;
     }
-    int getEnergyAmount()
-    {
+
+    public int getEnergyAmount() {
         return energyAmount;
     }
-    int getFullAmount()
-    {
+
+    public int getFullAmount() {
         return fullAmount;
     }
-    String getDiscription() { return discription; }
-    ImageIcon getImg() { return img; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ImageIcon getImg() {
+        return img;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
 }

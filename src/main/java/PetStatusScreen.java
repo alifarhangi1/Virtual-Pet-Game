@@ -7,6 +7,9 @@ public class PetStatusScreen extends JPanel
 {
     private GameScreenManager manager;
     private Player player;
+    private Timer sleepTimer;
+    private Timer refreshTimer;
+    private boolean isSleeping = false; // Track toggle state
 
     public PetStatusScreen(GameScreenManager manager, Player player) {
         this.manager = manager;
@@ -44,24 +47,22 @@ public class PetStatusScreen extends JPanel
 
         // Center panel for image placeholder
         JPanel centerPanel = new JPanel();
-        JLabel imagePlaceholder = new JLabel();
-        imagePlaceholder.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        imagePlaceholder.setPreferredSize(new Dimension(300, 300));
-        imagePlaceholder.setHorizontalAlignment(SwingConstants.CENTER);
-        imagePlaceholder.setText("Image Placeholder");
-        centerPanel.add(imagePlaceholder);
+        JLabel petImageLabel  = new JLabel();
+        petImageLabel .setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        petImageLabel .setPreferredSize(new Dimension(300, 300));
+        petImageLabel .setHorizontalAlignment(SwingConstants.CENTER);
+        centerPanel.add(petImageLabel);
         add(centerPanel, BorderLayout.CENTER);
 
         // Bottom panel for buttons and pet name
         JPanel bottomPanel = new JPanel(new GridLayout(2, 4, 10, 10));
 
         // Action buttons
-        JButton feedButton = new JButton("Feed");
-        JButton sleepButton = new JButton("Sleep");
+        JButton feedButton = new JButton("Feed/Give Gift");
+        JButton sleepButton = new JButton("Start Sleeping"); // Updated label for toggle functionality
         JButton vetButton = new JButton("Take To Vet");
         JButton playButton = new JButton("Play");
         JButton exerciseButton = new JButton("Exercise");
-        JButton giftButton = new JButton("Give Gift");
 
         // Pet name field
         JTextField petNameField = new JTextField(pet.getName());
@@ -73,22 +74,22 @@ public class PetStatusScreen extends JPanel
         bottomPanel.add(petNameField);
         bottomPanel.add(playButton);
         bottomPanel.add(exerciseButton);
-        bottomPanel.add(giftButton);
 
         add(bottomPanel, BorderLayout.SOUTH);
 
         // Add button actions
-        feedButton.addActionListener(e -> updateStatsAfterAction(() -> pet.feed(), healthBar, energyBar, fullnessBar, happinessBar));
-        sleepButton.addActionListener(e -> updateStatsAfterAction(() -> pet.sleep(), healthBar, energyBar, fullnessBar, happinessBar));
+
+        sleepButton.addActionListener(e -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar));
         vetButton.addActionListener(e -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar));
         playButton.addActionListener(e -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar));
         exerciseButton.addActionListener(e -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar));
+        feedButton.addActionListener(e -> manager.showItemInventoryScreen());
 
-        giftButton.addActionListener(e ->
-        {
-            // Switch to ItemInventoryScreen
-            manager.showItemInventoryScreen();
-        });
+        sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        refreshTimer = new Timer(100, e -> updateStats(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar));
+        sleepTimer.start();
+        refreshTimer.start();
+
     }
 
     private JProgressBar createStatusBar(String name, int currentValue, int maxValue)
@@ -115,6 +116,72 @@ public class PetStatusScreen extends JPanel
         updateStatusBar(fullnessBar, pet.getHunger(), 100);
         updateStatusBar(happinessBar, pet.getHappiness(), 100);
     }
+    private void updateStats(Runnable action, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
+    {
+        Pet pet = player.getPet();
+        updateStatusBar(healthBar, pet.getHP(), pet.getMaxHP());
+        updateStatusBar(energyBar, pet.getEnergy(), pet.getMaxEnergy());
+        updateStatusBar(fullnessBar, pet.getHunger(), 100);
+        updateStatusBar(happinessBar, pet.getHappiness(), 100);
+    }
+
+
+    private void toggleSleep(Pet pet, JButton sleepButton, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
+    {
+        if (isSleeping)
+        {
+            // Stop sleeping
+            sleepTimer.stop();
+            isSleeping = false;
+            sleepButton.setText("Start Sleeping");
+        }
+        else
+        {
+            // Start sleeping
+            sleepTimer = new Timer(5000, new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e)
+                {
+                    updateStatsAfterAction(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar);
+                }
+            });
+            sleepTimer.start();
+            isSleeping = true;
+            sleepButton.setText("Stop Sleeping");
+        }
+    }
+    private void updatePetImage(Pet pet, JLabel petImageLabel)
+    {
+        if (isSleeping)
+        {
+            // Show sleep sprite when sleeping
+            petImageLabel.setIcon(resizeIcon(pet.getImages()[3])); // Sleep state
+        } else if (pet.getHP() <= 0)
+        {
+            // Show dead sprite when health is zero or below
+            petImageLabel.setIcon(resizeIcon(pet.getImages()[1])); // Dead state
+        }
+        else if (pet.getHappiness() <= 50)
+        {
+            // Show sad sprite when happiness is low
+            petImageLabel.setIcon(resizeIcon(pet.getImages()[2])); // Sad state
+        }
+        else
+        {
+            // Show happy sprite otherwise
+            petImageLabel.setIcon(resizeIcon(pet.getImages()[0])); // Happy state
+        }
+    }
+
+    private ImageIcon resizeIcon(ImageIcon icon)
+    {
+        Image img = icon.getImage();
+        Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        return new ImageIcon(reSizedImg);
+    }
+    public void refreshPetStatus()
+    {
+        this.repaint();
+    }
 }
-
-

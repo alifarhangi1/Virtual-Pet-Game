@@ -17,10 +17,10 @@ public class Player
     {
         this.score = 0;
         this.inventory = new HashMap<>();
-        Pet John = new Pet("JohnDo", "Human");
-        Pet Steve = new Pet("steve", "Human");
-        Pet Alex = new Pet("Alex", "Human");
-        this.petList = new Pet[] {John, Steve, Alex};
+        Pet Wolf = new Wolf("JohnDo");
+        Pet Owl = new Wolf("JamesDo");
+        Pet Panda = new Pet("Alex", "Human");
+        this.petList = new Pet[] {Wolf, Owl, Panda};
         this.playTime = 0;
         this.playerPet = null;
         this.miniGame = new boolean[petList.length];
@@ -40,7 +40,7 @@ public class Player
     {
         if (inventory.containsKey(item.getName()))
         {
-            pet.feed();
+            pet.feed(item);
         }
     }
 
@@ -112,4 +112,9 @@ public class Player
     }
 
     public Pet[] getPetList() { return petList; }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
 }
