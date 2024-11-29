@@ -37,12 +37,12 @@ public class ParentalControlScreen extends JPanel {
             }
         };
         contentPanel.setLayout(new GridBagLayout());
-        contentPanel.setBackground(new Color(173, 216, 230)); // Light blue background
+        contentPanel.setBackground(new Color(139, 69, 19)); // Brown background
 
         // Create the bordered box panel
         JPanel boxPanel = new JPanel();
         boxPanel.setLayout(new BorderLayout());
-        boxPanel.setBackground(new Color(173, 216, 230));
+        boxPanel.setBackground(new Color(139, 69, 19));
         boxPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
         boxPanel.setPreferredSize(new Dimension(700, 400));
 
@@ -64,7 +64,7 @@ public class ParentalControlScreen extends JPanel {
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(true);
-        panel.setBackground(new Color(173, 216, 230));
+        panel.setBackground(new Color(139, 69, 19));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -73,6 +73,7 @@ public class ParentalControlScreen extends JPanel {
         // Group Name Label
         JLabel groupNameLabel = new JLabel("Group Name");
         groupNameLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        groupNameLabel.setForeground(new Color(255, 255, 255));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -88,6 +89,7 @@ public class ParentalControlScreen extends JPanel {
         // Time Limit On/Off Label
         JLabel timeLimitLabel = new JLabel("Time Limit On/Off");
         timeLimitLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        timeLimitLabel.setForeground(new Color(255, 255, 255));
         gbc.gridx = 1;
         gbc.gridy = 1;
         panel.add(timeLimitLabel, gbc);
@@ -95,6 +97,7 @@ public class ParentalControlScreen extends JPanel {
         // Time Input Label
         JLabel timeInputLabel = new JLabel("Time Input:");
         timeInputLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        timeInputLabel.setForeground(new Color(255, 255, 255));
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
@@ -102,16 +105,19 @@ public class ParentalControlScreen extends JPanel {
 
         // Time Input Field
         JTextField timeInputField = new JTextField(10);
+        timeInputField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
         gbc.gridy = 3;
         panel.add(timeInputField, gbc);
 
         // Reset Button
         JButton resetButton = createStyledButton("Reset Setting");
+        resetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
         gbc.gridy = 4;
         panel.add(resetButton, gbc);
 
         // Revive Pet Button
         JButton revivePetButton = createStyledButton("REVIVE PET");
+        revivePetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
         gbc.gridy = 5;
         panel.add(revivePetButton, gbc);
 
@@ -121,13 +127,14 @@ public class ParentalControlScreen extends JPanel {
     private JPanel createStatisticsPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(true);
-        panel.setBackground(new Color(173, 216, 230));
+        panel.setBackground(new Color(139, 69, 19));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Padding for aesthetics
+
 
         // Statistics Box
         JPanel statsBox = new JPanel();
         statsBox.setLayout(new BoxLayout(statsBox, BoxLayout.Y_AXIS));
-        statsBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        statsBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
         statsBox.setBackground(Color.WHITE);
         statsBox.setOpaque(true);
 
@@ -139,12 +146,12 @@ public class ParentalControlScreen extends JPanel {
         statsBox.add(statsLabel);
 
         // Total Playtime Label
-        JLabel totalPlaytimeLabel = new JLabel("Total Playtime:");
+        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: " + gameManager.getPlayTime()); // Display playtime
         totalPlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         totalPlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(totalPlaytimeLabel);
 
-        // Average Playtime Label
+// Average Playtime Label
         JLabel averagePlaytimeLabel = new JLabel("Average Playtime:");
         averagePlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         averagePlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
