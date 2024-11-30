@@ -217,6 +217,10 @@ public class DatabaseManager implements AutoCloseable {
                 .orElse(null);
     }
 
+    public String getParentalPasword() {
+        return database.getParentalPassword();
+    }
+
     public boolean authenticateParental(String password) {
         return database.getParentalPassword().equals(password);
     }

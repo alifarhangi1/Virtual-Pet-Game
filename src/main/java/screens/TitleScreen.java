@@ -143,6 +143,22 @@ public class TitleScreen extends GameScreen {
         JLabel parentalControlButton = new JLabel(parentalControlButtonDefaultIcon);
         parentalControlButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addButtonListeners(parentalControlButton, parentalControlButtonHoverIcon, parentalControlButtonDefaultIcon);
+        parentalControlButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                audioManager.playButtonClickSound();
+                if (databaseManager.getParentalPasword().isEmpty()) {
+                    String password = JOptionPane.showInputDialog("Create parental password: ");
+                    databaseManager.updateParentalPassword(password);
+                } else {
+                    String password = JOptionPane.showInputDialog("Input parental password: ");
+                    if (password.equals(databaseManager.getParentalPasword())) {
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Wrong password, try again.");
+                    }
+                }
+            }
+        });
         return parentalControlButton;
     }
 
