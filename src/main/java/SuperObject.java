@@ -14,6 +14,8 @@ public class SuperObject {
     public int solidAreaDefaultY = 0;
 
 
+
+
     public void draw(Graphics2D g2D, GamePanel gamePanel){
         int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
         int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
@@ -28,4 +30,6 @@ public class SuperObject {
             g2D.drawImage(image,screenX,screenY,gamePanel.tileSize, gamePanel.tileSize, null);
         }
     }
+
+
 }

@@ -34,8 +34,11 @@ public class KeyHandler implements KeyListener {
         }
 
 
-
-
+        // Continue from dialogue state
+        if(code == KeyEvent.VK_C){
+            gamePanel.togglePause();
+//            gamePanel.assetSetter.setMusic();
+        }
 
     }
 
@@ -60,6 +63,7 @@ public class KeyHandler implements KeyListener {
         if(gamePanel.levelName.equals("Maze Madness") || gamePanel.levelName.equals("Kung Fu Chaos") || gamePanel.levelName.equals("Dragon Duel")){
             if(code == KeyEvent.VK_ESCAPE){
                 WindowManager.getWindow().dispose();
+                gamePanel.musicPlayer.stopMusic();
                 new LevelSelect();
             }
         }

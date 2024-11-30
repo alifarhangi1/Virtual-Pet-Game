@@ -19,13 +19,19 @@ public class Entity {
     public Rectangle solidArea = new Rectangle(0,0,48,48);
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collisionOn;
-    public int actionLockCounter = 0;
+    public int actionLockCounter = 0; //
+    String dialogues[] = new String[10]; // Store npc dialogues
+    public boolean attackable;
 
     public Entity(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
 
     public void setAction(){
+
+    }
+
+    public void speak(){
 
     }
 
@@ -117,6 +123,14 @@ public class Entity {
 
             g2D.drawImage(image,screenX,screenY,gamePanel.tileSize, gamePanel.tileSize, null);
         }
+    }
+
+    public void setDialogue(){
+
+        dialogues[0] = "Minotaur: YOU DARE ENTER MY MAZE?! \nMany men... or monkeys greater than you have FAILED.\nENTER IF YOU DARE!\n\n (Press 'C' to Continue)";
+        dialogues[1] = "Villager: Help! Our Village is Being Raided!\nMonkey Martial Artist: Finally a Chance to put my Martial Arts to the Test!\n\nTip: Make Contact With Enemies to Attack Them\n(Press 'C' to Continue)";
+        dialogues[2] = "";
+
     }
 
 

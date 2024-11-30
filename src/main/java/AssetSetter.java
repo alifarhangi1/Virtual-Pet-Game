@@ -14,13 +14,9 @@ public class AssetSetter {
 
     public void setObject(){
         if(selectedLevel.equals("Maze Madness")){
-            gamePanel.obj[0] = new OBJ_Minotaur();
-            gamePanel.obj[0].worldX = (10 * gamePanel.tileSize) ;  // col number x tile size
-            gamePanel.obj[0].worldY = 10 * gamePanel.tileSize;   // row number x tile size
-
-            gamePanel.obj[1] = new OBJ_EvolutionFruit();
-            gamePanel.obj[1].worldX = 10 * gamePanel.tileSize;
-            gamePanel.obj[1].worldY = 12 * gamePanel.tileSize;
+            gamePanel.obj[0] = new OBJ_EvolutionFruit();
+            gamePanel.obj[0].worldX = 19 * gamePanel.tileSize;
+            gamePanel.obj[0].worldY = 10 * gamePanel.tileSize;
         }
         else if(selectedLevel.equals("Kung Fu Chaos")){
             System.out.println("Kung Fu Chaos");
@@ -31,46 +27,68 @@ public class AssetSetter {
     }
 
     public void setNPC(){
+
+        // Set NPCs for Kung Fu Chaos level
         if(selectedLevel.equals("Kung Fu Chaos")){
             gamePanel.npc[0] = new NPC_Samurai(gamePanel);
             gamePanel.npc[0].worldX = gamePanel.tileSize*20;
-            gamePanel.npc[0].worldY = gamePanel.tileSize*20;
+            gamePanel.npc[0].worldY = gamePanel.tileSize*10;
+            gamePanel.npc[0].attackable = true;
 
             gamePanel.npc[1] = new NPC_Samurai(gamePanel);
             gamePanel.npc[1].worldX = gamePanel.tileSize*15;
-            gamePanel.npc[1].worldY = gamePanel.tileSize*30;
+            gamePanel.npc[1].worldY = gamePanel.tileSize*15;
+            gamePanel.npc[1].attackable = true;
 
             gamePanel.npc[2] = new NPC_Samurai(gamePanel);
             gamePanel.npc[2].worldX = gamePanel.tileSize*40;
-            gamePanel.npc[2].worldY = gamePanel.tileSize*8;
+            gamePanel.npc[2].worldY = gamePanel.tileSize*20;
+            gamePanel.npc[2].attackable = true;
 
             gamePanel.npc[3] = new NPC_Samurai(gamePanel);
             gamePanel.npc[3].worldX = gamePanel.tileSize*15;
-            gamePanel.npc[3].worldY = gamePanel.tileSize*42;
+            gamePanel.npc[3].worldY = gamePanel.tileSize*25;
+            gamePanel.npc[3].attackable = true;
 
             gamePanel.npc[4] = new NPC_Samurai(gamePanel);
             gamePanel.npc[4].worldX = gamePanel.tileSize*40;
-            gamePanel.npc[4].worldY = gamePanel.tileSize*35;
+            gamePanel.npc[4].worldY = gamePanel.tileSize*30;
+            gamePanel.npc[4].attackable = true;
 
             gamePanel.npc[5] = new NPC_Samurai(gamePanel);
             gamePanel.npc[5].worldX = gamePanel.tileSize*20;
             gamePanel.npc[5].worldY = gamePanel.tileSize*20;
+            gamePanel.npc[5].attackable = true;
 
             gamePanel.npc[6] = new NPC_Samurai(gamePanel);
             gamePanel.npc[6].worldX = gamePanel.tileSize*15;
             gamePanel.npc[6].worldY = gamePanel.tileSize*30;
+            gamePanel.npc[6].attackable = true;
 
             gamePanel.npc[7] = new NPC_Samurai(gamePanel);
             gamePanel.npc[7].worldX = gamePanel.tileSize*40;
-            gamePanel.npc[7].worldY = gamePanel.tileSize*8;
+            gamePanel.npc[7].worldY = gamePanel.tileSize*25;
+            gamePanel.npc[7].attackable = true;
 
             gamePanel.npc[8] = new NPC_Samurai(gamePanel);
             gamePanel.npc[8].worldX = gamePanel.tileSize*15;
-            gamePanel.npc[8].worldY = gamePanel.tileSize*42;
+            gamePanel.npc[8].worldY = gamePanel.tileSize*10;
+            gamePanel.npc[8].attackable = true;
 
             gamePanel.npc[9] = new NPC_Samurai(gamePanel);
             gamePanel.npc[9].worldX = gamePanel.tileSize*28;
-            gamePanel.npc[9].worldY = gamePanel.tileSize*35;
+            gamePanel.npc[9].worldY = gamePanel.tileSize*10;
+            gamePanel.npc[9].attackable = true;
+
+            gamePanel.npc[10] = new NPC_Villager(gamePanel);
+            gamePanel.npc[10].worldX = gamePanel.tileSize*25;
+            gamePanel.npc[10].worldY = gamePanel.tileSize*41;
+        }
+        // Set Npcs for Maze madness level
+        else if(selectedLevel.equals("Maze Madness")){
+            gamePanel.npc[0] = new NPC_Minotaur(gamePanel);
+            gamePanel.npc[0].worldX = 25 * gamePanel.tileSize ;  // col number x tile size
+            gamePanel.npc[0].worldY = 38 * gamePanel.tileSize;   // row number x tile size
         }
     }
 
@@ -83,9 +101,24 @@ public class AssetSetter {
                 System.out.println("Classpath: " + System.getProperty("java.class.path"));
                 System.out.println("Resource: " + getClass().getClassLoader().getResource("kungfuchaos.wav"));
             }
+        }
+        else if(selectedLevel.equals("Maze Madness")){
+            try{
+                gamePanel.musicPlayer.playMusic("mazemadness.wav");
 
+            }catch (Exception e){
+                System.out.println("Classpath: " + System.getProperty("java.class.path"));
+                System.out.println("Resource: " + getClass().getClassLoader().getResource("mazemadness.wav"));
+            }
+        }
+        else if(selectedLevel.equals("Dragon Duel")){
+            try{
+                gamePanel.musicPlayer.playMusic("dragonduel.wav");
 
-
+            }catch (Exception e){
+                System.out.println("Classpath: " + System.getProperty("java.class.path"));
+                System.out.println("Resource: " + getClass().getClassLoader().getResource("dragonduel.wav"));
+            }
         }
     }
 }

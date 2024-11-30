@@ -32,9 +32,6 @@ public class TileManager {
                 loadMap("map_kungfu.txt");
                 break;
 
-            case "Dragon Duel":
-                loadMap("map_dragon.txt");
-                break;
         }
 
 
@@ -58,8 +55,6 @@ public class TileManager {
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("road00.png"));
-            tile[3].collision = true;
-
 
             tile[4] = new Tile();
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("grass01.png"));
@@ -67,6 +62,10 @@ public class TileManager {
 
             tile[5] = new Tile();
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("path.jpg"));
+
+            tile[6] = new Tile();
+            tile[6].image = ImageIO.read(getClass().getResourceAsStream("hut.png"));
+            tile[6].collision = true;
 
 
 

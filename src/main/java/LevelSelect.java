@@ -9,19 +9,19 @@ import java.awt.event.MouseListener;
 
 public class LevelSelect implements MouseListener {
 
-    public static void main(String[] args) {
-        new LevelSelect();
-    }
 
     JFrame frame;
+
     JPanel mainPanel;
     JLabel imageLabel;
     ImageIcon icon1, icon2, icon3;
+    ImageIcon returnIcon;
     JPanel levelSelectContainer;
     JLabel arrowRLabel, arrowLLabel;
     ImageIcon arrowR, arrowL;
     JLabel levelName;
     JLabel bottomLabel;
+    JLabel returnButton;
     String[] levelNames;
     ImageIcon[] levelIcons;
     int currentIndex;
@@ -35,10 +35,14 @@ public class LevelSelect implements MouseListener {
         frame = new JFrame();
         frame.setSize(1000,1000);
 
+
+
+
+
+
         // Initialize Main Panel
         mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 500,15));
         mainPanel.setBackground(Color.BLACK);
-
         // Create Level Icon
         createLevelIcon();
 
@@ -61,10 +65,44 @@ public class LevelSelect implements MouseListener {
 
         frame.add(mainPanel);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        frame.pack();
+        addReturnButton();
+
+        makeFullScreen(frame);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+
+    // Private method to make a JFrame fullscreen
+    private static void makeFullScreen(JFrame frame) {
+        // Set the frame to undecorated to remove title bar and borders
+        frame.setUndecorated(true);
+
+        // Get the screen dimensions and set the frame size
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+
+        if (gd.isFullScreenSupported()) {
+            gd.setFullScreenWindow(frame);
+        } else {
+            // Fallback: manually set the frame to maximum screen size
+            frame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        }
+    }
+
+    private void addReturnButton(){
+        // Create a "Return" button
+        returnButton = new JLabel("Return");
+        returnIcon = new ImageIcon(getClass().getResource("returnButton.png"));
+        returnButton.setIcon(returnIcon);
+        returnButton.setOpaque(false);
+
+        returnButton.addMouseListener(this); // Add the same MouseListener for handling clicks
+
+        mainPanel.add(returnButton);
     }
 
     private void createLevelSelect(){
@@ -151,6 +189,14 @@ public class LevelSelect implements MouseListener {
     public void mousePressed(MouseEvent e) {
         Object source = e.getSource();
 
+
+
+        //Play button sound effect
+        if(source == levelName || source == returnButton || source == arrowLLabel || source == arrowRLabel){
+            MusicPlayer musicPlayer = new MusicPlayer();
+            musicPlayer.playSound("buttonclick.wav");
+        }
+
         // Set colour for button when level is selected
         if (source == levelName) {
             // Set a bolder color for the pressed state
@@ -159,8 +205,8 @@ public class LevelSelect implements MouseListener {
             // Add a darker, more defined border
             levelName.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 3)); // Dark gray border with 3px width
             levelName.repaint(); // Ensure changes are reflected
-
         }
+
 
         // Check which arrow was clicked and update the index with circular array
         if (source == arrowLLabel) {
@@ -169,6 +215,10 @@ public class LevelSelect implements MouseListener {
         } else if (source == arrowRLabel) {
             // Move to the next index (wrap around if needed)
             currentIndex = (currentIndex + 1) % levelNames.length;
+        }
+
+        if(source == returnButton){
+            frame.dispose();
         }
 
         // Update the image and level name
@@ -194,12 +244,16 @@ public class LevelSelect implements MouseListener {
 
             // Place the object to initialize the class the level is going to
             String selectedLevel = levelNames[currentIndex];
-            new MainMinigame(selectedLevel);
 
-            new GamePanel(selectedLevel); // Pass the level to GamePanel
+            if(selectedLevel.equals("Dragon Duel")){
+//                new Dragon();
+            }
+            else{
+                new MainMinigame(selectedLevel);
+                new GamePanel(selectedLevel); // Pass the level to GamePanel
+            }
 
             frame.dispose();
-
         }
     }
 

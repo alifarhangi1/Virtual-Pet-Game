@@ -14,6 +14,9 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
     public int enemiesLeft;
+    public boolean mazeMadnessWin;
+    public boolean kungfuChaosWin;
+    public boolean dragonDuelWin;
 
 
 
@@ -40,8 +43,8 @@ public class Player extends Entity {
 
     public void setDefaultValues(){
 
-        worldX = gamePanel.tileSize * 10 - (gamePanel.tileSize/2);
-        worldY = gamePanel.tileSize * 15 - (gamePanel.tileSize/2);
+        worldX = gamePanel.tileSize * 25 - (gamePanel.tileSize/2);
+        worldY = gamePanel.tileSize * 43 - (gamePanel.tileSize/2);
         speed = 3;
         direction = "down";
     }
@@ -137,8 +140,9 @@ public class Player extends Entity {
             switch (objectName){
                 case "Evolution Fruit":
                     gamePanel.obj[i] = null;
-//                    gamePanel.musicPlayer.playSound(getClass().getClassLoader().getResource("evoFruit.wav").getPath());
                     gamePanel.musicPlayer.playSound("/evoFruit.wav");
+                    playerWin();
+                    mazeMadnessWin = true;
             }
 
         }
@@ -147,60 +151,65 @@ public class Player extends Entity {
     public void interactNPC(int i){
         if(i != 999){
 
+            // Set NPC Logic for kung fu chaos level
             if(gamePanel.levelName.equals("Kung Fu Chaos")){
                 // Hit npc
                 // Make npc disappear and update player sprite
-                try {
+                if(gamePanel.npc[i].attackable){
+                    try {
 
-                    up1 = ImageIO.read(getClass().getResourceAsStream("Monkey(11).png"));
-                    up2 = ImageIO.read(getClass().getResourceAsStream("Monkey(11).png"));
-                    down1 = ImageIO.read(getClass().getResourceAsStream("Monkey(10).png"));
-                    down2 = ImageIO.read(getClass().getResourceAsStream("Monkey(10).png"));
-                    left1 = ImageIO.read(getClass().getResourceAsStream("Monkey(6).png"));
-                    left2 = ImageIO.read(getClass().getResourceAsStream("Monkey(6).png"));
-                    right1 = ImageIO.read(getClass().getResourceAsStream("Monkey(7).png"));
-                    right2 = ImageIO.read(getClass().getResourceAsStream("Monkey(7).png"));
+                        up1 = ImageIO.read(getClass().getResourceAsStream("Monkey(11).png"));
+                        up2 = ImageIO.read(getClass().getResourceAsStream("Monkey(11).png"));
+                        down1 = ImageIO.read(getClass().getResourceAsStream("Monkey(10).png"));
+                        down2 = ImageIO.read(getClass().getResourceAsStream("Monkey(10).png"));
+                        left1 = ImageIO.read(getClass().getResourceAsStream("Monkey(6).png"));
+                        left2 = ImageIO.read(getClass().getResourceAsStream("Monkey(6).png"));
+                        right1 = ImageIO.read(getClass().getResourceAsStream("Monkey(7).png"));
+                        right2 = ImageIO.read(getClass().getResourceAsStream("Monkey(7).png"));
 
 
-                }catch(IOException e){
-                    e.printStackTrace();
-                }
-
-                // Make npc disappear after beating it
-                enemiesLeft--;
-                System.out.println("you are hitting an npc!");
-//                gamePanel.musicPlayer.playSound(getClass().getClassLoader().getResource("punch.wav").getPath());
-                gamePanel.musicPlayer.playSound("/punch.wav");
-
-                gamePanel.npc[i] = null;
-
-                // Use a Timer to reset images back to normal after a delay
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        getPlayerImage(); // Reset to default images
+                    }catch(IOException e){
+                        e.printStackTrace();
                     }
-                }, 500); // Delay
 
-                // Check if all NPCs are null
-                boolean allNull = true;
-                for (int index = 0; index < gamePanel.npc.length; index++) {
-                    if (gamePanel.npc[index] != null) {
-                        allNull = false;
-                        break;
+                    // Make npc disappear after beating it
+                    enemiesLeft--;
+                    gamePanel.musicPlayer.playSound("/punch.wav");
+                    gamePanel.npc[i] = null;
+
+                    // Use a Timer to reset images back to normal after a delay
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            getPlayerImage(); // Reset to default images
+                        }
+                    }, 500); // Delay
+
+                    // Check if all NPCs are null
+                    boolean allNull = true;
+                    for (int index = 0; index < gamePanel.npc.length-1; index++) {
+                        if (gamePanel.npc[index] != null) {
+                            allNull = false;
+                            break;
+                        }
                     }
+
+                    if (allNull) {
+                        playerWin();
+                        kungfuChaosWin = true;
+                    }
+                }else{
+                    gamePanel.dialogueState = true;
+                    gamePanel.npc[i].speak();
                 }
 
-                if (allNull) {
-                    System.out.println("Win!");
-                    gamePanel.musicPlayer.stopMusic();
-//                    gamePanel.musicPlayer.playSound(getClass().getClassLoader().getResource("levelup.wav").getPath());
-                    gamePanel.musicPlayer.playSound("/levelup.wav");
-                    gamePanel.ui.gameFinished = true;
+            }
 
-                }
-
-
+            // Set maze madness level logic
+            else if(gamePanel.levelName.equals("Maze Madness")){
+                gamePanel.dialogueState = true;
+                gamePanel.musicPlayer.playSound("minotaurroar.wav");
+                gamePanel.npc[i].speak();
             }
         }
     }
@@ -248,5 +257,12 @@ public class Player extends Entity {
 
 
 
+    }
+
+    public void playerWin(){
+        System.out.println("Win!");
+        gamePanel.musicPlayer.stopMusic();
+        gamePanel.musicPlayer.playSound("/levelup.wav");
+        gamePanel.ui.gameFinished = true;
     }
 }

@@ -13,6 +13,7 @@ public class NPC_Samurai extends Entity {
         speed = 3;
 
         getNPCImage_Samurai();
+
     }
 
     public void getNPCImage_Samurai(){

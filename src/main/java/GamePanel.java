@@ -1,19 +1,18 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable{
-
-
 
     JFrame mainWindow;
     // SCREEN SETTINGS
     final int originalTileSize = 16; // 16x16 title
     final int scale = 3; // Make character 48x48
     public final int tileSize = originalTileSize * scale; // 48x48 tile
-    public final int maxScreenCol = 16; // 16 48x48 tiles vertically
+    public final int maxScreenCol = 20; // 16 48x48 tiles vertically
     public final int maxScreenRow = 12; // 12 48x48 tiles horizontally
-    public final int screenWidth = tileSize*maxScreenCol; // 768 pixels
+    public final int screenWidth = tileSize*maxScreenCol; // 960 pixels
     public final int screenHeight = tileSize*maxScreenRow; // 576 pixels
 
     // WORLD SETTINGS
@@ -21,13 +20,21 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxWorldCol = 50;
     public final int maxWorldRow = 50;
 
-    // Dialogue state
-    public final int dialogueState = 3;
+    // For FULL SCREEN
+    int screenWidth2 = screenWidth;
+    int screenHeight2 = screenHeight;
+    BufferedImage fullScreen;
+    Graphics2D g2D;
+
+
+    // Dialogue state (when talking to npcs)
+    public boolean dialogueState;
 
 
     // Selected level name
 
     public String levelName;
+
 
     // Music player
 
@@ -57,7 +64,8 @@ public class GamePanel extends JPanel implements Runnable{
     // ENTITY and OBJECT
     public Player player = new Player(this, keyHandler);
     public SuperObject obj[] = new SuperObject[10]; // amount of objects at the same time in game
-    public Entity npc[] = new Entity[10];
+    public Entity npc[] = new Entity[11];
+
 
 
 
@@ -78,23 +86,41 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true); // Enable GamePanel to receive key input
     }
 
-    // Call this method to set up stuff in game
 
+    // Call this method to set up stuff in game
     public void setUpGame(){
         assetSetter.setObject();
         assetSetter.setNPC();
 
+        fullScreen = new BufferedImage(screenWidth,screenHeight,BufferedImage.TYPE_INT_ARGB);
+        g2D = (Graphics2D)fullScreen.getGraphics();
+
+        setFullScreen();
+
         // ADD MUSIC HERE
-        assetSetter.setMusic();
+        if(levelName.equals("Maze Madness") || levelName.equals("Kung Fu Chaos") || levelName.equals("Dragon Duel")) {
+            assetSetter.setMusic();
+        }
+
 
 
         // Set enemies left for Kung Fu Chaos Level
         if(levelName.equals("Kung Fu Chaos")){
-            player.enemiesLeft = npc.length;
+            player.enemiesLeft = npc.length-1;
 
         }
 
+    }
 
+    public void setFullScreen(){
+       // Get local screen size
+        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
+        graphicsDevice.setFullScreenWindow(WindowManager.getWindow());
+
+        // Get full screen width and height
+        screenWidth2 = WindowManager.getWindow().getWidth();
+        screenHeight2 = WindowManager.getWindow().getHeight();
     }
 
     public void startGameThread(){
@@ -122,13 +148,17 @@ public class GamePanel extends JPanel implements Runnable{
 
             if(delta >=1 ){
                 update();
-                repaint();
+                drawToTempScreen(); // draw everything to buffered image
+                repaint(); // draw the buffered image to the screen
                 delta--;
             }
         }
     }
 
     public void update(){
+        if(dialogueState){
+            return;
+        }
         //PLAYER
         player.update();
 
@@ -140,14 +170,12 @@ public class GamePanel extends JPanel implements Runnable{
         }
     }
 
-    // My paint brush is the g2D object
-    // (call paintComponent() method with the repaint() method)
-    public void paintComponent(Graphics g){
+    // Call to get out of the paused state
+    public void togglePause() {
+        dialogueState = !dialogueState; // Toggle the pause state
+    }
 
-        super.paintComponent(g); // Calling parent class (JPanel)
-
-        Graphics2D g2D = (Graphics2D) g; // Call Graphics2D subclass as it has more functions
-
+    public void drawToTempScreen(){
         //TILE
         tileManager.draw(g2D);
         //OBJECTS
@@ -169,11 +197,14 @@ public class GamePanel extends JPanel implements Runnable{
 
         // UI
         ui.draw(g2D);
-
-
-
-        g2D.dispose(); // Good practice to save memory
     }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); // Clear the previous frame
+        g.drawImage(fullScreen, 0, 0, screenWidth2, screenHeight2, null);
+    }
+
 
 
 }

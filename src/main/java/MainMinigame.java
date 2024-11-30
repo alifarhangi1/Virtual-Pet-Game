@@ -3,6 +3,9 @@
 import javax.swing.*;
 
 public class MainMinigame {
+    public static void main(String[] args) {
+        new LevelSelect();
+    }
     public MainMinigame(String levelName) {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
