@@ -156,6 +156,7 @@ public class GameScreen extends JPanel {
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
+                    databaseManager.close();
                     System.exit(0);
                 }
             }
