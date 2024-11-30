@@ -3,26 +3,35 @@ package managers;
 import data.Database;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
+import misc.Pet;
+import misc.Player;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import java.io.*;
+import java.util.stream.Collectors;
 
 public class DatabaseManager implements AutoCloseable {
-    private static final String DATABASE_FILE = "db.json";
-    private static final String BACKUP_FILE = "backup.json";
-    private static final String BACKUP_DIRECTORY = "backups/";
+    private static final String DATABASE_FILE = "C:/university_projects/CS2212/group50/src/main/java/data/db.json";
+    private static final String BACKUP_DIRECTORY = "C:/university_projects/CS2212/group50/src/main/java/data/backup";
+    private static final int MAX_BACKUP_FILES = 5;
+
+    private static DatabaseManager instance;
     private Database database;
     private boolean hasUnsavedChanges;
-    private static final int MAX_BACKUP_FILES = 5;
 
     public DatabaseManager() {
         hasUnsavedChanges = false;
         initializeBackupDirectory();
         loadDatabase();
+    }
+
+    public static DatabaseManager getInstance() {
+        if (instance == null) {
+            instance = new DatabaseManager();
+        }
+        return instance;
     }
 
     private void initializeBackupDirectory() {
@@ -49,12 +58,24 @@ public class DatabaseManager implements AutoCloseable {
             }
             reader.close();
 
-            database = new JSONDeserializer<Database>().deserialize(json.toString(), Database.class);
-        } catch (IOException e) {
+            // Create a more robust deserializer
+            JSONDeserializer<Database> deserializer = new JSONDeserializer<Database>()
+                    .use(null, Database.class)
+                    .use("players", ArrayList.class)
+                    .use("players.elementType", Player.class)
+                    .use("players.inventory", HashMap.class)
+                    .use("players.petList", Pet[].class)
+                    .use("players.miniGame", boolean[].class);
+
+            database = deserializer.deserialize(json.toString());
+
+            // Remove any empty players after deserialization
+            database.getPlayers().removeIf(player ->
+                    player.getUsername() == null || player.getUsername().isEmpty());
+        }
+        catch (IOException e) {
             System.err.println("Error loading database: " + e.getMessage());
-            // Try to restore from backup if main file is corrupted
             if (!restoreFromBackup()) {
-                // If restore fails, create new database
                 database = new Database();
             }
         }
@@ -62,26 +83,46 @@ public class DatabaseManager implements AutoCloseable {
 
     private void saveDatabase() {
         try {
+            System.out.println("Attempting to save database...");
+
+            // Ensure valid players are in the list (filtering out invalid players)
+            List<Player> validPlayers = database.getPlayers().stream()
+                    .filter(player -> player.getUsername() != null && !player.getUsername().isEmpty())
+                    .collect(Collectors.toList());
+
+            // Set the valid players list back to the database
+            database.setPlayers(validPlayers);
+
             createTimeStampedBackup();
 
-            JSONSerializer serializer = new JSONSerializer().prettyPrint(true);
+            // Serialize the entire database to JSON (not just players)
+            JSONSerializer serializer = new JSONSerializer().prettyPrint(true)
+                    .include("players")
+                    .include("players.inventory")
+                    .include("players.petList")
+                    .include("players.miniGame")
+                    .include("players.passwordString")
+                    .exclude("*.class");
+
             String json = serializer.serialize(database);
+            System.out.println("Serialized JSON: " + json);
 
+            // Write to a temporary file first
             File tempFile = new File(DATABASE_FILE + "_tmp");
-            FileWriter writer = new FileWriter(tempFile);
-            writer.write(json);
-            writer.close();
+            try (FileWriter writer = new FileWriter(tempFile)) {
+                writer.write(json);
+            }
 
+            // If main database file exists, delete it and rename the temporary file
             File mainFile = new File(DATABASE_FILE);
             if (mainFile.exists()) {
                 mainFile.delete();
             }
             tempFile.renameTo(mainFile);
 
-            hasUnsavedChanges = false;
-            database.updateLastModified();
+            System.out.println("Database saved successfully to: " + mainFile.getAbsolutePath());
 
-            // Clean up old backups
+            hasUnsavedChanges = false;
             cleanupOldBackups();
         } catch (IOException e) {
             System.err.println("Error saving database: " + e.getMessage());
@@ -92,25 +133,26 @@ public class DatabaseManager implements AutoCloseable {
     private void createTimeStampedBackup() {
         try {
             File currentFile = new File(DATABASE_FILE);
-            File backupFile = null;
             if (!currentFile.exists()) {
-                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-                backupFile = new File(BACKUP_DIRECTORY + "db_" + timestamp + "_backup");
+                System.err.println("Database file does not exist.");
+                return;
             }
 
-            FileInputStream fis = new FileInputStream(currentFile);
-            FileOutputStream fos = new FileOutputStream(backupFile);
-            byte[] buffer = new byte[1024];
-            int length;
+            String timestamp = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            File backupFile = new File(BACKUP_DIRECTORY + "/db_" + timestamp + ".backup");
 
-            while ((length = fis.read(buffer)) > 0) {
-                fos.write(buffer, 0, length);
+            // Ensure backup directory exists
+            backupFile.getParentFile().mkdirs();
+
+            try (FileInputStream fis = new FileInputStream(currentFile);
+                 FileOutputStream fos = new FileOutputStream(backupFile)) {
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = fis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, length);
+                }
             }
-
-            fis.close();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + e.getMessage());
         } catch (IOException e) {
             System.err.println("Error creating backup: " + e.getMessage());
         }
@@ -121,11 +163,8 @@ public class DatabaseManager implements AutoCloseable {
         File[] backups = backupDir.listFiles((dir, name) -> name.endsWith(".backup"));
 
         if (backups != null && backups.length > MAX_BACKUP_FILES) {
-            // Sort by last modified time
-            java.util.Arrays.sort(backups, (f1, f2) ->
-                    Long.compare(f2.lastModified(), f1.lastModified()));
-
-            // Delete oldest backups
+            // Sort by last modified time, and delete the oldest backups
+            java.util.Arrays.sort(backups, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
             for (int i = MAX_BACKUP_FILES; i < backups.length; i++) {
                 backups[i].delete();
             }
@@ -137,12 +176,8 @@ public class DatabaseManager implements AutoCloseable {
         File[] backups = backupDir.listFiles((dir, name) -> name.endsWith(".backup"));
 
         if (backups != null && backups.length > 0) {
-            // Sort by last modified time, most recent first
-            java.util.Arrays.sort(backups, (f1, f2) ->
-                    Long.compare(f2.lastModified(), f1.lastModified()));
-
+            java.util.Arrays.sort(backups, (f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
             try {
-                // Try to load the most recent backup
                 BufferedReader reader = new BufferedReader(new FileReader(backups[0]));
                 StringBuilder json = new StringBuilder();
                 String line;
@@ -151,30 +186,33 @@ public class DatabaseManager implements AutoCloseable {
                 }
                 reader.close();
 
-                database = new JSONDeserializer<Database>()
-                        .deserialize(json.toString(), Database.class);
+                JSONDeserializer<Database> deserializer = new JSONDeserializer<Database>()
+                        .use(null, Database.class);
 
-                // Save the restored backup as the main database
+                database = deserializer.deserialize(json.toString());
                 saveDatabase();
                 return true;
-
             } catch (IOException e) {
                 System.err.println("Error restoring from backup: " + e.getMessage());
-                return false;
             }
         }
         return false;
     }
 
     public void addPlayer(Player player) {
-        database.getPlayers().add(player);
-        hasUnsavedChanges = true;
-        saveDatabase();
+        if (player != null && player.getUsername() != null && !player.getUsername().isEmpty()) {
+            // Add the new player to the list (appending)
+            database.getPlayers().add(player);
+            hasUnsavedChanges = true;
+            saveDatabase();  // Save the updated database after adding the new player
+        } else {
+            System.err.println("Player username cannot be null or empty!");
+        }
     }
 
     public Player findPlayer(String username) {
         return database.getPlayers().stream()
-                .filter(p -> p.getUsername().equals(username))
+                .filter(p -> p.getUsername().trim().equalsIgnoreCase(username.trim()))
                 .findFirst()
                 .orElse(null);
     }

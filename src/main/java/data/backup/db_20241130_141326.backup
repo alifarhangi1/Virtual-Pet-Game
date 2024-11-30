@@ -1,0 +1,37 @@
+{
+    "parentalPassword": "",
+    "players": [
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "111",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Yazan"
+        },
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "111",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Luca"
+        }
+    ]
+}

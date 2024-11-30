@@ -1,7 +1,12 @@
 package screens;
 
+import misc.Pet;
+import misc.Player;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -24,24 +29,26 @@ public class LoadSaveScreen extends GameScreen {
             Font derivedFont = customFont.deriveFont(16f);
             mainPanel = new JPanel(new BorderLayout());
             boxPanel = new JPanel(new GridBagLayout()) {
-            @Override
-            protected void paintComponent(Graphics g) {
+                @Override
+                protected void paintComponent(Graphics g) {
 //                g.setColor(new Color(123, 78, 46));
 //                g.fillRect(0, 0, getWidth(), getHeight());
-                super.paintComponent(g);
-                g.drawImage(backgroundIcon.getImage(), 0, 0, boxPanel.getWidth(), boxPanel.getHeight(), this);
-            }
-        };
+                    super.paintComponent(g);
+                    g.drawImage(backgroundIcon.getImage(), 0, 0, boxPanel.getWidth(), boxPanel.getHeight(), this);
+                }
+            };
             boxPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(219, 198, 77), 4),
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
+                    BorderFactory.createLineBorder(new Color(219, 198, 77), 4),
+                    BorderFactory.createEmptyBorder(5, 5, 5, 5)
+            ));
 
             boxPanel.setOpaque(false);
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.insets = new Insets(15, 5, 5, 5); // Padding
 
             String[] labels = {"Username: ", "Password: "};
+            JTextField textField = new JTextField(10);
+            JPasswordField passwordField = new JPasswordField(10);
 
             for (int i = 0; i < labels.length; i++) {
                 // Label
@@ -59,21 +66,41 @@ public class LoadSaveScreen extends GameScreen {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.weightx = 1.0;
                 if (labels[i].equals("Password: ")) {
-                    JPasswordField passwordField = new JPasswordField(10);
                     boxPanel.add(passwordField, gbc);
                 } else {
-                    boxPanel.add(new JTextField(10), gbc);
+                    boxPanel.add(textField, gbc);
                 }
             }
+
+            JLabel userExistsLabel = new JLabel("* This user does not exist");
+            userExistsLabel.setForeground(Color.RED);
+            userExistsLabel.setFont(derivedFont);
+            userExistsLabel.setVisible(false);
+
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth = 2;
-            gbc.insets = new Insets(10, 5, 5, 5); // Add vertical spacing
+            gbc.insets = new Insets(10, 5, 5, 5);
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
-            signUpButton = new JButton("Log in");
+
+            signUpButton = new JButton("Sign Up");
             signUpButton.setBackground(Color.WHITE);
             signUpButton.setFont(derivedFont);
+            signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            signUpButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Player player = databaseManager.findPlayer(textField.getText());
+                    if (player != null) {
+                        userExistsLabel.setVisible(false);
+                    } else {
+                        userExistsLabel.setVisible(true);
+                        boxPanel.revalidate();
+                        boxPanel.repaint();
+                    }
+                }
+            });
 
             JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             backButtonPanel.setOpaque(false);
@@ -81,6 +108,8 @@ public class LoadSaveScreen extends GameScreen {
             backButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
             boxPanel.add(signUpButton, gbc);
+            gbc.gridy = 3;
+            boxPanel.add(userExistsLabel, gbc);
             contentPanel.add(mainPanel);
             mainPanel.add(boxPanel, BorderLayout.CENTER);
             mainPanel.add(backButtonPanel, BorderLayout.SOUTH);

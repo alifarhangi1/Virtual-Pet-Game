@@ -1,0 +1,17 @@
+{
+    "class": "data.Database",
+    "lastModified": {
+        "class": "java.time.LocalDateTime",
+        "dayOfMonth": 30,
+        "dayOfWeek": "SATURDAY",
+        "dayOfYear": 335,
+        "hour": 1,
+        "minute": 24,
+        "month": "NOVEMBER",
+        "monthValue": 11,
+        "nano": 811693900,
+        "second": 7,
+        "year": 2024
+    },
+    "parentalPassword": ""
+}

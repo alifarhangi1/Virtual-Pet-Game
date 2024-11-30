@@ -1,6 +1,7 @@
 package screens;
 
 import managers.AudioManager;
+import managers.DatabaseManager;
 import managers.ScreenManager;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ import java.net.URL;
 public class GameScreen extends JPanel {
     public AudioManager audioManager;
     public ScreenManager screenManager;
+    public DatabaseManager databaseManager;
     protected final JPanel contentPanel;
     protected int originalBackButtonWidth;
     protected int originalBackButtonHeight;
@@ -44,6 +46,7 @@ public class GameScreen extends JPanel {
         setLayout(new BorderLayout());
         audioManager = AudioManager.getInstance();
         screenManager = ScreenManager.getInstance();
+        databaseManager = DatabaseManager.getInstance();
 
         // Load resources
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
@@ -153,6 +156,7 @@ public class GameScreen extends JPanel {
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {
+                    databaseManager.close();
                     System.exit(0);
                 }
             }

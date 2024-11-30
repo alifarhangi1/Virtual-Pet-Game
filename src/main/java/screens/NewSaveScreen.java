@@ -1,7 +1,12 @@
 package screens;
 
+import misc.Pet;
+import misc.Player;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -42,6 +47,8 @@ public class NewSaveScreen extends GameScreen {
             gbc.insets = new Insets(15, 5, 5, 5); // Padding
 
             String[] labels = {"Username: ", "Password: "};
+            JTextField textField = new JTextField(10);
+            JPasswordField passwordField = new JPasswordField(10);
 
             for (int i = 0; i < labels.length; i++) {
                 // Label
@@ -59,21 +66,42 @@ public class NewSaveScreen extends GameScreen {
                 gbc.fill = GridBagConstraints.HORIZONTAL;
                 gbc.weightx = 1.0;
                 if (labels[i].equals("Password: ")) {
-                    JPasswordField passwordField = new JPasswordField(10);
                     boxPanel.add(passwordField, gbc);
                 } else {
-                    boxPanel.add(new JTextField(10), gbc);
+                    boxPanel.add(textField, gbc);
                 }
             }
+
+            JLabel userExistsLabel = new JLabel("* This user already exists");
+            userExistsLabel.setForeground(Color.RED);
+            userExistsLabel.setFont(derivedFont);
+            userExistsLabel.setVisible(false);
+
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth = 2;
-            gbc.insets = new Insets(10, 5, 5, 5); // Add vertical spacing
+            gbc.insets = new Insets(10, 5, 5, 5);
             gbc.fill = GridBagConstraints.NONE;
             gbc.anchor = GridBagConstraints.CENTER;
+
             signUpButton = new JButton("Sign Up");
             signUpButton.setBackground(Color.WHITE);
             signUpButton.setFont(derivedFont);
+            signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            signUpButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Player player = databaseManager.findPlayer(textField.getText());
+                    if (player != null) {
+                        userExistsLabel.setVisible(true);
+                        boxPanel.revalidate();
+                        boxPanel.repaint();
+                    } else {
+                        userExistsLabel.setVisible(false);
+                        databaseManager.addPlayer(new Player(textField.getText(), passwordField.getPassword(), new Pet[]{}));
+                    }
+                }
+            });
 
             JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             backButtonPanel.setOpaque(false);
@@ -81,6 +109,8 @@ public class NewSaveScreen extends GameScreen {
             backButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
             boxPanel.add(signUpButton, gbc);
+            gbc.gridy = 3;
+            boxPanel.add(userExistsLabel, gbc);
             contentPanel.add(mainPanel);
             mainPanel.add(boxPanel, BorderLayout.CENTER);
             mainPanel.add(backButtonPanel, BorderLayout.SOUTH);
