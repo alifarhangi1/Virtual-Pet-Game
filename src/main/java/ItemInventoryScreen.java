@@ -32,7 +32,15 @@ public class ItemInventoryScreen extends JPanel {
             itemPanel.add(imageLabelLeft, BorderLayout.WEST);
 
             // Add the item description
-            JLabel descriptionLabel = new JLabel(itemName + ": " + item.getDescription() + " (x" + item.getAmount() + ")");
+            JLabel descriptionLabel;
+            if (item.getType() == 0)
+            {
+                descriptionLabel = new JLabel(itemName + ": " + item.getDescription());
+            }
+            else
+            {
+                descriptionLabel = new JLabel(itemName + ": " + item.getDescription() + " (x" + item.getAmount() + ")");
+            }
             itemPanel.add(descriptionLabel, BorderLayout.CENTER);
 
             // Add click listener for the panel
@@ -42,12 +50,82 @@ public class ItemInventoryScreen extends JPanel {
                     int itemAmount = item.getAmount();
 
                     if (itemAmount > 0) {
-                        // Use the item
-                        player.giveGift(player.getPet(), item);
-                        JOptionPane.showMessageDialog(ItemInventoryScreen.this,
-                                itemName + " has been given to the pet!");
+                        // type 2 is the Evolution Fruit
+                        if (item.getType() == 2)
+                        {
+                            Pet pet = player.getPet();
+                            // we need to check because the other 3 does not evolve
+                            if (pet instanceof Wolf)
+                            {
+                                if (((Wolf) pet).getIsEvolve())
+                                {
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            "Your pet is already evolved.");
+                                }
+                                else
+                                {
+                                    player.giveGift(pet, item);
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            itemName + " has been given to the pet!");
+                                    item.setAmount(itemAmount - 1);
+                                    if (item.getAmount() <= 0)
+                                    {
+                                        inventory.remove(itemName);
+                                        JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                                itemName + " has been removed from the inventory!");
+                                    }
+                                }
+                            }
+                            else if (pet instanceof Owl)
+                            {
+                                if (((Owl) pet).getIsEvolve())
+                                {
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            "Your pet is already evolved.");
 
-                        if (item.getType() == 1) { // Type 1: Decrease amount and remove if depleted
+                                }
+                                else
+                                {
+                                    player.giveGift(pet, item);
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            itemName + " has been given to the pet!");
+                                    item.setAmount(itemAmount - 1);
+                                    if (item.getAmount() <= 0)
+                                    {
+                                        inventory.remove(itemName);
+                                        JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                                itemName + " has been removed from the inventory!");
+                                    }
+                                }
+                            }
+                            else if (pet instanceof Panda)
+                            {
+                                if (((Panda) pet).getIsEvolve())
+                                {
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            "Your pet is already evolved.");
+                                }
+                                else
+                                {
+                                    player.giveGift(pet, item);
+                                    JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                            itemName + " has been given to the pet!");
+                                    item.setAmount(itemAmount - 1);
+                                    if (item.getAmount() <= 0)
+                                    {
+                                        inventory.remove(itemName);
+                                        JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                                itemName + " has been removed from the inventory!");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(ItemInventoryScreen.this,
+                                        "Your pet does not evolve.");
+                            }
+                        }
+                        else if (item.getType() == 1) { // Type 1: Decrease amount and remove if depleted
                             item.setAmount(itemAmount - 1);
 
                             if (item.getAmount() <= 0) {

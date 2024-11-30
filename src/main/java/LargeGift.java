@@ -6,6 +6,7 @@ public class LargeGift extends Item {
         setHappyAmount(30); // Adds 30 to happiness
         setMaxHpControl(15); // Increases max HP by 15
         setType(1); // Type 1 for gift
+        setName("Large Gift");
         if (getAmount() <= 0)
             setAmount(1);
         else

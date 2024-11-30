@@ -20,9 +20,10 @@ public class Main {
 
         // Mock inventory with items
         HashMap<String, Item> inventory = currentPlayer.getInventory();
-        inventory.put("Can Food", new SmallFood());
+        inventory.put("Small Food", new SmallFood());
         inventory.put("Small Gift", new SmallGift());
-        inventory.put("Steak", new LargeFood());
+        inventory.put("Large Food", new LargeFood());
+        inventory.put("Evolution Fruit", new EvolutionFruit());
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 600);

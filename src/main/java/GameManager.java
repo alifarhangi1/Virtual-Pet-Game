@@ -43,13 +43,15 @@ public class GameManager {
         return instance;
     }
 
-    public void updatePlayTime() {
+    public void updatePlayTime()
+    {
         // Calculate elapsed playtime
         long secondsElapsed = ChronoUnit.SECONDS.between(startTime, LocalDateTime.now());
         player.setPlayTime(secondsElapsed);
     }
 
-    public long getPlayTime() {
+    public long getPlayTime()
+    {
         updatePlayTime();
         return player.getPlayTime();
     }

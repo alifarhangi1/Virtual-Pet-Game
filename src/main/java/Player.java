@@ -48,6 +48,24 @@ public class Player
     {
         if (inventory.containsKey(item.getName()))
         {
+            if (item.getType() == 2)
+            {
+                if (pet instanceof Wolf)
+                {
+                    ((Wolf) pet).Evolve();
+                }
+                else if (pet instanceof Owl)
+                {
+                    ((Owl) pet).Evolve();
+                }
+                else if (pet instanceof Panda)
+                {
+                    ((Panda) pet).Evolve();
+                }
+
+                return;
+            }
+            // Apply the gift's healing and happiness effects
             pet.giveGift(item.getHealAmount(), item.getHappyAmount());
         }
     }
@@ -101,7 +119,8 @@ public class Player
 
     public void setPlayerPet(int index)
     {
-        if (index >= 0 && index < petList.length && miniGame[index]) {
+        if (index >= 0 && index < petList.length && miniGame[index])
+        {
             this.playerPet = petList[index];
         }
     }

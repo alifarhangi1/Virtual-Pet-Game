@@ -6,6 +6,8 @@ public class LargeFood extends Item {
         setFullAmount(30); // Adds 30 to fullness
         setHappyAmount(20); // Adds 20 to happiness
         setType(0); // Type 0 for food
+        setName("Large Food");
+        setAmount(1);
         setImage(new ImageIcon(getClass().getResource("LargeFood.jpg")));
     }
 }

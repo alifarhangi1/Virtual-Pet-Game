@@ -46,7 +46,8 @@ public class PlayerScoreScreen {
         // Timer to update the score and level dynamically
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 // Update play time from GameManager
                 long playTime = gameManager.getPlayTime();
                 scoreValue.setText(String.valueOf(player.getScore()));
@@ -58,7 +59,8 @@ public class PlayerScoreScreen {
         frame.setVisible(true); // Show the frame
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         // Mock Player instance
         Player player = new Player();
         player.setScore(0); // Set initial score
