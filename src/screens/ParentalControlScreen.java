@@ -146,7 +146,7 @@ public class ParentalControlScreen extends JPanel {
         statsBox.add(statsLabel);
 
         // Total Playtime Label
-        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: " + gameManager.getPlayTime()); // Display playtime
+        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: "); // Display playtime
         totalPlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         totalPlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(totalPlaytimeLabel);
