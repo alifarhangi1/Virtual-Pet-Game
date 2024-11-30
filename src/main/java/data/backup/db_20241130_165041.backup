@@ -80,39 +80,6 @@
             "playTime": 0,
             "score": 0,
             "username": "Robert"
-        },
-        {
-            "inventory": {
-
-            },
-            "miniGame": [
-
-            ],
-            "passwordString": "222",
-            "pet": null,
-            "petList": [
-
-            ],
-            "playTime": 0,
-            "score": 0,
-            "username": "Albert"
-        },
-        {
-            "inventory": {
-
-            },
-            "miniGame": [
-
-            ],
-            "passwordString": "123",
-            "pet": null,
-            "petList": [
-
-            ],
-            "playTime": 0,
-            "score": 0,
-            "username": "Chris"
         }
-    ],
-    "timeLimit": 0
+    ]
 }

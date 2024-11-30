@@ -1,5 +1,8 @@
 {
     "parentalPassword": "bollocks",
+    "playerTimeLimits": {
+
+    },
     "players": [
         {
             "inventory": {
@@ -14,6 +17,7 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Yazan"
         },
@@ -30,6 +34,7 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Luca"
         },
@@ -46,6 +51,7 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Ali"
         },
@@ -62,6 +68,7 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Robin"
         },
@@ -78,6 +85,7 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Robert"
         },
@@ -94,25 +102,9 @@
 
             ],
             "playTime": 0,
+            "playTimeLimit": 0,
             "score": 0,
             "username": "Albert"
-        },
-        {
-            "inventory": {
-
-            },
-            "miniGame": [
-
-            ],
-            "passwordString": "123",
-            "pet": null,
-            "petList": [
-
-            ],
-            "playTime": 0,
-            "score": 0,
-            "username": "Chris"
         }
-    ],
-    "timeLimit": 0
+    ]
 }
