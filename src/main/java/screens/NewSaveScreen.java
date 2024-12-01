@@ -97,7 +97,8 @@ public class NewSaveScreen extends GameScreen {
                         boxPanel.repaint();
                     } else {
                         userExistsLabel.setVisible(false);
-                        databaseManager.addPlayer(new Player(textField.getText(), passwordField.getPassword(), new Pet[]{}));
+                        Player newPlayer = new Player(textField.getText(), passwordField.getPassword(), new Pet[]{});
+                        databaseManager.addPlayer(newPlayer);
                     }
                 }
             });
