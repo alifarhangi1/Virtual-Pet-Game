@@ -68,9 +68,9 @@ public class TimerController {
      * Switches to the main game screen.
      */
     private void switchToGameScreen() {
-        GameScreen gameScreen = new GameScreen();
+        TitleScreen TitleScreen = new TitleScreen();
         parentFrame.getContentPane().removeAll();
-        parentFrame.getContentPane().add(gameScreen);
+        parentFrame.getContentPane().add(TitleScreen);
         parentFrame.revalidate();
         parentFrame.repaint();
     }

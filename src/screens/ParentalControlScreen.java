@@ -188,7 +188,7 @@ public class ParentalControlScreen extends JPanel {
         panel.add(resetButton, gbc);
 
 // Revive Pet Button
-        JButton revivePetButton = createStyledButton("Revive Pet");
+        JButton revivePetButton = createStyledButton("Revive Pets");
         revivePetButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
         revivePetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
         revivePetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add border
@@ -231,13 +231,13 @@ public class ParentalControlScreen extends JPanel {
         statsBox.add(statsLabel);
 
         // Total Playtime Label
-        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: 0h 0m"); // Replace with dynamic data if available
+        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: 1h 3m"); // Replace with dynamic data if available
         totalPlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         totalPlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(totalPlaytimeLabel);
 
         // Average Playtime Label
-        JLabel averagePlaytimeLabel = new JLabel("Average Playtime: 0h 0m"); // Replace with dynamic data if available
+        JLabel averagePlaytimeLabel = new JLabel("Average Playtime: 0h 7m"); // Replace with dynamic data if available
         averagePlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         averagePlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(averagePlaytimeLabel);
@@ -323,11 +323,11 @@ public class ParentalControlScreen extends JPanel {
     }
 
     private void switchToGameScreen() {
-        GameScreen gameScreen = new GameScreen();
+        TitleScreen TitleScreen = new TitleScreen();
         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
         frame.getContentPane().removeAll();
-        frame.getContentPane().add(gameScreen);
+        frame.getContentPane().add(TitleScreen);
         frame.revalidate();
         frame.repaint();
     }
