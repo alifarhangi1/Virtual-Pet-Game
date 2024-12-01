@@ -1,11 +1,14 @@
 package screens;
 
+import managers.ScreenManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ParentalControlScreen extends JPanel {
+    private ScreenManager screenManager;
     private ImageIcon backgroundIcon;
     private JTextField timeInputField;
     private JButton confirmButton;
@@ -27,6 +30,7 @@ public class ParentalControlScreen extends JPanel {
     public ParentalControlScreen() {
         // Set layout for the main panel
         setLayout(new BorderLayout());
+        screenManager = ScreenManager.getInstance();
 
         // Background image
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
@@ -323,12 +327,6 @@ public class ParentalControlScreen extends JPanel {
     }
 
     private void switchToGameScreen() {
-        TitleScreen TitleScreen = new TitleScreen();
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(TitleScreen);
-        frame.revalidate();
-        frame.repaint();
+        screenManager.showScreen("title");
     }
 }
