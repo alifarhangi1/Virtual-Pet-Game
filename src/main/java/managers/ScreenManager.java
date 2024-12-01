@@ -1,6 +1,5 @@
 package managers;
 
-import screens.GameScreen;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;

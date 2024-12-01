@@ -2,6 +2,7 @@ import managers.ScreenManager;
 import managers.AudioManager;
 import screens.LoadSaveScreen;
 import screens.NewSaveScreen;
+//import screens.ParentalControl;
 import screens.SaveScreen;
 import screens.TitleScreen;
 // Import other screens as needed
@@ -21,6 +22,8 @@ public class Main {
         screenManager.addScreen("save", new SaveScreen());
         screenManager.addScreen("newgame", new NewSaveScreen());
         screenManager.addScreen("loadgame", new LoadSaveScreen());
+
+//        screenManager.addScreen("Parental", new ParentalControlScreen());
 
 
         // Show main frame and initial screen
