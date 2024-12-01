@@ -29,9 +29,7 @@ public class Inventory {
         backgroundPanel.setLayout(new BorderLayout());
 
         icons = new ImageIcon[8];
-        icons [0] = resizeIcon(new ImageIcon("/visuals/wolf.png"));
-        icons [1] = resizeIcon(new ImageIcon("/visuals/panda.png"));
-        icons [2] = resizeIcon(new ImageIcon("/visuals/owl.png"));
+        initializeIcons();
         labels = new ArrayList<JLabel>();
 
 
@@ -65,6 +63,14 @@ public class Inventory {
             panel.add(label);
         }
     }
+
+
+    private void initializeIcons() {
+        icons[0] = resizeIcon(new ImageIcon(getClass().getResource("/visuals/wolf.png")));
+        icons[1] = resizeIcon(new ImageIcon(getClass().getResource("/visuals/panda.png")));
+        icons[2] = resizeIcon(new ImageIcon(getClass().getResource("/visuals/owl.png")));
+    }
+
 
     private void initializeLabels() {
         // Create labels based on petNumber and add icons
@@ -121,6 +127,5 @@ public class Inventory {
             System.out.println("Invalid pet index: " + index);
         }
     }
-
 }
 

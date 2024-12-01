@@ -7,7 +7,7 @@ public class BackgroundPanel extends JPanel{
     private ImageIcon backgroundImage;
 
     public BackgroundPanel(String imagePath) {
-        backgroundImage = new ImageIcon(imagePath);
+        backgroundImage = new ImageIcon(getClass().getResource(imagePath));
     }
 
     @Override
