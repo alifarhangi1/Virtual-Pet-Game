@@ -1,21 +1,33 @@
 import javax.imageio.ImageIO;
 import java.io.IOException;
 
-public class NPC_Villager extends Entity{
+/**
+ * The NPC_Villager class represents a non-player character (NPC) of type Villager.
+ * The Villager remains stationary and has unique dialogue and sprite assets.
+ */
+public class NPC_Villager extends Entity {
 
-    public NPC_Villager(GamePanel gamePanel){
+    /**
+     * Constructs an NPC_Villager instance and initializes its direction, speed,
+     * sprite images, and dialogue.
+     *
+     * @param gamePanel the GamePanel instance associated with this NPC
+     */
+    public NPC_Villager(GamePanel gamePanel) {
         super(gamePanel);
 
         direction = "down";
         speed = 0;
 
-
-        getNPCImage_Minotaur();
+        getNPCImage_Villager();
         setDialogue();
     }
 
-    public void getNPCImage_Minotaur(){
-
+    /**
+     * Loads the sprite images for the Villager from the resources directory.
+     * Each direction uses the same image in this implementation.
+     */
+    public void getNPCImage_Villager() {
         try {
             down1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
             down2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
@@ -25,15 +37,57 @@ public class NPC_Villager extends Entity{
             left2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-
-    public void speak(){
-
+    /**
+     * Triggers the dialogue associated with the Villager NPC.
+     * Sets the current dialogue in the UI to the Villager's dialogue.
+     */
+    public void speak() {
         gamePanel.ui.currentDialogue = dialogues[1];
     }
 }
+
+
+//import javax.imageio.ImageIO;
+//import java.io.IOException;
+//
+//public class NPC_Villager extends Entity{
+//
+//    public NPC_Villager(GamePanel gamePanel){
+//        super(gamePanel);
+//
+//        direction = "down";
+//        speed = 0;
+//
+//
+//        getNPCImage_Minotaur();
+//        setDialogue();
+//    }
+//
+//    public void getNPCImage_Minotaur(){
+//
+//        try {
+//            down1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            down2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            up1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            up2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            left1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            left2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            right1 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//            right2 = ImageIO.read(getClass().getResourceAsStream("npcVillager.png"));
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//
+//
+//    public void speak(){
+//
+//        gamePanel.ui.currentDialogue = dialogues[1];
+//    }
+//}
