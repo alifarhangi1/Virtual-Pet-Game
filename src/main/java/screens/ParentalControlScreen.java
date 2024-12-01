@@ -187,7 +187,7 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 2;
         panel.add(resetButton, gbc);
 
-// Revive Pet Button
+// Revive misc.Pet Button
         JButton revivePetButton = createStyledButton("Revive Pets");
         revivePetButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
         revivePetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
@@ -195,7 +195,7 @@ public class ParentalControlScreen extends JPanel {
         revivePetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Pet revived successfully!", "Revive Pet", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "misc.Pet revived successfully!", "Revive misc.Pet", JOptionPane.INFORMATION_MESSAGE);
                 // Add additional functionality for reviving a pet here if needed
             }
         });

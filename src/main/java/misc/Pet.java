@@ -2,7 +2,8 @@ package misc;
 
 import javax.swing.*;
 
-public class Pet {
+public class Pet
+{
     private String name;
     private String type;
     private int HP;
@@ -15,7 +16,8 @@ public class Pet {
     private int maxEnergy;
     private ImageIcon[] images;
 
-    public Pet(String name, String type) {
+    public Pet(String name, String type)
+    {
         this.name = name;
         this.type = type;
         this.HP = 100;
@@ -30,6 +32,10 @@ public class Pet {
     // Getters and setters
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public int getHunger() {
@@ -60,19 +66,17 @@ public class Pet {
         return petCooldown;
     }
 
-    public int getFullness() {
-        return fullness;
-    }
-
     public void setCooldown(int i) {
         petCooldown = i;
     }
 
     // Actions that affect the pet's stats
-    public void giveGift(int healAmount, int happinessAmount) {
+    public void giveGift(int healAmount, int happinessAmount)
+    {
         fullness = Math.min(100, fullness + 10);
         happiness = Math.min(100, happiness + 10);
     }
+
 
     public void feed(Item item) {
         fullness = Math.min(100, fullness + item.getFullAmount());
@@ -99,7 +103,8 @@ public class Pet {
         HP = Math.min(maxHP, HP + 10);
     }
 
-    public void exercise() {
+    public void exercise()
+    {
         maxHP += 5;
         maxEnergy += 10;
         energy = Math.max(0, energy - 15);
@@ -113,46 +118,58 @@ public class Pet {
         energy = Math.max(0, energy - 1);
 
         // Take damage if hunger is too low
-        if (fullness <= 20) {
+        if (fullness <= 20)
+        {
             HP = Math.max(0, HP - 5); // Lose 5 HP per update
         }
 
         // Heal if hunger is above 50
-        if (fullness > 50 && HP < maxHP) {
+        if (fullness > 50 && HP < maxHP)
+        {
             HP = Math.min(maxHP, HP + 1); // Regain 1 HP per update
         }
     }
 
-    public void setMaxHP(int maxHP) {
+    public void setMaxHP(int maxHP)
+    {
         this.maxHP = maxHP;
     }
 
-    public void setHP(int HP) {
+    public void setHP(int HP)
+    {
         this.HP = HP;
     }
 
-    public void setFullness(int fullness) {
+    public void setFullness(int fullness)
+    {
         this.fullness = fullness;
     }
 
-    public void setHappiness(int happiness) {
+    public void setHappiness(int happiness)
+    {
         this.happiness = happiness;
     }
 
-    public void setEnergy(int energy) {
+    public void setEnergy(int energy)
+    {
         this.energy = energy;
     }
 
-    public void setMaxEnergy(int maxEnergy) {
+    public void setMaxEnergy(int maxEnergy)
+    {
         this.maxEnergy = maxEnergy;
     }
 
-    public void setImages(ImageIcon[] images) {
+    public void setImages(ImageIcon[] images)
+    {
         this.images = images;
     }
 
-    public ImageIcon[] getImages() {
+    public ImageIcon[] getImages()
+    {
         return this.images;
     }
-}
 
+
+
+}

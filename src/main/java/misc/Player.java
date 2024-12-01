@@ -1,7 +1,9 @@
 package misc;
 
+import misc.Item;
+import misc.Pet;
+
 import java.util.HashMap;
-import java.util.Arrays;
 
 public class Player {
     private int score;
@@ -155,7 +157,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
+        return "scrap.Player{" +
                 "username='" + username + '\'' +
                 ", score=" + score +
                 ", inventorySize=" + (inventory != null ? inventory.size() : 0) +

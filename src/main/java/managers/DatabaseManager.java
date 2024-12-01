@@ -206,7 +206,7 @@ public class DatabaseManager implements AutoCloseable {
             hasUnsavedChanges = true;
             saveDatabase();  // Save the updated database after adding the new player
         } else {
-            System.err.println("Player username cannot be null or empty!");
+            System.err.println("scrap.Player username cannot be null or empty!");
         }
     }
 

@@ -25,7 +25,6 @@ public class Main {
 
 //        screenManager.addScreen("Parental", new ParentalControlScreen());
 
-
         // Show main frame and initial screen
         screenManager.showMainFrame();
         screenManager.showScreen("title");

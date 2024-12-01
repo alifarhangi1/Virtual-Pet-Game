@@ -13,7 +13,7 @@ public class ScreenManager {
     private final Map<String, JPanel> screens;
 
     private ScreenManager() {
-        mainFrame = new JFrame("Pet Quest");
+        mainFrame = new JFrame("misc.Pet Quest");
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         screens = new HashMap<>();

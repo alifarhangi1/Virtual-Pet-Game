@@ -63,6 +63,10 @@ public class Item {
         this.amount = amount;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -107,4 +111,3 @@ public class Item {
         return amount;
     }
 }
-
