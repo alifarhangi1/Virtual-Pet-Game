@@ -153,6 +153,7 @@ public class TitleScreen extends GameScreen {
                 } else {
                     String password = JOptionPane.showInputDialog("Input parental password: ");
                     if (password.equals(databaseManager.getParentalPasword())) {
+                        screenManager.showScreen("parental");
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong password, try again.");
                     }

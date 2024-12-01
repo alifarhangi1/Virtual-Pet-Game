@@ -29,7 +29,7 @@ public class ParentalControlScreen extends JPanel {
         setLayout(new BorderLayout());
 
         // Background image
-        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
+        backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
         // Set up components
         setupComponents();
@@ -293,9 +293,9 @@ public class ParentalControlScreen extends JPanel {
 
     private JButton createBackButton() {
         // Default button icon
-        ImageIcon backIcon = new ImageIcon("src/assets/visuals/woodButtonDefault.png");
+        ImageIcon backIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
         // Hover button icon
-        ImageIcon hoverIcon = new ImageIcon("src/assets/visuals/woodButtonHover.png");
+        ImageIcon hoverIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonHover.png"));
 
         JButton button = new JButton(backIcon);
         button.setPreferredSize(new Dimension(160, 100));

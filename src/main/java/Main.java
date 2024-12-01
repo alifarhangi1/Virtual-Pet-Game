@@ -1,11 +1,7 @@
 import managers.ScreenManager;
 import managers.AudioManager;
-import screens.LoadSaveScreen;
-import screens.NewSaveScreen;
-//import screens.ParentalControl;
-import screens.SaveScreen;
-import screens.TitleScreen;
-// Import other screens as needed
+import screens.*;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -22,8 +18,7 @@ public class Main {
         screenManager.addScreen("save", new SaveScreen());
         screenManager.addScreen("newgame", new NewSaveScreen());
         screenManager.addScreen("loadgame", new LoadSaveScreen());
-
-//        screenManager.addScreen("Parental", new ParentalControlScreen());
+        screenManager.addScreen("parental", new ParentalControlScreen());
 
         // Show main frame and initial screen
         screenManager.showMainFrame();
