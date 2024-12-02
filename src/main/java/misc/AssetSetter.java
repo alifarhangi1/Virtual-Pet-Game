@@ -18,7 +18,8 @@ public class AssetSetter {
      * @param gamePanel     the game panel to associate with this asset setter
      * @param selectedLevel the name of the selected game level
      */
-    public AssetSetter(GamePanel gamePanel, String selectedLevel) {
+    public AssetSetter(GamePanel gamePanel, String selectedLevel)
+    {
         this.gamePanel = gamePanel;
         this.selectedLevel = selectedLevel;
     }

@@ -8,11 +8,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class ItemInventoryScreen extends JPanel {
+public class ItemInventoryScreen extends JPanel
+{
     private GameScreenManager manager;
     private Player player;
 
-    public ItemInventoryScreen(GameScreenManager manager, Player player) {
+    public ItemInventoryScreen(GameScreenManager manager, Player player)
+    {
         this.manager = manager;
         this.player = player;
 
