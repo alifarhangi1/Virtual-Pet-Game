@@ -182,7 +182,8 @@ public class GameScreen extends JPanel {
         originalBackButtonHeight = originalBackButton.getIconHeight();
     }
 
-    protected int[] resizeBackButton() {
+    protected int[] resizeBackButton()
+    {
         double backButtonWidthScaleFactor = Math.max(getWidth() * BACK_BUTTON_WIDTH_SCALE / originalBackButtonWidth,
                 MIN_BACK_BUTTON_WIDTH / (double)originalBackButtonWidth);
         double backButtonHeightScaleFactor = Math.max(getHeight() * BACK_BUTTON_HEIGHT_SCALE / originalBackButtonHeight,
