@@ -14,6 +14,7 @@ public class PetStatusScreen extends JPanel
     private Timer sleepTimer;
     private Timer refreshTimer;
     private boolean isSleeping = false; // Track toggle state
+    private ImageIcon backgroundIcon;
 
 
 
@@ -62,6 +63,8 @@ public class PetStatusScreen extends JPanel
 
         // Set layout for the panel
         setLayout(new BorderLayout());
+
+        backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
 
         // Left panel for status bars
@@ -134,6 +137,16 @@ public class PetStatusScreen extends JPanel
         refreshTimer = new Timer(100, e -> updateStats(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar));
         sleepTimer.start();
         refreshTimer.start();
+
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundIcon != null) {
+            // Draw the background image
+            g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
+        }
 
     }
 
