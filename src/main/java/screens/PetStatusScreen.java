@@ -1,12 +1,11 @@
 package screens;
 
-import misc.Pet;
-import misc.Player;
+import misc.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.HashMap;
 
 public class PetStatusScreen extends JPanel
 {
@@ -16,6 +15,47 @@ public class PetStatusScreen extends JPanel
     private Timer refreshTimer;
     private boolean isSleeping = false; // Track toggle state
 
+
+
+        public static void main(String[] args)
+        {
+            JFrame mainFrame = new JFrame("Pet Game");
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setSize(800, 600);
+
+
+
+            Pet pet = new Owl("JohnDo");
+            Player player = new Player();
+            player.setPet(pet);
+            player.finishMinigame(0);
+            player.setPlayerPet(0);
+
+            // Mock inventory with items
+            HashMap<String, Item> inventory = player.getInventory();
+            inventory.put("Bone", new MediumGift());
+//        inventory.put("Ball", new Item(new ImageIcon("logo.png"), "A fun toy for your pet."));
+//        inventory.put("Fish", new Item(new ImageIcon("logo.png"), "A delicious fish treat."));
+
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            mainFrame.setSize(800, 600);
+
+            GameScreenManager manager = new GameScreenManager(mainFrame, player);
+
+            // Create the PetStatusScreen and pass the manager and player
+            PetStatusScreen petStatusScreen = new PetStatusScreen(manager, player);
+
+            // Add the PetStatusScreen to the frame
+            mainFrame.add(petStatusScreen);
+            mainFrame.setVisible(true);
+
+            // Set the initial screen
+            manager.showPetStatusScreen();
+
+            // Create and display the pet status screen
+            SwingUtilities.invokeLater(() -> new PetStatusScreen(manager, player));
+        }
+
     public PetStatusScreen(GameScreenManager manager, Player player) {
         this.manager = manager;
         this.player = player;
@@ -23,11 +63,6 @@ public class PetStatusScreen extends JPanel
         // Set layout for the panel
         setLayout(new BorderLayout());
 
-        // Top panel for title
-        JPanel topPanel = new JPanel();
-        JLabel titleLabel = new JLabel("misc.Pet Status and Interaction Screen");
-        topPanel.add(titleLabel);
-        add(topPanel, BorderLayout.NORTH);
 
         // Left panel for status bars
         JPanel leftPanel = new JPanel(new GridLayout(4, 2, 10, 10));
@@ -38,6 +73,7 @@ public class PetStatusScreen extends JPanel
         JProgressBar energyBar = createStatusBar("Sleep", pet.getEnergy(), pet.getMaxEnergy());
         JProgressBar fullnessBar = createStatusBar("Fullness", pet.getHunger(), 100);
         JProgressBar happinessBar = createStatusBar("Happiness", pet.getHappiness(), 100);
+
 
         leftPanel.add(new JLabel("Health:"));
         leftPanel.add(healthBar);
@@ -54,22 +90,23 @@ public class PetStatusScreen extends JPanel
         JPanel centerPanel = new JPanel();
         JLabel petImageLabel  = new JLabel();
         petImageLabel .setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        petImageLabel .setPreferredSize(new Dimension(300, 300));
+        petImageLabel .setPreferredSize(new Dimension(600, 600));
         petImageLabel .setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(petImageLabel);
         add(centerPanel, BorderLayout.CENTER);
 
         // Bottom panel for buttons and pet name
+        // Bottom panel for labels and pet name
         JPanel bottomPanel = new JPanel(new GridLayout(2, 4, 10, 10));
 
-        // Action buttons
-        JButton feedButton = new JButton("Feed/Give Gift");
-        JButton sleepButton = new JButton("Start Sleeping"); // Updated label for toggle functionality
-        JButton vetButton = new JButton("Take To Vet");
-        JButton playButton = new JButton("Play");
-        JButton exerciseButton = new JButton("Exercise");
+        // Action labels
+        JLabel feedButton = createStyledLabel("Feed/Give Gift", Color.ORANGE);
+        JLabel sleepButton = createStyledLabel("Sleep", Color.BLUE);
+        JLabel vetButton = createStyledLabel("Take To Vet", Color.RED);
+        JLabel playButton = createStyledLabel("Play", Color.GREEN);
+        JLabel exerciseButton = createStyledLabel("Exercise", Color.MAGENTA);
 
-        // misc.Pet name field
+        // Pet name field
         JTextField petNameField = new JTextField(pet.getName());
         petNameField.setEditable(false);
 
@@ -82,13 +119,16 @@ public class PetStatusScreen extends JPanel
 
         add(bottomPanel, BorderLayout.SOUTH);
 
+
         // Add button actions
 
-        sleepButton.addActionListener(e -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar));
-        vetButton.addActionListener(e -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar));
-        playButton.addActionListener(e -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar));
-        exerciseButton.addActionListener(e -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar));
-        feedButton.addActionListener(e -> manager.showItemInventoryScreen());
+        // Add label actions using MouseListener
+        feedButton.addMouseListener(createActionMouseListener(() -> manager.showItemInventoryScreen()));
+        sleepButton.addMouseListener(createActionMouseListener(() -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar)));
+        vetButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar)));
+        playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar)));
+        exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar)));
+
 
         sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
         refreshTimer = new Timer(100, e -> updateStats(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar));
@@ -131,7 +171,8 @@ public class PetStatusScreen extends JPanel
     }
 
 
-    private void toggleSleep(Pet pet, JButton sleepButton, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
+
+    private void toggleSleep(Pet pet, JLabel sleepButton, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
     {
         if (isSleeping)
         {
@@ -182,11 +223,48 @@ public class PetStatusScreen extends JPanel
     private ImageIcon resizeIcon(ImageIcon icon)
     {
         Image img = icon.getImage();
-        Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image reSizedImg = img.getScaledInstance(450, 450, Image.SCALE_SMOOTH);
+        return new ImageIcon(reSizedImg);
+    }
+    private ImageIcon resizeIcon2(ImageIcon icon)
+    {
+        Image img = icon.getImage();
+        Image reSizedImg = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
     public void refreshPetStatus()
     {
         this.repaint();
     }
+
+    private JLabel createStyledLabel(String text, Color color) {
+        JLabel label = new JLabel(text, SwingConstants.CENTER);
+        label.setOpaque(true);
+        label.setBackground(color);
+        label.setForeground(Color.WHITE); // Text color
+        label.setFont(new Font("Arial", Font.BOLD, 14)); // Font styling
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Optional border
+        return label;
+    }
+
+    private MouseListener createActionMouseListener(Runnable action) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                action.run(); // Execute the provided action
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ((JLabel) e.getSource()).setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor to hand
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ((JLabel) e.getSource()).setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // Reset cursor
+            }
+        };
+    }
+
+
 }

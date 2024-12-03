@@ -19,6 +19,11 @@ public class ItemInventoryScreen extends JPanel {
         setLayout(new GridLayout(0, 1)); // Each item in a row
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Add the back button in the top-left corner
+        JLabel backButton = createBackButton();
+        add(backButton);
+
     }
 
     public void displayInventory(HashMap<String, Item> inventory) {
@@ -169,6 +174,36 @@ public class ItemInventoryScreen extends JPanel {
         revalidate(); // Refresh the panel after adding components
         repaint();
     }
+
+    private JLabel createBackButton() {
+        // Create the back button with an ImageIcon
+        ImageIcon backIcon = new ImageIcon(getClass().getResource("/visuals/arrowLeft.png")); // Replace with your image path
+        JLabel backButton = new JLabel(resizeIcon(backIcon));
+        backButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Hand cursor on hover
+        backButton.setToolTipText("Go Back");
+
+        // Add action listener
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                manager.showPetStatusScreen(); // Navigate back to pet status screen
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                backButton.setOpaque(true);
+                backButton.setBackground(Color.YELLOW); // Highlight on hover
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                backButton.setOpaque(false); // Reset background
+            }
+        });
+
+        return backButton;
+    }
+
 
     private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();

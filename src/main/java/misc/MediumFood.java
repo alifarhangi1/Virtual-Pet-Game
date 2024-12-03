@@ -10,6 +10,6 @@ public class MediumFood extends Item {
         setType(0); // Type 0 for food
         setName("Medium Food");
         setAmount(1);
-        setImage(new ImageIcon(getClass().getResource("/visuals/MiddleFood.jpg")));
+        setImage(new ImageIcon(getClass().getResource("visuals/MiddleFood.jpg")));
     }
 }
