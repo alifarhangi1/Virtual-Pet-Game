@@ -88,8 +88,9 @@ public class Pet
         happiness = Math.min(100, happiness + 10);
         energy = Math.max(0, energy - 15);
         fullness = Math.max(0, fullness - 5);
-        maxEnergy += 5;
+        // Removed unintended increase of maxEnergy
     }
+
 
     public void sleep() {
         energy = Math.min(maxEnergy, energy + 20);
@@ -97,18 +98,33 @@ public class Pet
     }
 
     public void vet() {
-        happiness = Math.max(0, happiness - 20);
-        fullness = Math.min(100, fullness + 10);
-        energy = Math.min(maxEnergy, energy + 15);
-        HP = Math.min(maxHP, HP + 10);
+        happiness = Math.max(0, happiness - 20);          // Pets might dislike the vet
+        fullness = Math.min(100, fullness + 10);          // Pet might get treats
+        energy = Math.min(maxEnergy, energy + 15);        // Restored energy
+        HP = Math.min(maxHP, HP + 10);                    // Healed health
+        // No changes to maxHP or maxEnergy
     }
 
-    public void exercise()
-    {
-        maxHP += 5;
-        maxEnergy += 10;
-        energy = Math.max(0, energy - 15);
+
+    public void exercise() {
+        int healthIncrease = 5;       // Amount to increase health by
+        int energyDecrease = 15;      // Amount to decrease energy by
+        int fullnessDecrease = 10;    // Amount to decrease fullness by
+        int happinessIncrease = 10;   // Amount to increase happiness by
+
+        // Increase health without exceeding maxHP
+        HP = Math.min(HP + healthIncrease, maxHP);
+
+        // Decrease energy without going below zero
+        energy = Math.max(0, energy - energyDecrease);
+
+        // Decrease fullness (pet becomes hungrier)
+        fullness = Math.max(0, fullness - fullnessDecrease);
+
+        // Increase happiness without exceeding 100
+        happiness = Math.min(100, happiness + happinessIncrease);
     }
+
 
     // Update method to decrease stats over time
     public void update()
