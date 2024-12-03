@@ -172,7 +172,8 @@ public class ItemInventoryScreen extends JPanel
         repaint();
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    private ImageIcon resizeIcon(ImageIcon icon)
+    {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);

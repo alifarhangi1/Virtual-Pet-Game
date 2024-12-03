@@ -28,7 +28,8 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public static DatabaseManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = new DatabaseManager();
         }
         return instance;

@@ -42,9 +42,17 @@ public class GameManager {
         this.timer.start();
     }
 
-    public static GameManager getInstance(Player player) {
-        if (instance == null) {
+    public static GameManager getInstance(Player player)
+    {
+        if (instance == null)
+        {
             instance = new GameManager(player);
+        }
+        else
+        {
+            instance.player = player;
+            instance.pets = player.getPetList();
+            instance.pet = player.getPet();
         }
         return instance;
     }
@@ -67,7 +75,7 @@ public class GameManager {
         if (index >= 0 && index < pets.length)
         {
             pet = pets[index];
-            player.setPlayerPet(index); // Update active pet in the scrap.Player
+            player.setPlayerPet(index);
         }
     }
 
@@ -76,7 +84,7 @@ public class GameManager {
         return pets;
     }
 
-    private void checkPetStatus()
+    public void checkPetStatus()
     {
         if (pet == null) return;
 
@@ -94,7 +102,7 @@ public class GameManager {
         }
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    public ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
@@ -102,7 +110,7 @@ public class GameManager {
 
     public Player getPlayer()
     {
-        return player;
+        return this.player;
     }
 }
 
