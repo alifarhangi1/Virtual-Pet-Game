@@ -37,6 +37,7 @@ public class PlayerMinigame extends Entity {
      * @param gamePanel the misc.GamePanel instance associated with the player
      * @param keyHandler the misc.KeyHandler instance for player input
      */
+
     public PlayerMinigame(GamePanel gamePanel, KeyHandler keyHandler) {
         super(gamePanel);
         this.keyHandler = keyHandler;

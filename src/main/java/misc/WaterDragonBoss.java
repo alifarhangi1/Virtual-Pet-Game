@@ -1,6 +1,8 @@
 package misc;
 
 
+import managers.GameManager;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -26,10 +28,16 @@ public class WaterDragonBoss implements KeyListener {
     MusicPlayerMinigame musicPlayer = new MusicPlayerMinigame();
     Graphics2D g2D;
     private DrawingPanel drawingPanel;
-    Clip bgmClip;
+    private Clip bgmClip;
+    private Clip soundClip;
+    private Player player;
+    private GameManager gameManager;
 
 
     WaterDragonBoss() {
+
+        player = new Player();
+        gameManager = GameManager.getInstance(player);
 
         playBackgroundMusic("/audio/dragonduel.wav");
         playerHealth = 100;
@@ -143,14 +151,16 @@ public class WaterDragonBoss implements KeyListener {
     {
         if (bossHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
-//            musicPlayer.stopSound();
-            musicPlayer.stopMusic();
+            stopSound();
+            stopMusic();
             drawingPanel.setGameStatus(true, false); // Game won
             playSound("/audio/levelup.wav");
+            Item evolutionFruit = new EvolutionFruit();
+            player.addItem(evolutionFruit);
         } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
-//            musicPlayer.stopSound();
-            musicPlayer.stopMusic();
+            stopSound();
+            stopMusic();
             drawingPanel.setGameStatus(false, true); // Game lost
             playSound("/audio/gameover.wav");
         }
@@ -165,17 +175,18 @@ public class WaterDragonBoss implements KeyListener {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
 
             // Obtain a Clip to play the audio
-            bgmClip = AudioSystem.getClip();
+            soundClip = AudioSystem.getClip();
 
             // Open the audio stream in the Clip
-            bgmClip.open(audioStream);
+            soundClip.open(audioStream);
 
-            bgmClip.start(); // Start playing the background music
+            soundClip.start(); // Start playing the sound effect
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             // Log any exceptions that occur during music playback
             e.printStackTrace();
         }
     }
+
 
     private void playBackgroundMusic(String musicFilePath) {
         try {
@@ -200,13 +211,24 @@ public class WaterDragonBoss implements KeyListener {
         }
     }
 
-    public void stopMusic() {
+    private void stopSound() {
+        if (soundClip != null) {
+            soundClip.stop();
+            soundClip.close();
+            soundClip = null; // Clear the reference to free resources
+        }
+    }
+
+
+    private void stopMusic() {
         if (bgmClip != null) {
             bgmClip.stop();
             bgmClip.close();
             bgmClip = null; // Clear the reference to free resources
         }
     }
+
+
 
 
 
@@ -304,7 +326,7 @@ public class WaterDragonBoss implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             playerHealthDecayTimer.stop();
             frame.dispose();
-//            musicPlayer.stopSound();
+            stopSound();
             stopMusic();
             new LevelSelect();
         }
