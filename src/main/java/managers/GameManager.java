@@ -10,18 +10,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 public class GameManager {
     private Pet pet; // Active pet
-    private List<Pet> pets; // All pets owned by the player
+    private Pet[] pets; // All pets owned by the player
     private Timer timer; // Timer for periodic updates
+    private Timer timerStatus; // Timer for
     private LocalDateTime startTime; // Game start time
     private Player player; // scrap.Player managing the pets
     private PetStatusScreen statusScreen;
     private static GameManager instance; // Singleton instance
 
-    private GameManager(Player player)
+    public GameManager(Player player)
     {
         this.player = player;
         this.pets = player.getPetList(); // Load pets from player
@@ -29,18 +29,31 @@ public class GameManager {
         this.startTime = LocalDateTime.now();
 
         // Start a timer to periodically update the pet and manage gameplay
-        this.timer = new Timer(1000, new ActionListener()
+        this.timer = new Timer(10000, new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                if (pet != null)
-                {
+                if (pet != null) {
                     pet.update();
                 }
 
             }
         });
+
+        this.timerStatus = new Timer(1000, new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                if (pet != null)
+                {
+                    checkPetStatus();
+                    updatePlayTime();
+                }
+
+            }
+        });
         this.timer.start();
+        this.timerStatus.start();
     }
 
     public static GameManager getInstance(Player player)
@@ -48,12 +61,6 @@ public class GameManager {
         if (instance == null)
         {
             instance = new GameManager(player);
-        }
-        else
-        {
-            instance.player = player;
-            instance.pets = player.get;
-            instance.pet = player.getPet();
         }
         return instance;
     }
@@ -76,7 +83,7 @@ public class GameManager {
         if (index >= 0 && index < pets.length)
         {
             pet = pets[index];
-            player.setPlayerPet(index);
+            player.setPlayerPet(index); // Update active pet in the scrap.Player
         }
     }
 
@@ -85,7 +92,7 @@ public class GameManager {
         return pets;
     }
 
-    public void checkPetStatus()
+    private void checkPetStatus()
     {
         if (pet == null) return;
 
@@ -103,7 +110,7 @@ public class GameManager {
         }
     }
 
-    public ImageIcon resizeIcon(ImageIcon icon) {
+    private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
@@ -111,7 +118,7 @@ public class GameManager {
 
     public Player getPlayer()
     {
-        return this.player;
+        return player;
     }
 }
 

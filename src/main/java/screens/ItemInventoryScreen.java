@@ -8,19 +8,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class ItemInventoryScreen extends JPanel
-{
+public class ItemInventoryScreen extends JPanel {
     private GameScreenManager manager;
     private Player player;
 
-    public ItemInventoryScreen(GameScreenManager manager, Player player)
-    {
+    public ItemInventoryScreen(GameScreenManager manager, Player player) {
         this.manager = manager;
         this.player = player;
 
         setLayout(new GridLayout(0, 1)); // Each item in a row
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
     }
 
     public void displayInventory(HashMap<String, Item> inventory) {
@@ -172,8 +172,9 @@ public class ItemInventoryScreen extends JPanel
         repaint();
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon)
-    {
+
+
+    private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);

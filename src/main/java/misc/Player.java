@@ -16,19 +16,18 @@ public class Player {
     private String passwordString;
 
     // Default constructor with minimal initialization
-    public Player()
-    {
+    public Player() {
         this.username = null;
         this.passwordString = null;
         this.score = 0;
         this.inventory = new HashMap<>();
+        this.petList = null;
         this.playTime = 0;
         this.pet = null;
     }
 
     // Existing constructor
-    public Player(String id, char[] password)
-    {
+    public Player(String id, char[] password) {
         this.username = id;
         this.passwordString = new String(password);
         this.score = 0;
@@ -37,10 +36,6 @@ public class Player {
         this.pet = null;
     }
 
-    public void addPet(Pet pet)
-    {
-        this.petList.add(pet);
-    }
     // Comprehensive setters for each field
     public void setUsername(String username) {
         this.username = username;
@@ -54,8 +49,7 @@ public class Player {
         this.score = score;
     }
 
-    public void setInventory(HashMap<String, Item> inventory)
-    {
+    public void setInventory(HashMap<String, Item> inventory) {
         this.inventory = inventory != null ? inventory : new HashMap<>();
     }
 
@@ -66,6 +60,7 @@ public class Player {
     public void setPet(Pet pet) {
         this.pet = pet;
     }
+
 
     // Existing getters remain the same
     public String getUsername() {
@@ -88,24 +83,25 @@ public class Player {
         return inventory;
     }
 
-    public List<Pet> getPetList() {
-        return petList;
-    }
 
     public Pet getPet() {
         return this.pet;
     }
 
     // Existing methods for player interactions remain the same
-    public void giveGift(Pet pet, Item item)
-    {
-        if (inventory.containsKey(item.getName()))
-        {
-            pet.giveGift(item.getFullAmount(), item.getHappyAmount(), item.getMaxHpControl());
+    public void feedPet(Pet pet, Item item) {
+        if (inventory.containsKey(item.getName())) {
+            pet.feed(item);
         }
     }
 
-    public void exercisePet(Pet pet) {
+    public void giveGift(Pet pet, Item item) {
+        if (inventory.containsKey(item.getName())) {
+            pet.giveGift(item.getHealAmount(), item.getHappyAmount());
+        }
+    }
+
+    void exercisePet(Pet pet) {
         pet.exercise();
     }
 
@@ -125,20 +121,19 @@ public class Player {
         this.score -= score;
     }
 
-    public void addItem(Item item) {
+    void addItem(Item item) {
         inventory.put(item.getName(), item);
     }
 
-    public void setPlayerPet(int index)
-    {
-        if (petList != null && index >= 0 && index < petList.size()) {
+    public void setPlayerPet(int index) {
+        if (petList != null && index >= 0 && index < petList.size())
+        {
             this.pet = petList.get(index);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "scrap.Player{" +
                 "username='" + username + '\'' +
                 ", score=" + score +
