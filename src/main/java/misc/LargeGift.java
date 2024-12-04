@@ -1,9 +1,17 @@
 package misc;
 
-import javax.swing.*;
-
+/**
+ * Represents a large Gift
+ * Extends Item
+ * @see Item
+ * @author Sangjae
+ * @version 1
+ */
 public class LargeGift extends Item
 {
+    /**
+     * constructor for large gift
+     */
     public LargeGift()
     {
         super("Large Gift: A grand present to delight your pet!");

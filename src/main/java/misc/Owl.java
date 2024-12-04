@@ -1,10 +1,23 @@
 package misc;
 
-import javax.swing.*;
-
+/**
+ * Represents a Owl pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
 public class Owl extends Pet
 {
+    /**
+    * Check if the pet has evolved
+    */
     boolean isEvolve;
+
+    /**
+     * constructor for pet Owl
+     * @param name name of the pet
+     */
     public Owl(String name)
     {
         super(name, "misc.Owl");
@@ -27,6 +40,9 @@ public class Owl extends Pet
         });
     }
 
+    /**
+     * Evolves the pet
+     */
     public void Evolve()
     {
         // Increase stats
@@ -46,6 +62,10 @@ public class Owl extends Pet
         this.isEvolve = true;
     }
 
+    /**
+     * Getter for the is Evolve
+     * @return is Evolve in boolean
+     */
     public boolean getIsEvolve()
     {
 

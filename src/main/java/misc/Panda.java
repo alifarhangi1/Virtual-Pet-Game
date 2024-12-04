@@ -1,11 +1,23 @@
 package misc;
 
-import javax.swing.*;
-import java.net.URL;
-
+/**
+ * Represents a Panda pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
 public class Panda extends Pet
 {
+    /**
+     * Check if the pet evolved
+     */
     boolean isEvolve;
+
+    /**
+     * constructor for pet Panda
+     * @param name name of the pet
+     */
     public Panda(String name)
     {
         super(name, "misc.Panda");
@@ -27,6 +39,9 @@ public class Panda extends Pet
         });
     }
 
+    /**
+     * Evolves the pet
+     */
     public void Evolve()
     {
         // Increase stats
@@ -46,6 +61,10 @@ public class Panda extends Pet
         this.isEvolve = true;
     }
 
+    /**
+     * Getter for the is Evolve
+     * @return is Evolve in boolean
+     */
     public boolean getIsEvolve()
     {
         return isEvolve;

@@ -3,8 +3,19 @@ package misc;
 import javax.swing.*;
 import java.net.URL;
 
+/**
+ * Represents a Dragon pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
 public class Dragon extends Pet
 {
+    /**
+     * Constructor for Dragon
+     * @param name name of the pet
+     */
     public Dragon(String name)
     {
         super(name, "misc.Dragon");

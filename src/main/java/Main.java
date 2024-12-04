@@ -22,7 +22,8 @@ import screens.TutorialScreen;
  * @see LoadSaveScreen
  * @see ParentalControlScreen
  */
-public class Main {
+public class Main
+{
     public static void main(String[] args) {
         /** Initialize managers */
         ScreenManager screenManager = ScreenManager.getInstance();

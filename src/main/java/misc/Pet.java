@@ -1,8 +1,10 @@
 package misc;
 
-import javax.swing.*;
-import java.net.URL;
-
+/**
+ * Represents a pet with various stats and actions that can be performed
+ * @author Sangjae
+ * @version 3.0
+ */
 public class Pet
 {
     private String name;
@@ -17,7 +19,16 @@ public class Pet
     private int maxEnergy;
     private String[] images;
 
+    /**
+     * Default Constructor for Database
+     */
     public Pet() {}
+
+    /**
+     * Creates a new Pet with default stats
+     * @param name The name of the pet
+     * @param type The type/species of the pet
+     */
     public Pet(String name, String type)
     {
         this.name = name;
@@ -52,9 +63,7 @@ public class Pet
         return energy;
     }
 
-    public int getHP() {
-        return HP;
-    }
+    public int getHP() { return HP; }
 
     public int getMaxHP() {
         return maxHP;
@@ -64,9 +73,7 @@ public class Pet
         return maxEnergy;
     }
 
-    public int getPetCooldown() {
-        return petCooldown;
-    }
+    public int getPetCooldown() { return petCooldown; }
 
     public void setCooldown(int i) {
         petCooldown = i;
@@ -76,7 +83,12 @@ public class Pet
         this.name = name;
     }
 
-    // Actions that affect the pet's stats
+    /**
+     * Gives a gift/feed to the pet, affecting various stats
+     * @param fullAmount Amount to increase fullness
+     * @param happinessAmount Amount to increase happiness
+     * @param maxHealthAmount Amount to increase maximum health
+     */
     public void giveGift(int fullAmount, int happinessAmount, int maxHealthAmount)
     {
         this.setFullness(Math.min(100, this.getFullness() + fullAmount));
@@ -84,6 +96,9 @@ public class Pet
         this.setMaxHP(this.getMaxHP() + maxHealthAmount);
     }
 
+    /**
+     * Makes the pet play, increasing happiness but consuming energy
+     */
     public void play() {
         happiness = Math.min(100, happiness + 10);
         energy = Math.max(0, energy - 15);
@@ -91,11 +106,17 @@ public class Pet
         maxEnergy += 5;
     }
 
+    /**
+     * Makes the pet sleep, increasing energy but consuming fullness
+     */
     public void sleep() {
         energy = Math.min(maxEnergy, energy + 20);
         fullness = Math.max(0, fullness - 10);
     }
 
+    /**
+     * Bring the pet to vet, increasing HP, Energy, Fullness but consuming happiness
+     */
     public void vet()
     {
         happiness = Math.max(0, happiness - 20);
@@ -104,6 +125,9 @@ public class Pet
         HP = Math.min(maxHP, HP + 10);
     }
 
+    /**
+     * Makes the pet exercise, increasing Max Hp and Max Energy but consuming current Energy.
+     */
     public void exercise()
     {
         maxHP += 5;
@@ -111,7 +135,9 @@ public class Pet
         energy = Math.max(0, energy - 15);
     }
 
-    // Update method to decrease stats over time
+    /**
+     * update the pet's status, decreasing fullness, happiness and energy
+     */
     public void update()
     {
         fullness = Math.max(0, fullness - 2);

@@ -1,10 +1,18 @@
 package misc;
 
-import javax.swing.*;
-import java.net.URL;
-
+/**
+ * Represents a Minotaur pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
 public class Minotaur extends Pet
 {
+    /**
+     * constructor fo the minotaur
+     * @param name the name of the pet
+     */
     public Minotaur(String name)
     {
         super(name, "misc.Minotaur");
