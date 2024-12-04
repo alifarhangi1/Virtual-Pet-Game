@@ -2,8 +2,10 @@ package misc;
 
 import javax.swing.*;
 
-public class MediumFood extends Item {
-    public MediumFood() {
+public class MediumFood extends Item
+{
+    public MediumFood()
+    {
         super("Medium Food: A decent meal for your pet.");
         setFullAmount(20); // Adds 20 to fullness
         setHappyAmount(10); // Adds 10 to happiness

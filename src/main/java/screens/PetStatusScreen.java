@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.*;
 
 import javax.sound.sampled.*;
@@ -35,6 +36,8 @@ public class PetStatusScreen extends JPanel {
         // Mock inventory with items
         HashMap<String, Item> inventory = player.getInventory();
         inventory.put("Bone", new MediumGift());
+        GameManager gameManager = new GameManager(player);
+        player = gameManager.getPlayer();
 
         GameScreenManager manager = new GameScreenManager(mainFrame, player);
 

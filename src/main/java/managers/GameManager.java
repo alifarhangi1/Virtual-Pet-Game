@@ -15,12 +15,13 @@ public class GameManager {
     private Pet pet; // Active pet
     private Pet[] pets; // All pets owned by the player
     private Timer timer; // Timer for periodic updates
+    private Timer timerStatus; // Timer for
     private LocalDateTime startTime; // Game start time
     private Player player; // scrap.Player managing the pets
     private PetStatusScreen statusScreen;
     private static GameManager instance; // Singleton instance
 
-    private GameManager(Player player)
+    public GameManager(Player player)
     {
         this.player = player;
         this.pets = player.getPetList(); // Load pets from player
@@ -28,12 +29,23 @@ public class GameManager {
         this.startTime = LocalDateTime.now();
 
         // Start a timer to periodically update the pet and manage gameplay
-        this.timer = new Timer(1000, new ActionListener()
+        this.timer = new Timer(10000, new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
                 if (pet != null) {
                     pet.update();
+                }
+
+            }
+        });
+
+        this.timerStatus = new Timer(1000, new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                if (pet != null)
+                {
                     checkPetStatus();
                     updatePlayTime();
                 }
@@ -41,6 +53,7 @@ public class GameManager {
             }
         });
         this.timer.start();
+        this.timerStatus.start();
     }
 
     public static GameManager getInstance(Player player)
