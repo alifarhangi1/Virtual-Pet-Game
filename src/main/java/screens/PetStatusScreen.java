@@ -186,6 +186,65 @@ public class PetStatusScreen extends JPanel {
         playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar), true));
         exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
+        sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        refreshTimer = new Timer(100, e -> updateStats(healthBar, energyBar, fullnessBar, happinessBar));
+        sleepTimer.start();
+        refreshTimer.start();
+
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        // Feed shortcut (Ctrl + F)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "feed");
+        actionMap.put("feed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manager.showItemInventoryScreen();
+            }
+        });
+
+        // Sleep shortcut (Ctrl + S)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), "sleep");
+        actionMap.put("sleep", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Vet shortcut (Ctrl + V)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), "vet");
+        actionMap.put("vet", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Play shortcut (Ctrl + P)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), "play");
+        actionMap.put("play", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Exercise shortcut (Ctrl + E)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK), "exercise");
+        actionMap.put("exercise", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        feedButton.setToolTipText("Feed your pet (Ctrl+F)");
+        sleepButton.setToolTipText("Toggle sleep mode (Ctrl+S)");
+        vetButton.setToolTipText("Take to vet (Ctrl+V)");
+        playButton.setToolTipText("Play with pet (Ctrl+P)");
+        exerciseButton.setToolTipText("Exercise pet (Ctrl+E)");
+
         // Start the pet image timer
         petImageTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
         petImageTimer.start();
