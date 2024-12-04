@@ -1,6 +1,8 @@
 package misc;
 
 
+import managers.GameManager;
+
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +29,8 @@ public class WaterDragonBoss implements KeyListener {
     Graphics2D g2D;
     private DrawingPanel drawingPanel;
     Clip bgmClip;
+    GameManager gameManager;
+    Player player;
 
 
     WaterDragonBoss() {
@@ -46,6 +50,8 @@ public class WaterDragonBoss implements KeyListener {
         frame.setVisible(true);
 
         startPlayerHealthDecay();
+        this.gameManager = GameManager.getInstance();
+        player = gameManager.getPlayer();
     }
 
     private void initializeFrame() {
@@ -146,7 +152,46 @@ public class WaterDragonBoss implements KeyListener {
             stopMusic();
             drawingPanel.setGameStatus(true, false); // Game won
             playSound("/audio/levelup.wav");
-        } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
+
+            if(player.getInventory().containsKey("Evolution Fruit"))
+            {
+                player.getInventory().get("Evolution Fruit").setAmount(player.getInventory().get("Evolution Fruit").getAmount() + 1);
+            }
+            else
+            {
+                player.getInventory().put("Evolution Fruit", new EvolutionFruit());
+
+            }
+            if(!player.getInventory().containsKey("Large Food"))
+            {
+                player.getInventory().put("Large Food", new LargeFood());
+            }
+            if (!player.getInventory().containsKey("Large Gift"))
+            {
+                player.getInventory().put("Large Gift", new LargeGift());
+            }
+            else
+            {
+                player.getInventory().get("Large Gift").setAmount(player.getInventory().get("Large Gift").getAmount() + 1);
+            }
+
+            boolean containsDragon= false;
+            for (Pet pet : player.getPetList())
+            {
+                if (pet instanceof Dragon)
+                {
+                    containsDragon = true;
+                    break; // No need to check further if a Tiger is found
+                }
+            }
+
+            if (!containsDragon)
+            {
+                player.getPetList().add(new Dragon("Paarthurnax"));
+            }
+        }
+        else if (playerHealthBarLabel.getCurrentHealth() <= 0)
+        {
             playerHealthDecayTimer.stop();
             stopMusic();
             drawingPanel.setGameStatus(false, true); // Game lost

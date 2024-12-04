@@ -67,6 +67,14 @@ public class GameManager
         return instance;
     }
 
+    public static GameManager getInstance()
+    {
+        if (instance == null) {
+            throw new IllegalStateException("GameManager is not initialized yet.");
+        }
+        return instance;
+    }
+
     public void updatePlayTime()
     {
         // Calculate elapsed playtime
