@@ -294,6 +294,38 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 2;
         panel.add(revivePetButton, gbc);
 
+        // Revive misc.Pet Button
+        JButton findPlayerStatsButton = createStyledButton("Find player stats");
+        findPlayerStatsButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
+        findPlayerStatsButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
+        findPlayerStatsButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add border
+        findPlayerStatsButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Prompt the user to input the player's name
+                String playerName = JOptionPane.showInputDialog(
+                        null,
+                        "Enter the player's name:",
+                        "Find Player",
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                // Check if the input is valid
+                if (playerName == null || playerName.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Player name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Attempt to find the player in the database
+                Player player = databaseManager.findPlayer(playerName.trim());
+            }
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy = 6; // Place it below the RevivePet Button
+        gbc.gridwidth = 2;
+        panel.add(findPlayerStatsButton, gbc);
 
         return panel;
 

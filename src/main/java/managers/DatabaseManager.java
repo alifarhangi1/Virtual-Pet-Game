@@ -51,6 +51,9 @@ public class DatabaseManager implements AutoCloseable {
         return instance;
     }
 
+    /**
+     *
+     */
     private void initializeBackupDirectory() {
         File backupDirectory = new File(BACKUP_DIRECTORY);
         if (!backupDirectory.exists()) {
