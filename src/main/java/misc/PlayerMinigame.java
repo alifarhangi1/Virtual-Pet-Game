@@ -1,5 +1,7 @@
 package misc;
 
+import managers.GameManager;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +14,8 @@ import java.util.TimerTask;
  * It manages movement, interactions with objects and NPCs, and player-specific logic
  * such as level-specific mechanics and winning conditions.
  */
-public class PlayerMinigame extends Entity {
+public class PlayerMinigame extends Entity
+{
 
     /** The key handler for detecting player input. */
     KeyHandler keyHandler;
@@ -30,6 +33,8 @@ public class PlayerMinigame extends Entity {
     public boolean mazeMadnessWin;
     public boolean kungfuChaosWin;
     public boolean firstWin = true;
+    private GameManager gameManager;
+    private Player player;
 
     /**
      * Constructs a misc.PlayerMinigame instance and initializes its attributes and sprites.
@@ -38,7 +43,8 @@ public class PlayerMinigame extends Entity {
      * @param keyHandler the misc.KeyHandler instance for player input
      */
 
-    public PlayerMinigame(GamePanel gamePanel, KeyHandler keyHandler) {
+    public PlayerMinigame(GamePanel gamePanel, KeyHandler keyHandler)
+    {
         super(gamePanel);
         this.keyHandler = keyHandler;
 
@@ -52,6 +58,9 @@ public class PlayerMinigame extends Entity {
 
         setDefaultValues();
         getPlayerImage();
+
+        this.gameManager = gameManager.getInstance();
+        this.player = gameManager.getPlayer();
     }
 
     /**
@@ -128,11 +137,49 @@ public class PlayerMinigame extends Entity {
         if (i != 999) {
             String objectName = gamePanel.obj[i].name;
             if ("Evolution Fruit".equals(objectName)) {
-                if(firstWin){
+                if(firstWin)
+                {
                     gamePanel.obj[i] = null;
                     gamePanel.musicPlayer.playSound("/audio/evoFruit.wav");
                     playerWin();
                     mazeMadnessWin = true;
+
+                    if(player.getInventory().containsKey("Evolution Fruit"))
+                    {
+                        player.getInventory().get("Evolution Fruit").setAmount(player.getInventory().get("Evolution Fruit").getAmount() + 1);
+                    }
+                    else
+                    {
+                        player.getInventory().put("Evolution Fruit", new EvolutionFruit());
+
+                    }
+                    if(!player.getInventory().containsKey("Medium Food"))
+                    {
+                        player.getInventory().put("Medium Food", new MediumFood());
+                    }
+                    if (!player.getInventory().containsKey("Small Gift"))
+                    {
+                        player.getInventory().put("Small Gift", new SmallGift());
+                    }
+                    else
+                    {
+                        player.getInventory().get("Small Gift").setAmount(player.getInventory().get("Small Gift").getAmount() + 1);
+                    }
+
+                    boolean containsTiger = false;
+                    for (Pet pet : player.getPetList())
+                    {
+                        if (pet instanceof Tiger)
+                        {
+                            containsTiger = true;
+                            break; // No need to check further if a Tiger is found
+                        }
+                    }
+
+                    if (!containsTiger)
+                    {
+                        player.getPetList().add(new Tiger("Hank"));
+                    }
                 }
             }
         }
@@ -144,11 +191,15 @@ public class PlayerMinigame extends Entity {
      * @param i the index of the NPC in the game world
      */
     public void interactNPC(int i) {
-        if (i != 999) {
-            if ("Kung Fu Chaos".equals(gamePanel.levelName)) {
-                if (gamePanel.npc[i].attackable) {
+        if (i != 999)
+        {
+            if ("Kung Fu Chaos".equals(gamePanel.levelName))
+            {
+                if (gamePanel.npc[i].attackable)
+                {
                     // Handle attack logic
-                    try {
+                    try
+                    {
                         up1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(11).png"));
                         up2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(11).png"));
                         down1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(10).png"));
@@ -157,7 +208,9 @@ public class PlayerMinigame extends Entity {
                         left2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(6).png"));
                         right1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(7).png"));
                         right2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(7).png"));
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
 
@@ -174,17 +227,59 @@ public class PlayerMinigame extends Entity {
                     }, 500);
 
                     // Check for win condition
-                    if (enemiesLeft == 0) {
-                        if(firstWin){
+                    if (enemiesLeft == 0)
+                    {
+                        if(firstWin)
+                        {
                             playerWin();
                             kungfuChaosWin = true;
+                            if(player.getInventory().containsKey("Evolution Fruit"))
+                            {
+                                player.getInventory().get("Evolution Fruit").setAmount(player.getInventory().get("Evolution Fruit").getAmount() + 1);
+                            }
+                            else
+                            {
+                                player.getInventory().put("Evolution Fruit", new EvolutionFruit());
+
+                            }
+                            if(!player.getInventory().containsKey("Medium Food"))
+                            {
+                                player.getInventory().put("Medium Food", new MediumFood());
+                            }
+                            if (!player.getInventory().containsKey("Medium Gift"))
+                            {
+                                player.getInventory().put("Medium Gift", new MediumGift());
+                            }
+                            else
+                            {
+                                player.getInventory().get("Medium Gift").setAmount(player.getInventory().get("Medium Gift").getAmount() + 1);
+                            }
+
+                            boolean containsMinotaur = false;
+                            for (Pet pet : player.getPetList())
+                            {
+                                if (pet instanceof Tiger)
+                                {
+                                    containsMinotaur = true;
+                                    break; // No need to check further if a Tiger is found
+                                }
+                            }
+
+                            if (!containsMinotaur)
+                            {
+                                player.getPetList().add(new Minotaur("silvester"));
+                            }
                         }
                     }
-                } else {
+                }
+                else
+                {
                     gamePanel.dialogueState = true;
                     gamePanel.npc[i].speak();
                 }
-            } else if ("Maze Madness".equals(gamePanel.levelName)) {
+            }
+            else if ("Maze Madness".equals(gamePanel.levelName))
+            {
                 gamePanel.dialogueState = true;
                 gamePanel.musicPlayer.playSound("/audio/minotaurroar.wav");
                 gamePanel.npc[i].speak();
@@ -197,8 +292,10 @@ public class PlayerMinigame extends Entity {
      *
      * @param g2D the Graphics2D object used for rendering
      */
-    public void draw(Graphics2D g2D) {
-        BufferedImage image = switch (direction) {
+    public void draw(Graphics2D g2D)
+    {
+        BufferedImage image = switch (direction)
+        {
             case "up" -> (spriteNum == 1) ? up1 : up2;
             case "down" -> (spriteNum == 1) ? down1 : down2;
             case "left" -> (spriteNum == 1) ? left1 : left2;
@@ -211,7 +308,8 @@ public class PlayerMinigame extends Entity {
     /**
      * Handles the logic when the player wins a level.
      */
-    public void playerWin() {
+    public void playerWin()
+    {
         System.out.println("Win!");
         firstWin = false;
         gamePanel.musicPlayer.stopMusic();

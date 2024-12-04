@@ -28,16 +28,12 @@ public class WaterDragonBoss implements KeyListener {
     MusicPlayerMinigame musicPlayer = new MusicPlayerMinigame();
     Graphics2D g2D;
     private DrawingPanel drawingPanel;
-    private Clip bgmClip;
-    private Clip soundClip;
-    private Player player;
-    private GameManager gameManager;
+    Clip bgmClip;
+    GameManager gameManager;
+    Player player;
 
 
     WaterDragonBoss() {
-
-        player = new Player();
-        gameManager = GameManager.getInstance(player);
 
         playBackgroundMusic("/audio/dragonduel.wav");
         playerHealth = 100;
@@ -54,6 +50,8 @@ public class WaterDragonBoss implements KeyListener {
         frame.setVisible(true);
 
         startPlayerHealthDecay();
+        this.gameManager = GameManager.getInstance();
+        player = gameManager.getPlayer();
     }
 
     private void initializeFrame() {
@@ -151,16 +149,53 @@ public class WaterDragonBoss implements KeyListener {
     {
         if (bossHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
-            stopSound();
-            stopMusic();
+//            musicPlayer.stopSound();
+            musicPlayer.stopMusic();
             drawingPanel.setGameStatus(true, false); // Game won
             playSound("/audio/levelup.wav");
-            Item evolutionFruit = new EvolutionFruit();
-            player.addItem(evolutionFruit);
-        } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
+
+            if(player.getInventory().containsKey("Evolution Fruit"))
+            {
+                player.getInventory().get("Evolution Fruit").setAmount(player.getInventory().get("Evolution Fruit").getAmount() + 1);
+            }
+            else
+            {
+                player.getInventory().put("Evolution Fruit", new EvolutionFruit());
+
+            }
+            if(!player.getInventory().containsKey("Large Food"))
+            {
+                player.getInventory().put("Large Food", new LargeFood());
+            }
+            if (!player.getInventory().containsKey("Large Gift"))
+            {
+                player.getInventory().put("Large Gift", new LargeGift());
+            }
+            else
+            {
+                player.getInventory().get("Large Gift").setAmount(player.getInventory().get("Large Gift").getAmount() + 1);
+            }
+
+            boolean containsDragon= false;
+            for (Pet pet : player.getPetList())
+            {
+                if (pet instanceof Dragon)
+                {
+                    containsDragon = true;
+                    break; // No need to check further if a Tiger is found
+                }
+            }
+
+            if (!containsDragon)
+            {
+                player.getPetList().add(new Dragon("Paarthurnax"));
+            }
+        }
+        else if (playerHealthBarLabel.getCurrentHealth() <= 0)
+        {
             playerHealthDecayTimer.stop();
-            stopSound();
-            stopMusic();
+//            musicPlayer.stopSound();
+            musicPlayer.stopMusic();
             drawingPanel.setGameStatus(false, true); // Game lost
             playSound("/audio/gameover.wav");
         }
@@ -175,18 +210,17 @@ public class WaterDragonBoss implements KeyListener {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
 
             // Obtain a Clip to play the audio
-            soundClip = AudioSystem.getClip();
+            bgmClip = AudioSystem.getClip();
 
             // Open the audio stream in the Clip
-            soundClip.open(audioStream);
+            bgmClip.open(audioStream);
 
-            soundClip.start(); // Start playing the sound effect
+            bgmClip.start(); // Start playing the background music
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             // Log any exceptions that occur during music playback
             e.printStackTrace();
         }
     }
-
 
     private void playBackgroundMusic(String musicFilePath) {
         try {
@@ -211,24 +245,13 @@ public class WaterDragonBoss implements KeyListener {
         }
     }
 
-    private void stopSound() {
-        if (soundClip != null) {
-            soundClip.stop();
-            soundClip.close();
-            soundClip = null; // Clear the reference to free resources
-        }
-    }
-
-
-    private void stopMusic() {
+    public void stopMusic() {
         if (bgmClip != null) {
             bgmClip.stop();
             bgmClip.close();
             bgmClip = null; // Clear the reference to free resources
         }
     }
-
-
 
 
 
@@ -326,7 +349,7 @@ public class WaterDragonBoss implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
             playerHealthDecayTimer.stop();
             frame.dispose();
-            stopSound();
+//            musicPlayer.stopSound();
             stopMusic();
             new LevelSelect();
         }

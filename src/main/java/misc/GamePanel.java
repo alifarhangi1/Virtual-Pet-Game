@@ -1,5 +1,6 @@
 package misc;
 
+import managers.GameManager;
 import managers.TileManager;
 import managers.WindowManager;
 
@@ -16,6 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     /** The main window frame of the game. */
     JFrame mainWindow;
 
+    private GameManager gameManager;
     // Screen settings
     /** Original tile size (16x16 pixels). */
     final int originalTileSize = 16;
@@ -96,9 +98,10 @@ public class GamePanel extends JPanel implements Runnable {
      *
      * @param levelName the name of the selected game level
      */
-    public GamePanel(String levelName) {
+    public GamePanel(String levelName, GameManager gameManager)
+    {
         this.levelName = levelName;
-
+        this.gameManager = gameManager;
         tileManager = new TileManager(this, levelName);
         assetSetter = new AssetSetter(this, levelName);
 

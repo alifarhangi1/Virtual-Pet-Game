@@ -3,6 +3,7 @@ package screens;
 import managers.GameManager;
 import misc.Pet;
 import misc.Player;
+import misc.SmallFood;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,6 +101,7 @@ public class NewSaveScreen extends GameScreen {
                         userExistsLabel.setVisible(false);
                         Player newPlayer = new Player(textField.getText(), passwordField.getPassword());
                         GameManager gm = new GameManager(newPlayer);
+                        GameManager.getInstance().getPlayer().getInventory().put("Small Food", new SmallFood());
                         if (screenManager.hasScreen("pet-selection")) {
                             screenManager.showScreen("pet-selection");
                         } else {
