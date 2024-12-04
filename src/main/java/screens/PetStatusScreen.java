@@ -1,5 +1,6 @@
 package screens;
 
+import managers.DatabaseManager;
 import managers.GameManager;
 import misc.*;
 
@@ -11,8 +12,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class PetStatusScreen extends JPanel {
+public class    PetStatusScreen extends JPanel {
     private GameScreenManager manager;
+    private DatabaseManager databaseManager;
     private Player player;
     private Timer petImageTimer;
     private Timer sleepTimer;
@@ -56,6 +58,7 @@ public class PetStatusScreen extends JPanel {
     public PetStatusScreen(GameScreenManager manager, Player player) {
         this.manager = manager;
         this.player = player;
+        databaseManager = DatabaseManager.getInstance();
 
         // Music
         playBackgroundMusic("/audio/inventory_bgm.wav");
@@ -189,7 +192,11 @@ public class PetStatusScreen extends JPanel {
         exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
         sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
-        refreshTimer = new Timer(100, e -> updateStats(healthBar, energyBar, fullnessBar, happinessBar));
+        refreshTimer = new Timer(100, e -> {
+            updateStats(healthBar, energyBar, fullnessBar, happinessBar);
+            databaseManager.saveDatabase();
+        });
+
         sleepTimer.start();
         refreshTimer.start();
 

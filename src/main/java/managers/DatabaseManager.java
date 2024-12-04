@@ -116,7 +116,6 @@ public class DatabaseManager implements AutoCloseable {
                     .exclude("*.class");
 
             String json = serializer.serialize(database);
-            System.out.println("Serialized JSON: " + json);
 
             // Write to a temporary file first
             File tempFile = new File(DATABASE_FILE + "_tmp");
@@ -130,8 +129,6 @@ public class DatabaseManager implements AutoCloseable {
                 mainFile.delete();
             }
             tempFile.renameTo(mainFile);
-
-            System.out.println("Database saved successfully to: " + mainFile.getAbsolutePath());
 
             hasUnsavedChanges = false;
             cleanupOldBackups();
@@ -214,11 +211,6 @@ public class DatabaseManager implements AutoCloseable {
         if (player != null && player.getUsername() != null && !player.getUsername().isEmpty()) {
             // Add the new player to the list (appending)
             database.getPlayers().add(player);
-
-            // Debug print
-            System.out.println("Player added: " + player);
-            System.out.println("Player's pet list: " + player.getPetList());
-
             hasUnsavedChanges = true;
             saveDatabase();  // Save the updated database after adding the new player
         } else {

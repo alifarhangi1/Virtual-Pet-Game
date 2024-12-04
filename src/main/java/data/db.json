@@ -572,22 +572,21 @@
             },
             "passwordString": "",
             "pet": {
-                "HP": 100,
-                "energy": 110,
-                "fullness": 90,
-                "happiness": 85,
+                "HP": 101,
+                "energy": 93,
+                "fullness": 86,
+                "happiness": 83,
                 "images": [
                     "/visuals/owl.png",
                     "/visuals/owlDead.png",
                     "/visuals/owlSad.png",
                     "/visuals/owlSleep.png"
                 ],
-                "isEvolve": false,
-                "maxEnergy": 120,
-                "maxHP": 100,
+                "maxEnergy": 130,
+                "maxHP": 105,
                 "name": "Luca",
                 "petCooldown": 0,
-                "type": "misc.Owl"
+                "type": null
             },
             "petList": [
                 {
@@ -601,15 +600,14 @@
                         "/visuals/owlSad.png",
                         "/visuals/owlSleep.png"
                     ],
-                    "isEvolve": false,
                     "maxEnergy": 120,
                     "maxHP": 100,
                     "name": "Luca",
                     "petCooldown": 0,
-                    "type": "misc.Owl"
+                    "type": null
                 }
             ],
-            "playTime": 0,
+            "playTime": 21,
             "score": 0,
             "username": "TIciana"
         }
