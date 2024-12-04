@@ -70,11 +70,12 @@ class TestPlayer {
 
     @Test
     void testPlayerInitialization() {
-// Arrange
+        // Arrange
         TestPet pet1 = new TestPet("Buddy", "Dog");
         TestPet pet2 = new TestPet("Whiskers", "Cat");
-        TestPet[] pets = {pet1, pet2};
-        Player player = new Player("testUser", "testPassword".toCharArray(), pets);
+        Player player = new Player("testUser", "testPassword".toCharArray());
+        player.addPet(pet1);
+        player.addPet(pet2);
 
         // Assert
         assertAll(
@@ -82,10 +83,9 @@ class TestPlayer {
                 () -> assertEquals("testUser", player.getUsername(), "Username mismatch"),
                 () -> assertEquals("testPassword", player.getPasswordString(), "Password mismatch"),
                 () -> assertEquals(0, player.getScore(), "Initial score should be 0"),
-                () -> assertEquals(2, player.getPetList().length, "Pet list size mismatch"),
+                () -> assertEquals(2, player.getPetList().size(), "Pet list size mismatch"),
                 () -> assertNotNull(player.getInventory(), "Inventory should not be null"),
-                () -> assertNull(player.getPet(), "Current pet should be null"),
-                () -> assertNotNull(player.getMiniGame(), "MiniGame array should be initialized")
+                () -> assertNull(player.getPet(), "Current pet should be null")
         );
     }
 
@@ -137,8 +137,9 @@ class TestPlayer {
         // Arrange
         Pet pet1 = new Pet("Buddy", "Dog");
         Pet pet2 = new Pet("Whiskers", "Cat");
-        Pet[] pets = {pet1, pet2};
-        Player player = new Player("testUser", "password".toCharArray(), pets);
+        Player player = new Player("testUser", "password".toCharArray());
+        player.addPet(pet1);
+        player.addPet(pet2);
 
         // Act
         player.setPlayerPet(1);
@@ -175,7 +176,7 @@ class TestPlayer {
     @Test
     void testToString() {
         // Arrange
-        Player player = new Player("testUser", "password".toCharArray(), null);
+        Player player = new Player("testUser", "password".toCharArray());
         player.setScore(50);
 
         // Act

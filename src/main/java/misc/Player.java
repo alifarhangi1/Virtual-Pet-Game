@@ -3,13 +3,14 @@ package misc;
 import misc.Item;
 import misc.Pet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Player {
     private int score;
     private HashMap<String, Item> inventory;
-    private List<Pet> petList;
+    private ArrayList<Pet> petList;
     private long playTime;
     private Pet pet;
     private String username;
@@ -21,7 +22,7 @@ public class Player {
         this.passwordString = null;
         this.score = 0;
         this.inventory = new HashMap<>();
-        this.petList = null;
+        this.petList = new ArrayList<Pet>();
         this.playTime = 0;
         this.pet = null;
     }
@@ -32,6 +33,7 @@ public class Player {
         this.passwordString = new String(password);
         this.score = 0;
         this.inventory = new HashMap<>();
+        this.petList = new ArrayList<>();
         this.playTime = 0;
         this.pet = null;
     }
@@ -83,25 +85,32 @@ public class Player {
         return inventory;
     }
 
+    public void addPet(Pet pet)
+    {
+        this.petList.add(pet);
+    }
 
     public Pet getPet() {
         return this.pet;
     }
 
     // Existing methods for player interactions remain the same
-    public void feedPet(Pet pet, Item item) {
-        if (inventory.containsKey(item.getName())) {
-            pet.feed(item);
+    public void feedPet(Pet pet, Item item)
+    {
+        if (inventory.containsKey(item.getName()))
+        {
+            pet.giveGift(item.getFullAmount(),item.getHappyAmount(), item.getMaxHpControl());
         }
     }
 
     public void giveGift(Pet pet, Item item) {
-        if (inventory.containsKey(item.getName())) {
-            pet.giveGift(item.getHealAmount(), item.getHappyAmount());
+        if (inventory.containsKey(item.getName()))
+        {
+            pet.giveGift(item.getFullAmount(),item.getHappyAmount(), item.getMaxHpControl());
         }
     }
 
-    void exercisePet(Pet pet) {
+    public void exercisePet(Pet pet) {
         pet.exercise();
     }
 
@@ -121,7 +130,7 @@ public class Player {
         this.score -= score;
     }
 
-    void addItem(Item item) {
+    public void addItem(Item item) {
         inventory.put(item.getName(), item);
     }
 
@@ -141,5 +150,13 @@ public class Player {
                 ", petListSize=" + (petList != null ? petList.size() : 0) +
                 ", playTime=" + playTime +
                 '}';
+    }
+
+    public void setPetList(ArrayList<Pet> petList) {
+        this.petList = petList;
+    }
+
+    public List<Pet> getPetList() {
+        return petList;
     }
 }

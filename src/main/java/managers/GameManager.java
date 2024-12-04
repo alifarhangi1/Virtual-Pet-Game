@@ -10,10 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class GameManager {
     private Pet pet; // Active pet
-    private Pet[] pets; // All pets owned by the player
+    private List<Pet> pets; // All pets owned by the player
     private Timer timer; // Timer for periodic updates
     private Timer timerStatus; // Timer for
     private LocalDateTime startTime; // Game start time
@@ -80,19 +81,19 @@ public class GameManager {
 
     public void setPet(int index)
     {
-        if (index >= 0 && index < pets.length)
+        if (index >= 0 && index < pets.size())
         {
-            pet = pets[index];
+            pet = pets.get(index);
             player.setPlayerPet(index); // Update active pet in the scrap.Player
         }
     }
 
-    public Pet[] getPetArr()
+    public List<Pet> getPetArr()
     {
         return pets;
     }
 
-    private void checkPetStatus()
+    public void checkPetStatus()
     {
         if (pet == null) return;
 
@@ -110,7 +111,7 @@ public class GameManager {
         }
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    public ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);

@@ -30,8 +30,6 @@ public class PetStatusScreen extends JPanel {
         Pet pet = new Owl("JohnDo");
         Player player = new Player();
         player.setPet(pet);
-        player.finishMinigame(0);
-        player.setPlayerPet(0);
 
         // Mock inventory with items
         HashMap<String, Item> inventory = player.getInventory();

@@ -11,6 +11,7 @@ import misc.Wolf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,21 +51,24 @@ public class TestGameManager
     // Test stub for Player
     class TestPlayer extends Player
     {
-        private List<Pet> petList;  // Override the parent's petList
+        private ArrayList<Pet> petList = new ArrayList<Pet>();  // Override the parent's petList
         private Pet currentPet;
 
-        public TestPlayer() {
+        public TestPlayer()
+        {
             super();  // Call parent constructor
         }
 
         @Override
-        public List<Pet> getPetList() {
+        public ArrayList<Pet> getPetList()
+        {
             return this.petList;  // Return our local petList
         }
 
         @Override
-        public void addPet(Pet pet) {
-            super.addPet(pet);
+        public void addPet(Pet pet)
+        {
+            this.petList.add(pet);
         }
 
         @Override
@@ -104,7 +108,6 @@ public class TestGameManager
 
         // Initialize GameManager with test player
         gameManager = GameManager.getInstance(testPlayer);
-        //testPlayer = (TestPlayer) gameManager.getPlayer();
     }
 
     @Test
@@ -146,7 +149,7 @@ public class TestGameManager
     void testSetPet() {
         // Set a new pet
         gameManager.setPet(1);
-        assertEquals(testPet2, gameManager.getPetArr()[1], "Pet should be set correctly.");
+        assertEquals(testPet2, gameManager.getPetArr().get(1), "Pet should be set correctly.");
     }
 
     @Test
