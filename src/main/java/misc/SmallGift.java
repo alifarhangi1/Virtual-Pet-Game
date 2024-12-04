@@ -1,8 +1,17 @@
 package misc;
 
-import javax.swing.*;
-
-public class SmallGift extends Item {
+/**
+ * Represents a small gift item.
+ * extends Item
+ * @see Item
+ * @author Sangjae
+ * @version 1.0
+ */
+public class SmallGift extends Item
+{
+    /**
+     * Constructs a Small Gift item.
+     */
     public SmallGift() {
         super("Small Gift: A modest present to cheer up your pet.");
         setHappyAmount(10); // Adds 10 to happiness

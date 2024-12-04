@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class GameManager {
+public class GameManager
+{
     private Pet pet; // Active pet
     private List<Pet> pets; // All pets owned by the player
     private Timer timer; // Timer for periodic updates
@@ -30,7 +31,7 @@ public class GameManager {
         this.startTime = LocalDateTime.now();
 
         // Start a timer to periodically update the pet and manage gameplay
-        this.timer = new Timer(10000, new ActionListener()
+        this.timer = new Timer(60000, new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {

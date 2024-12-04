@@ -5,8 +5,14 @@ import misc.Pet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * Represents a Player in the pet game. Each player has a username, password, score, inventory, a list of pets,
+ * a selected pet, and total playtime.
+ *
+ * @author Sangjae Lee
+ * @version 1.0
+ */
 public class Player
 {
     private int score;
@@ -17,7 +23,9 @@ public class Player
     private String username;
     private String passwordString;
 
-    // Default constructor with minimal initialization
+    /**
+     * Default constructor with minimal initialization.
+     */
     public Player()
     {
         this.username = null;
@@ -29,7 +37,12 @@ public class Player
         this.pet = null;
     }
 
-    // Existing constructor
+    /**
+     * Constructor that initializes a Player with a username and password.
+     *
+     * @param id       the username of the player
+     * @param password the password of the player as a character array
+     */
     public Player(String id, char[] password)
     {
         this.username = id;
@@ -54,9 +67,7 @@ public class Player
         this.score = score;
     }
 
-    public void setInventory(HashMap<String, Item> inventory) {
-        this.inventory = inventory != null ? inventory : new HashMap<>();
-    }
+    public void setInventory(HashMap<String, Item> inventory) { this.inventory = inventory != null ? inventory : new HashMap<>(); }
 
     public void setPlayTime(long playTime) {
         this.playTime = playTime;
@@ -66,8 +77,6 @@ public class Player
         this.pet = pet;
     }
 
-
-    // Existing getters remain the same
     public String getUsername() {
         return username;
     }
@@ -97,15 +106,12 @@ public class Player
         return this.pet;
     }
 
-    // Existing methods for player interactions remain the same
-    public void feedPet(Pet pet, Item item)
-    {
-        if (inventory.containsKey(item.getName()))
-        {
-            pet.giveGift(item.getFullAmount(),item.getHappyAmount(), item.getMaxHpControl());
-        }
-    }
-
+    /**
+     * Gives a gift to the specified pet using an item from the player's inventory.
+     *
+     * @param pet  the pet to receive the gift
+     * @param item the item to give
+     */
     public void giveGift(Pet pet, Item item) {
         if (inventory.containsKey(item.getName()))
         {
@@ -137,6 +143,12 @@ public class Player
         inventory.put(item.getName(), item);
     }
 
+    /**
+     * Sets the currently active pet for the player by its index in the pet list.
+     *
+     * @param index the index of the pet in the pet list
+     * @throws IndexOutOfBoundsException if the index is out of range
+     */
     public void setPlayerPet(int index) {
         if (petList != null && index >= 0 && index < petList.size())
         {
@@ -144,6 +156,11 @@ public class Player
         }
     }
 
+    /**
+     * Provides a string representation of the player's current state.
+     *
+     * @return a string summarizing the player's username, score, inventory size, pet list size, and playtime
+     */
     @Override
     public String toString() {
         return "scrap.Player{" +

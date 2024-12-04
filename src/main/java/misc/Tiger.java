@@ -1,10 +1,20 @@
 package misc;
 
-import javax.swing.*;
-import java.net.URL;
-
-public class Tiger extends Pet {
-    public Tiger(String name) {
+/**
+ * Represents a Tiger pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
+public class Tiger extends Pet
+{
+    /**
+     * Constructor for Tiger
+     * @param name name of the pet
+     */
+    public Tiger(String name)
+    {
         super(name, "misc.Tiger");
 
         // Set custom values for the misc.Tiger's stats
