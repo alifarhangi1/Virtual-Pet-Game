@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.*;
 
 import javax.sound.sampled.*;
@@ -20,6 +21,7 @@ public class PetStatusScreen extends JPanel {
     private ImageIcon backgroundIcon;
     private static Clip bgmClip;
 
+
     public static void main(String[] args) {
         JFrame mainFrame = new JFrame("Pet Game");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,12 +30,12 @@ public class PetStatusScreen extends JPanel {
         Pet pet = new Owl("JohnDo");
         Player player = new Player();
         player.setPet(pet);
-        player.finishMinigame(0);
-        player.setPlayerPet(0);
 
         // Mock inventory with items
         HashMap<String, Item> inventory = player.getInventory();
         inventory.put("Bone", new MediumGift());
+        GameManager gameManager = new GameManager(player);
+        player = gameManager.getPlayer();
 
         GameScreenManager manager = new GameScreenManager(mainFrame, player);
 
@@ -186,6 +188,65 @@ public class PetStatusScreen extends JPanel {
         playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar), true));
         exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
+        sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        refreshTimer = new Timer(100, e -> updateStats(healthBar, energyBar, fullnessBar, happinessBar));
+        sleepTimer.start();
+        refreshTimer.start();
+
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        // Feed shortcut (Ctrl + F)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK), "feed");
+        actionMap.put("feed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manager.showItemInventoryScreen();
+            }
+        });
+
+        // Sleep shortcut (Ctrl + S)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK), "sleep");
+        actionMap.put("sleep", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Vet shortcut (Ctrl + V)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_DOWN_MASK), "vet");
+        actionMap.put("vet", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Play shortcut (Ctrl + P)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK), "play");
+        actionMap.put("play", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        // Exercise shortcut (Ctrl + E)
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK), "exercise");
+        actionMap.put("exercise", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar);
+            }
+        });
+
+        feedButton.setToolTipText("Feed your pet (Ctrl+F)");
+        sleepButton.setToolTipText("Toggle sleep mode (Ctrl+S)");
+        vetButton.setToolTipText("Take to vet (Ctrl+V)");
+        playButton.setToolTipText("Play with pet (Ctrl+P)");
+        exerciseButton.setToolTipText("Exercise pet (Ctrl+E)");
+
         // Start the pet image timer
         petImageTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
         petImageTimer.start();
@@ -205,6 +266,7 @@ public class PetStatusScreen extends JPanel {
             // Draw the background image
             g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
         }
+
     }
 
     private ProgressLabel createProgressLabel(String name, int currentValue, int maxValue) {
@@ -331,16 +393,39 @@ public class PetStatusScreen extends JPanel {
         return label;
     }
 
-    private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping) {
-        return new MouseAdapter() {
+    private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping)
+    {
+        return new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (disabledWhenSleeping && isSleeping) {
-                    JOptionPane.showMessageDialog(PetStatusScreen.this, "Your pet is currently sleeping!", "Pet Sleeping", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+            public void mouseClicked(MouseEvent e)
+            {
+                JLabel button = (JLabel) e.getSource();
+                if (button.isEnabled())
+                {
+                    if (disabledWhenSleeping && isSleeping)
+                    {
+                        JOptionPane.showMessageDialog(PetStatusScreen.this,
+                                "Your pet is currently sleeping!", "Pet Sleeping",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    action.run();
+                    playSound("/audio/button_click.wav");
+
+                    // Add cooldown for vet and exercise buttons
+                    if (button.getText().equals("Take To Vet") ||
+                            button.getText().equals("Play")) {
+                        button.setEnabled(false);
+                        Timer cooldown = new Timer(60000, event ->
+                        {
+                            button.setEnabled(true);
+                        });
+                        cooldown.setRepeats(false);
+                        cooldown.start();
+                    }
                 }
-                action.run(); // Execute the provided action
-                playSound("/audio/button_click.wav");
             }
 
             @Override
@@ -363,6 +448,9 @@ class ProgressLabel extends JLabel {
     private int currentValue;
     private int maxValue;
     private String labelText;
+    private boolean warningShown = false;
+    private Timer vetCooldown;
+    private Timer exerciseCooldown;
 
     public ProgressLabel(String labelText, int currentValue, int maxValue) {
         this.labelText = labelText;
@@ -422,5 +510,14 @@ class ProgressLabel extends JLabel {
 
         g2.setColor(Color.BLACK);
         g2.drawString(text, (width - textWidth) / 2, (height + textHeight) / 2 - 2);
+
+        if (percentage <= 0.25 && !warningShown) {
+            warningShown = true;
+            JOptionPane.showMessageDialog(null, labelText + " is critically low!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (percentage > 0.25) {
+            warningShown = false;
+        }
     }
+
+
 }

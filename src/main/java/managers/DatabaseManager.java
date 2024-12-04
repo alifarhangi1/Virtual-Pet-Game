@@ -28,7 +28,8 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public static DatabaseManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = new DatabaseManager();
         }
         return instance;
@@ -64,7 +65,7 @@ public class DatabaseManager implements AutoCloseable {
                     .use("players", ArrayList.class)
                     .use("players.elementType", Player.class)
                     .use("players.inventory", HashMap.class)
-                    .use("players.petList", Pet[].class)
+                    .use("players.petList", ArrayList.class)
                     .use("players.miniGame", boolean[].class);
 
             database = deserializer.deserialize(json.toString());

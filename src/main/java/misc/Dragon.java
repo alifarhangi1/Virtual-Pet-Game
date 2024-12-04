@@ -2,8 +2,10 @@ package misc;
 
 import javax.swing.*;
 
-public class Dragon extends Pet {
-    public Dragon(String name) {
+public class Dragon extends Pet
+{
+    public Dragon(String name)
+    {
         super(name, "misc.Dragon");
 
         // Set custom values for the misc.Dragon's stats

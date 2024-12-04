@@ -2,9 +2,11 @@ package misc;
 
 import javax.swing.*;
 
-public class Panda extends Pet {
+public class Panda extends Pet
+{
     boolean isEvolve;
-    public Panda(String name) {
+    public Panda(String name)
+    {
         super(name, "misc.Panda");
 
         // Set custom values for the misc.Panda's stats
@@ -24,7 +26,7 @@ public class Panda extends Pet {
         });
     }
 
-    void Evolve()
+    public void Evolve()
     {
         // Increase stats
         this.setMaxHP(this.getMaxHP() * 2); // Double HP

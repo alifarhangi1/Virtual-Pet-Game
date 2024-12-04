@@ -30,7 +30,7 @@ public class Wolf extends Pet
         return isEvolve;
     }
 
-    void Evolve()
+    public void Evolve()
     {
         // Increase stats
         this.setMaxHP(this.getMaxHP() * 2); // Double HP

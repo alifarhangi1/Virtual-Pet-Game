@@ -9,10 +9,8 @@ public class MediumGift extends Item {
         setMaxHpControl(10); // Increases max HP by 10
         setType(1); // Type 1 for gift
         setName("Medium Gift");
-        if (getAmount() <= 0)
-            setAmount(1);
-        else
-            setAmount(getAmount() + 1);
+        setAmount(1);
+
         setImage(new ImageIcon(getClass().getResource("/visuals/MiddleGift.jpg")));
     }
 }
