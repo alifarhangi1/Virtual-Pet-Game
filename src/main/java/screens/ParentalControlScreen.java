@@ -266,10 +266,16 @@ public class ParentalControlScreen extends JPanel {
                 Player player = databaseManager.findPlayer(playerName.trim()); // Assuming databaseManager has this method
                 if (player != null) {
                     ArrayList<Pet> pets = player.getPetList();
+                    Pet mainPet = player.getPet();
+                    mainPet.setHP(mainPet.getMaxHP()); // Set each pet's HP to its maximum
+                    mainPet.setEnergy(mainPet.getMaxEnergy()); // Set each pet's Energy to its maximum
+                    mainPet.setFullness(mainPet.getFullness()); //Set each pet's Fullness to its maximum
                     if (pets != null && !pets.isEmpty()) {
                         for (Pet pet : pets) {
                             if (pet != null) {
-                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximumssss
+                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
+                                pet.setEnergy(pet.getMaxEnergy()); // Set each pet's Energy to its maximum
+                                pet.setFullness(pet.getFullness()); //Set each pet's Fullness to its maximum
                             }
                         }
                         JOptionPane.showMessageDialog(null, "All pets revived successfully for player: " + playerName, "Revive Pets", JOptionPane.INFORMATION_MESSAGE);

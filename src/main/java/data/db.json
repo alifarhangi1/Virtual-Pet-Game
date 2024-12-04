@@ -618,8 +618,8 @@
             "passwordString": "",
             "pet": {
                 "HP": 120,
-                "energy": 95,
-                "fullness": 85,
+                "energy": 115,
+                "fullness": 22,
                 "happiness": 60,
                 "images": [
                     "/visuals/wolf.png",
@@ -636,8 +636,8 @@
             "petList": [
                 {
                     "HP": 120,
-                    "energy": 95,
-                    "fullness": 85,
+                    "energy": 115,
+                    "fullness": 33,
                     "happiness": 60,
                     "images": [
                         "/visuals/wolf.png",
