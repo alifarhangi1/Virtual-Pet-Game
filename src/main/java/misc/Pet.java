@@ -70,6 +70,10 @@ public class Pet
         petCooldown = i;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     // Actions that affect the pet's stats
     public void giveGift(int fullAmount, int happinessAmount, int maxHealthAmount)
     {

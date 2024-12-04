@@ -99,7 +99,9 @@ public class NewSaveScreen extends GameScreen {
                         userExistsLabel.setVisible(false);
                         Player newPlayer = new Player(textField.getText(), passwordField.getPassword());
                         databaseManager.addPlayer(newPlayer);
-                        JOptionPane.showMessageDialog(null, "You have been successfully signed up!");
+                        screenManager.addScreen("pet-selection", new PetSelect(newPlayer));
+                        screenManager.showScreen("pet-selection");
+                        audioManager.stopBackgroundMusic();
                     }
                 }
             });

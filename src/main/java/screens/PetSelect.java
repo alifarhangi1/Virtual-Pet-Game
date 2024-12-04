@@ -1,6 +1,9 @@
 package screens;
 
 // Importing necessary Swing components for GUI creation
+import managers.DatabaseManager;
+import misc.*;
+
 import javax.swing.*;
 
 // Importing AWT components for layouts and GUI styling
@@ -82,12 +85,22 @@ public class PetSelect extends JPanel {
     private JButton mainMenuButton;
     private JButton titleMenuButton;
 
+    private Player player;
+    private DatabaseManager databaseManager;
+
     /**
      * Constructor for the PetSelect class.
      * Initializes the pet selection screen by setting up the layout, components,
      * and audio features (introductory audio and background music).
      */
-    public PetSelect() {
+    public PetSelect(Player player) {
+
+        /** Grabs instance of player passed by new game screen */
+        this.player = player;
+
+        /** Grabs instance of DatabaseManager */
+        databaseManager = DatabaseManager.getInstance();
+
         // Use null layout for precise manual positioning of components
         setLayout(null);
 
@@ -806,6 +819,37 @@ public class PetSelect extends JPanel {
                 buttonLabel.setIcon(defaultIcon);
                 hoverInfoPanel.setVisible(false);
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String name = JOptionPane.showInputDialog("What will be the name of your pet?");
+
+                if (name == null || name.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter your pet name.",
+                            "Invalid Input", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Pet newPet;
+                if (petName.equals("Panda")) {
+                    newPet = new Panda(name);
+                } else if (petName.equals("Owl")) {
+                    newPet = new Owl(name);
+                } else {
+                    newPet = new Wolf(name);
+                }
+
+                // Add the pet to the player's pet list
+                player.addPet(newPet);
+
+                // Set the newly added pet as the active pet
+                player.setPet(newPet);
+
+                // Save changes to the database
+                databaseManager.saveAllChanges();
+
+                System.exit(0);
+            }
         });
 
         // Add the hover info panel to the main panel
@@ -916,26 +960,26 @@ public class PetSelect extends JPanel {
         g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
-    /**
-     * The entry point for the application.
-     * Sets up the main application window and initializes the `PetSelect` screen.
-     *
-     * @param args Command-line arguments (not used in this application).
-     */
-    public static void main(String[] args) {
-        // Create a new JFrame for the application window
-        JFrame frame = new JFrame("Pet Select");
-
-        // Set the default close operation to exit the application when the window is closed
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Set the size of the window to match a common screen size
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
-
-        // Add the PetSelect panel to the frame
-        frame.add(new PetSelect());
-
-        // Make the window visible
-        frame.setVisible(true);
-    }
+//    /**
+//     * The entry point for the application.
+//     * Sets up the main application window and initializes the `PetSelect` screen.
+//     *
+//     * @param args Command-line arguments (not used in this application).
+//     */
+//    public static void main(String[] args) {
+//        // Create a new JFrame for the application window
+//        JFrame frame = new JFrame("Pet Select");
+//
+//        // Set the default close operation to exit the application when the window is closed
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        // Set the size of the window to match a common screen size
+//        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
+//
+//        // Add the PetSelect panel to the frame
+//        frame.add(new PetSelect());
+//
+//        // Make the window visible
+//        frame.setVisible(true);
+//    }
 }

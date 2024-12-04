@@ -88,6 +88,7 @@ public class Player {
     public void addPet(Pet pet)
     {
         this.petList.add(pet);
+        this.pet = pet;
     }
 
     public Pet getPet() {

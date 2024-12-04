@@ -101,7 +101,17 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players")
                     .include("players.inventory")
                     .include("players.petList")
-                    .include("players.miniGame")
+                    .include("players.pet")
+                    .include("players.petList.name")
+                    .include("players.petList.maxHP")
+                    .include("players.petList.HP")
+                    .include("players.petList.type")
+                    .include("players.petList.fullness")
+                    .include("players.petList.happiness")
+                    .include("players.petList.energy")
+                    .include("players.petList.maxEnergy")
+                    .include("players.petList.states")
+                    .include("players.petList.images")
                     .include("players.passwordString")
                     .exclude("*.class");
 
@@ -204,6 +214,11 @@ public class DatabaseManager implements AutoCloseable {
         if (player != null && player.getUsername() != null && !player.getUsername().isEmpty()) {
             // Add the new player to the list (appending)
             database.getPlayers().add(player);
+
+            // Debug print
+            System.out.println("Player added: " + player);
+            System.out.println("Player's pet list: " + player.getPetList());
+
             hasUnsavedChanges = true;
             saveDatabase();  // Save the updated database after adding the new player
         } else {
