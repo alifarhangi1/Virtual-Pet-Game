@@ -172,7 +172,7 @@ public class GameScreen extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 audioManager.playButtonClickSound();
-                int choice = JOptionPane.showConfirmDialog(null,"Do you want to exit the game?",
+                int choice = JOptionPane.showConfirmDialog(null,"Are you sure you want to close the game? Your progress will be saved",
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
                 if (choice == JOptionPane.YES_OPTION) {

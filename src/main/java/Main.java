@@ -25,9 +25,10 @@ import screens.TutorialScreen;
 public class Main {
     public static void main(String[] args) {
         /** Initialize managers */
-        ScreenManager screenManager = ScreenManager.getInstance();
         AudioManager audioManager = AudioManager.getInstance();
         DatabaseManager databaseManager = DatabaseManager.getInstance();
+        ScreenManager screenManager = ScreenManager.getInstance();
+
 
         /** Audio manager plays the intro and menu music */
         audioManager.playIntroSound();

@@ -2,6 +2,7 @@ package managers;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,19 +21,34 @@ public class ScreenManager {
     private final JPanel mainPanel;
     /** list of all the screens */
     private final Map<String, JPanel> screens;
+    /** Database manager */
+    private DatabaseManager databaseManager;
 
     /**
      * ScreenManager constructor, creates the main frame used by the game
      */
     private ScreenManager() {
+        databaseManager = DatabaseManager.getInstance();
         mainFrame = new JFrame("misc.Pet Quest");
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         screens = new HashMap<>();
 
-        mainFrame.setMinimumSize(new Dimension(800, 600));
+        mainFrame.setMinimumSize(new Dimension(1920, 1080));
         mainFrame.setPreferredSize(new Dimension(1024, 768));
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int choice = JOptionPane.showConfirmDialog(mainFrame,
+                        "Are you sure you want to close the game? Your progress will be saved",
+                    "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    databaseManager.saveDatabase();
+                    System.exit(0);
+                }
+            }
+        });
         mainFrame.add(mainPanel);
     }
 

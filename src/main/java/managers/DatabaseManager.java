@@ -84,8 +84,6 @@ public class DatabaseManager implements AutoCloseable {
 
     public void saveDatabase() {
         try {
-            System.out.println("Attempting to save database...");
-
             // Ensure valid players are in the list (filtering out invalid players)
             List<Player> validPlayers = database.getPlayers().stream()
                     .filter(player -> player.getUsername() != null && !player.getUsername().isEmpty())

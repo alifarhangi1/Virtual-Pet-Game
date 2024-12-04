@@ -1,10 +1,11 @@
 package misc;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class WaterDragonBoss {
+public class WaterDragonBoss implements KeyListener {
 
     // Class-level variables
     private JFrame frame;
@@ -13,18 +14,20 @@ public class WaterDragonBoss {
     private HealthBarLabel bossHealthBarLabel;
     private HealthBarLabel playerHealthBarLabel;
     private JLabel monkeyLabel;
+    public JLabel gifLabel;
+    private ImageIcon gifIcon;
     private ImageIcon monkeyIconOriginal;
     private ImageIcon monkeyIconAttack;
-    private Player player;
     private int playerHealth;
+    Timer playerHealthDecayTimer;
+    MusicPlayerMinigame musicPlayer = new MusicPlayerMinigame();
+    Graphics2D g2D;
+    private DrawingPanel drawingPanel;
 
-    public static void main(String[] args) {
-        new WaterDragonBoss();
-    }
 
     WaterDragonBoss() {
-        // player = new player(); // Initialize the player
-        //playerHealth = player.getPet().getHP(); // Get health from player's pet
+
+        musicPlayer.playMusic("dragonduel.wav");
         playerHealth = 100;
         initializeFrame();
         initializeMainPanel();
@@ -33,6 +36,8 @@ public class WaterDragonBoss {
         createGifPanel();
         createMonkeyPanel();
 
+        frame.addKeyListener(this);
+
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.setVisible(true);
 
@@ -40,11 +45,22 @@ public class WaterDragonBoss {
     }
 
     private void initializeFrame() {
+        // Get the default screen device
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+
         // Create a new JFrame
         frame = new JFrame("Boss Health Bar");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        frame.setUndecorated(true); // Remove title bar for full-screen
         frame.setLayout(new BorderLayout());
+
+        // Set the JFrame to full-screen mode
+        gd.setFullScreenWindow(frame);
+
+        // Ensure the layout matches the full-screen dimensions
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(screenSize);
     }
 
     private void initializeMainPanel() {
@@ -55,11 +71,15 @@ public class WaterDragonBoss {
         mainPanel = new JPanel();
         mainPanel.setBackground(backgroundColor);
         mainPanel.setLayout(new BorderLayout());
+
+        drawingPanel = new DrawingPanel();
+        drawingPanel.setBackground(backgroundColor); // Match background
+        mainPanel.add(drawingPanel, BorderLayout.CENTER);
     }
 
     private void createBossHealthBarPanel() {
         // Boss health state
-        int maxHealth = 300;
+        int maxHealth = 5000;
         bossHealthBarLabel = new HealthBarLabel(maxHealth);
 
         // Create a label for the boss health title
@@ -101,8 +121,8 @@ public class WaterDragonBoss {
 
     private void createGifPanel() {
         // Add the GIF to the northeast corner
-        ImageIcon gifIcon = new ImageIcon(getClass().getResource("/visuals/waterDragon.gif"));
-        JLabel gifLabel = new JLabel(gifIcon);
+        gifIcon = new ImageIcon(getClass().getResource("waterDragon.gif"));
+        gifLabel = new JLabel(gifIcon);
 
         gifLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -118,25 +138,31 @@ public class WaterDragonBoss {
     private void checkGameOver()
     {
         if (bossHealthBarLabel.getCurrentHealth() <= 0) {
-            JOptionPane.showMessageDialog(frame, "You Win!");
-            System.exit(0);
+            playerHealthDecayTimer.stop();
+//            musicPlayer.stopSound();
+            musicPlayer.stopMusic();
+            drawingPanel.setGameStatus(true, false); // Game won
+            musicPlayer.playSound("levelup.wav");
         } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
-            JOptionPane.showMessageDialog(frame, "You Lose!");
-            System.exit(0);
+            playerHealthDecayTimer.stop();
+//            musicPlayer.stopSound();
+            musicPlayer.stopMusic();
+            drawingPanel.setGameStatus(false, true); // Game lost
+            musicPlayer.playSound("gameover.wav");
         }
     }
 
     // ADJUST MONKEY SPRITES BASED ON ATTACK HERE
     private void createMonkeyPanel() {
         // Load original and attack monkey icons
-        monkeyIconOriginal = resizeIcon(new ImageIcon(getClass().getResource("/visuals/Monkey8.png")));
-        monkeyIconAttack = resizeIcon(new ImageIcon(getClass().getResource("/visuals/Monkey7.png")));
+        monkeyIconOriginal = resizeIcon(new ImageIcon(getClass().getResource("Monkey(8).png")));
+        monkeyIconAttack = resizeIcon(new ImageIcon(getClass().getResource("Monkey(7).png")));
 
         // Initialize monkeyLabel with the original icon
         monkeyLabel = new JLabel(monkeyIconOriginal);
 
         // Create attack button
-        JLabel attackButton = new JLabel("MASH!");
+        JLabel attackButton = new JLabel("ATTACK!");
         attackButton.setForeground(Color.WHITE);
         attackButton.setBackground(new Color(139, 0, 0)); // Dark red color
         attackButton.setOpaque(true);
@@ -149,18 +175,22 @@ public class WaterDragonBoss {
         attackButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Decrease the boss health
-                bossHealthBarLabel.decreaseHealth(10);
 
-                // Change monkey icon to attack image
-                monkeyLabel.setIcon(monkeyIconAttack);
+                if(playerHealth != 0){
+                    // Decrease the boss health
+                    bossHealthBarLabel.decreaseHealth(10);
 
-                // Create a timer to revert back after 1 second
-                Timer timer = new Timer(500, evt -> monkeyLabel.setIcon(monkeyIconOriginal));
-                timer.setRepeats(false);
-                timer.start();
+                    // Change monkey icon to attack image
+                    monkeyLabel.setIcon(monkeyIconAttack);
 
-                checkGameOver();
+                    // Create a timer to revert back after 1 second
+                    Timer timer = new Timer(500, evt -> monkeyLabel.setIcon(monkeyIconOriginal));
+                    timer.setRepeats(false);
+                    timer.start();
+
+                    checkGameOver();
+                }
+
             }
 
             @Override
@@ -184,10 +214,15 @@ public class WaterDragonBoss {
         mainPanel.add(containerPanel, BorderLayout.SOUTH);
     }
 
+
+
+
     private void startPlayerHealthDecay()
     {
-        Timer playerHealthDecayTimer = new Timer(1000, e -> {
-            playerHealthBarLabel.decreaseHealth(2); // scrap.Player loses 2 health per second
+        playerHealthDecayTimer = new Timer(5000, e -> {
+            musicPlayer.playSound("dragongrowl.wav");
+            playerHealthBarLabel.decreaseHealth(5);
+            playerHealth = playerHealth - 5;
             checkGameOver();
         });
         playerHealthDecayTimer.start();
@@ -198,6 +233,28 @@ public class WaterDragonBoss {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+            playerHealthDecayTimer.stop();
+            frame.dispose();
+//            musicPlayer.stopSound();
+            musicPlayer.stopMusic();
+            new LevelSelect();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 
     // Custom JLabel for the boss health bar
@@ -213,8 +270,10 @@ public class WaterDragonBoss {
 
         public void decreaseHealth(int amount) {
             currentHealth -= amount;
+//            WaterDragonBoss waterDragonBoss = new WaterDragonBoss();
             if (currentHealth < 0) {
                 currentHealth = 0;
+//                waterDragonBoss.gifIcon = null;
             }
             repaint();
         }
@@ -241,3 +300,54 @@ public class WaterDragonBoss {
     }
 }
 
+class DrawingPanel extends JPanel {
+    private boolean gameWon;
+    private boolean gameLost;
+
+    public void setGameStatus(boolean gameWon, boolean gameLost) {
+        this.gameWon = gameWon;
+        this.gameLost = gameLost;
+        repaint(); // Trigger a repaint to update the drawing
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2D = (Graphics2D) g;
+
+        // Victory screen
+        if (gameWon) {
+            g2D.setFont(new Font("Papyrus", Font.PLAIN, 40));
+            g2D.setColor(Color.WHITE);
+
+            String text = "You Win!";
+            int textLength = (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
+            int x = getWidth() / 2 - textLength / 2;
+            int y = getHeight() / 2;
+
+            String text2 = "Press 'esc' to return to menu";
+            int textLength2 = (int) g2D.getFontMetrics().getStringBounds(text2, g2D).getWidth();
+            int x2 = getWidth() / 2 - textLength2 / 2;
+            int y2 = getHeight() / 2 + 50;
+
+            g2D.drawString(text, x, y);
+            g2D.drawString(text2, x2, y2);
+        } else if (gameLost) {
+            g2D.setFont(new Font("Papyrus", Font.PLAIN, 40));
+            g2D.setColor(Color.WHITE);
+
+            String text = "You Lost! Try Again!";
+            int textLength = (int) g2D.getFontMetrics().getStringBounds(text, g2D).getWidth();
+            int x = getWidth() / 2 - textLength / 2;
+            int y = getHeight() / 2;
+
+            String text2 = "Press 'esc' to return to menu";
+            int textLength2 = (int) g2D.getFontMetrics().getStringBounds(text2, g2D).getWidth();
+            int x2 = getWidth() / 2 - textLength2 / 2;
+            int y2 = getHeight() / 2 + 50;
+
+            g2D.drawString(text, x, y);
+            g2D.drawString(text2, x2, y2);
+        }
+    }
+}
