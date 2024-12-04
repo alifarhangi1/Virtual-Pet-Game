@@ -27,6 +27,10 @@ public class ParentalControlScreen extends JPanel {
         });
     }
 
+    /**
+     * Constructs the ParentalControlScreen and initializes its layout and components.
+     * Sets up the background image, control panel, statistics panel, and buttons.
+     */
     public ParentalControlScreen() {
         // Set layout for the main panel
         setLayout(new BorderLayout());
@@ -39,6 +43,10 @@ public class ParentalControlScreen extends JPanel {
         setupComponents();
     }
 
+    /**
+     * Sets up the main components of the screen, including control and statistics panels.
+     * Adds these components to the main content panel with a bordered box layout.
+     */
     private void setupComponents() {
         // Create a content panel with a background
         JPanel contentPanel = new JPanel() {
@@ -84,6 +92,12 @@ public class ParentalControlScreen extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates and configures the control panel containing the time input, toggle switch,
+     * and related buttons for managing parental controls.
+     *
+     * @return A JPanel representing the control panel.
+     */
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(true);
@@ -142,7 +156,6 @@ public class ParentalControlScreen extends JPanel {
         panel.add(timeInputField, gbc);
 
         // Confirm Button (Set Timer)
-// Confirm Button (Set Timer)
         confirmButton = createStyledButton("Set");
         confirmButton.setPreferredSize(new Dimension(60, timeInputField.getPreferredSize().height)); // Match height to input field
         confirmButton.setFont(new Font("Arial", Font.BOLD, 12)); // Adjust font size
@@ -171,7 +184,6 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 1;
         panel.add(confirmButton, gbc);
 
-// Reset Button
         // Reset Button
         resetButton = createStyledButton("Reset Settings");
         resetButton.setPreferredSize(new Dimension(150, 30)); // Set identical size for both buttons
@@ -191,7 +203,7 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 2;
         panel.add(resetButton, gbc);
 
-// Revive misc.Pet Button
+        // Revive misc.Pet Button
         JButton revivePetButton = createStyledButton("Revive Pets");
         revivePetButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
         revivePetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
@@ -214,6 +226,11 @@ public class ParentalControlScreen extends JPanel {
 
     }
 
+    /**
+     * Creates and configures the statistics panel to display playtime information.
+     *
+     * @return A JPanel representing the statistics panel.
+     */
     private JPanel createStatisticsPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(true);
@@ -252,6 +269,11 @@ public class ParentalControlScreen extends JPanel {
         return panel;
     }
 
+    /**
+     * Creates a custom-styled rounded toggle switch with dynamic visual feedback.
+     *
+     * @return A JToggleButton styled as a rounded toggle switch.
+     */
     private JToggleButton createRoundedToggleSwitch() {
         JToggleButton toggleSwitch = new JToggleButton();
         toggleSwitch.setPreferredSize(new Dimension(50, 25));
@@ -284,6 +306,12 @@ public class ParentalControlScreen extends JPanel {
         return toggleSwitch;
     }
 
+    /**
+     * Creates a styled button with consistent dimensions and appearance.
+     *
+     * @param text The text to display on the button.
+     * @return A JButton styled according to the screen's theme.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(150, 40));
@@ -295,6 +323,12 @@ public class ParentalControlScreen extends JPanel {
         return button;
     }
 
+
+    /**
+     * Creates a back button with custom icons and hover effects to navigate to the previous screen.
+     *
+     * @return A JButton configured as the back button.
+     */
     private JButton createBackButton() {
         // Default button icon
         ImageIcon backIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
@@ -326,6 +360,10 @@ public class ParentalControlScreen extends JPanel {
         return button;
     }
 
+
+    /**
+     * Switches the current screen back to the "title" screen using the ScreenManager.
+     */
     private void switchToGameScreen() {
         screenManager.showScreen("title");
     }
