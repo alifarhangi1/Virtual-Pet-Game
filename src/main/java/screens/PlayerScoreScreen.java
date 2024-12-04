@@ -20,7 +20,7 @@ public class PlayerScoreScreen {
     // Function to display the screen
     public void displayScreen() {
         // Create the frame
-        JFrame frame = new JFrame("scrap.Player Score Screen");
+        JFrame frame = new JFrame("Player Score Screen");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
@@ -30,7 +30,7 @@ public class PlayerScoreScreen {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         // Create the score label and value
-        JLabel scoreLabel = new JLabel("scrap.Player Score", SwingConstants.CENTER);
+        JLabel scoreLabel = new JLabel("Player Score", SwingConstants.CENTER);
         JLabel scoreValue = new JLabel("0", SwingConstants.CENTER);
         scoreValue.setFont(new Font("Arial", Font.BOLD, 24));
 

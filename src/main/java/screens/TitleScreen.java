@@ -190,6 +190,13 @@ public class TitleScreen extends GameScreen {
         JLabel tutorialButton = new JLabel(tutorialButtonDefaultIcon);
         tutorialButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addButtonListeners(tutorialButton, tutorialButtonHoverIcon, tutorialButtonDefaultIcon);
+        tutorialButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                /** switches to tutorial screen once clicked */
+                screenManager.showScreen("tutorial");
+            }
+        });
         return tutorialButton;
     }
 

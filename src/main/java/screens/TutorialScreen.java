@@ -1,7 +1,9 @@
 // Package declaration indicating this class belongs to the 'screens' package
-package test;
+package screens;
 
 // Importing Swing components for creating the graphical user interface
+import managers.ScreenManager;
+
 import javax.swing.*;
 
 // Importing the LineBorder class for creating customizable borders
@@ -18,12 +20,20 @@ import java.awt.event.MouseEvent;
 import javax.sound.sampled.*;
 
 // Importing classes for handling file input/output operations
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-
+/**
+ * A Swing-based tutorial screen for the Pet Quest game that displays a series of tutorial slides
+ * with images, descriptive text, and navigation buttons.
+ *
+ * The tutorial provides comprehensive guidance on game features, including:
+ * - Main menu options
+ * - Game modes
+ * - Pet interaction
+ * - Gameplay mechanics
+ * - Parental controls
+ */
 public class TutorialScreen extends JPanel {
     // Index to track the current slide being displayed in the tutorial
     private int currentSlideIndex = 0;
@@ -124,313 +134,241 @@ public class TutorialScreen extends JPanel {
 
     };
 
-    // JLabel to display the current tutorial slide image
     private JLabel slideImageLabel;
-
-    // JTextArea to display the descriptive text for the current tutorial slide
     private JTextArea slideTextArea;
-
-    // JLabel for the "Back" button, typically used to return to the main menu or previous screen
     private JLabel backButton;
-
-    // JButton to navigate to the next tutorial slide
     private JButton nextButton;
-
-    // JButton to navigate to the previous tutorial slide
     private JButton previousButton;
-
-    // ImageIcon to hold the background image for the tutorial screen
     private ImageIcon backgroundIcon;
+    private ScreenManager screenManager;
 
     /**
-     * Constructs the tutorial screen for the application.
-     * The screen includes a slide image, descriptive text, navigation buttons,
-     * and a background image. Users can navigate through the tutorial slides using
-     * the "Next" and "Previous" buttons, or return to the title screen with the "Back" button.
+     * Constructs the TutorialScreen, initializing the user interface with:
+     * - A background image
+     * - Navigation buttons (Previous, Next)
+     * - A back button
+     * - A slide image display
+     * - A text area for slide descriptions
+     *
+     * Sets up the layout, styling, and initial content for the tutorial screen.
      */
     public TutorialScreen() {
-        // Set the layout to null for manual positioning of components
-        setLayout(null);
+        setLayout(new BorderLayout());
+        screenManager = ScreenManager.getInstance();
 
-        // Load the background image for the tutorial screen
+        // Load background image using getResource()
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
-        // Slide Image Label: Displays the current tutorial slide image
-        slideImageLabel = new JLabel();
-        slideImageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the image
-        slideImageLabel.setBounds(460, 200, 1000, 600); // Position the image in the center of the screen
-        slideImageLabel.setBorder(new LineBorder(new Color(255, 215, 0), 5)); // Add a gold border for visual enhancement
-        add(slideImageLabel); // Add the slide image label to the screen
-
-        // Slide Text Area: Displays descriptive text for the current tutorial slide
-        slideTextArea = new JTextArea();
-        slideTextArea.setEditable(false); // Prevent user input
-        slideTextArea.setWrapStyleWord(true); // Wrap words at word boundaries
-        slideTextArea.setLineWrap(true); // Enable line wrapping
-        slideTextArea.setForeground(Color.WHITE); // Set text color to white
-        slideTextArea.setFont(new Font("Monospaced", Font.BOLD, 20)); // Use a bold, monospaced font for better readability
-        slideTextArea.setOpaque(false); // Make the text area background transparent
-        slideTextArea.setBounds(460, 820, 1000, 100); // Position below the slide image
-        add(slideTextArea); // Add the text area to the screen
-
-        // Background Panel for Text: Provides a semi-transparent background for the text area
-        JPanel textBackgroundPanel = new JPanel();
-        textBackgroundPanel.setBounds(460, 820, 1000, 160); // Same size as the text area
-        textBackgroundPanel.setBackground(new Color(0, 0, 0, 150)); // Semi-transparent black background
-        textBackgroundPanel.setOpaque(true); // Ensure the panel is visible
-        textBackgroundPanel.setLayout(new BorderLayout()); // Use BorderLayout to align components
-        textBackgroundPanel.add(slideTextArea, BorderLayout.CENTER); // Add the text area to the panel
-        add(textBackgroundPanel); // Add the text background panel to the screen
-
-        // Back Button: Navigates back to the title screen
+        // Top Panel for Back Button
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setOpaque(false);
         backButton = createBackButton();
-        backButton.setBounds(50, 50, 160, 100); // Position in the top-left corner
-        add(backButton); // Add the back button to the screen
+        topPanel.add(backButton);
+        add(topPanel, BorderLayout.NORTH);
 
-        // Previous Button: Navigates to the previous tutorial slide
+        // Central Panel for Slide and Navigation Buttons
+        JPanel centralPanel = new JPanel(new BorderLayout());
+        centralPanel.setOpaque(false);
+
+        // Previous Button
         previousButton = createNavigationButton(
-                "/visuals/backArrowButtonDefault.png",  // Default icon path
-                "/visuals/backArrowButtonHover.png",    // Hover icon path
-                -1 // Direction for navigation (-1 for previous slide)
+                "/visuals/backArrowButtonDefault.png",
+                "/visuals/backArrowButtonHover.png",
+                -1
         );
-        previousButton.setBounds(270, 420, 170, 110); // Position to the left of the slide image
-        add(previousButton); // Add the previous button to the screen
+        centralPanel.add(previousButton, BorderLayout.WEST);
 
-        // Next Button: Navigates to the next tutorial slide
+        // Next Button
         nextButton = createNavigationButton(
-                "/visuals/nextArrowButtonDefault.png",  // Default icon path
-                "/visuals/nextArrowButtonHover.png",    // Hover icon path
-                1 // Direction for navigation (1 for next slide)
+                "/visuals/nextArrowButtonDefault.png",
+                "/visuals/nextArrowButtonHover.png",
+                1
         );
-        nextButton.setBounds(1480, 420, 170, 110); // Position to the right of the slide image
-        add(nextButton); // Add the next button to the screen
+        centralPanel.add(nextButton, BorderLayout.EAST);
 
-        // Initialize the first slide content (image and text)
+        // Slide Content Panel
+        JPanel slideContentPanel = new JPanel(new BorderLayout());
+        slideContentPanel.setOpaque(false);
+
+        // Slide Image Label
+        slideImageLabel = new JLabel();
+        slideImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        slideImageLabel.setBorder(new LineBorder(new Color(255, 215, 0), 5));
+        slideContentPanel.add(slideImageLabel, BorderLayout.CENTER);
+
+        // Slide Text Area
+        slideTextArea = new JTextArea(5, 50);
+        slideTextArea.setEditable(false);
+        slideTextArea.setWrapStyleWord(true);
+        slideTextArea.setLineWrap(true);
+        slideTextArea.setForeground(Color.WHITE);
+        slideTextArea.setFont(new Font("Monospaced", Font.BOLD, 20));
+        slideTextArea.setOpaque(false);
+
+        // Background Panel for Text
+        JPanel textBackgroundPanel = new JPanel(new BorderLayout());
+        textBackgroundPanel.setBackground(new Color(0, 0, 0, 150));
+        textBackgroundPanel.setOpaque(true);
+        textBackgroundPanel.add(slideTextArea, BorderLayout.CENTER);
+
+        slideContentPanel.add(textBackgroundPanel, BorderLayout.SOUTH);
+        centralPanel.add(slideContentPanel, BorderLayout.CENTER);
+
+        add(centralPanel, BorderLayout.CENTER);
+
+        // Initialize the first slide content
         updateSlideContent();
     }
 
-
     /**
-     * Paints the background image for the tutorial screen.
-     * Overrides the default `paintComponent` method to draw a custom background that scales
-     * dynamically to fit the entire panel.
+     * Overrides the default painting method to draw the background image.
+     * Ensures the background image scales to fill the entire panel.
      *
-     * @param g The `Graphics` object used for drawing.
+     * @param g the Graphics context used for painting
      */
     @Override
     protected void paintComponent(Graphics g) {
-        // Call the superclass method to ensure proper rendering of the panel
         super.paintComponent(g);
-
-        // Draw the background image, scaled to the current width and height of the panel
         g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
     /**
-     * Creates an interactive "Back" button for navigating back to the title screen.
-     * The button includes hover effects and plays a click sound when clicked.
-     * On click, it transitions to the "titleScreen" using a `CardLayout`.
+     * Creates the back button with custom styling and interaction.
+     * Handles mouse hover and click events for the button.
      *
-     * @return A JLabel configured as the "Back" button.
+     * @return a JLabel configured as the back button
      */
     private JLabel createBackButton() {
-        // Create a new JLabel to represent the back button
         JLabel backButton = new JLabel();
-
-        // Set the default icon for the back button, resized to 160x100 pixels
-        backButton.setIcon(new ImageIcon(resizeImage(String.valueOf(getClass().getResource("/visuals/woodButtonDefault.png")), 160, 100)));
-
-        // Set the cursor to a hand icon to indicate interactivity
+        backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonDefault.png", 160, 100)));
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Add mouse listeners for hover and click behaviors
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Change the icon to the hover version when the mouse enters the button
-                backButton.setIcon(new ImageIcon(resizeImage(String.valueOf(getClass().getResource("/visuals/woodButtonHover.png")), 160, 100)));
+                backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonHover.png", 160, 100)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Revert to the default icon when the mouse exits the button
-                backButton.setIcon(new ImageIcon(resizeImage(String.valueOf(getClass().getResource("/visuals/woodButtonDefault.png")), 160, 100)));
+                backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonDefault.png", 160, 100)));
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Play the back button click sound
                 playSound("/audio/back_button_click.wav");
-
-                // Transition to the "titleScreen" using the parent container's CardLayout
-                CardLayout cardLayout = (CardLayout) getParent().getLayout();
-                cardLayout.show(getParent(), "titleScreen");
+                screenManager.showScreen("title");
             }
         });
 
-        // Return the configured back button
         return backButton;
     }
 
     /**
-     * Creates a navigation button for moving between slides.
-     * The button includes hover effects, click sounds, and an action listener to handle navigation logic.
+     * Creates navigation buttons (Previous and Next) with custom styling and interactions.
      *
-     * @param defaultIconPath The file path for the default button icon.
-     * @param hoverIconPath   The file path for the hover button icon.
-     * @param direction       The direction of navigation: -1 for previous, 1 for next.
-     * @return A configured `JButton` with navigation functionality.
+     * @param defaultIconPath path to the default button icon
+     * @param hoverIconPath path to the hover state button icon
+     * @param direction navigation direction (-1 for previous, 1 for next)
+     * @return a JButton configured for slide navigation
      */
     private JButton createNavigationButton(String defaultIconPath, String hoverIconPath, int direction) {
-        // Create a button with the default icon resized to 170x110 pixels
-        JButton button = new JButton(new ImageIcon(resizeImage(String.valueOf(getClass().getResource(defaultIconPath)), 170, 110)));
-
-        // Remove default button decorations for a cleaner look
-        button.setBorderPainted(false);  // Disable border painting
-        button.setContentAreaFilled(false);  // Disable background fill
-        button.setFocusPainted(false);  // Disable focus highlighting
-
-        // Set the cursor to a hand icon to indicate interactivity
+        JButton button = new JButton(new ImageIcon(resizeImage(defaultIconPath, 170, 110)));
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Add an action listener to handle navigation and sound effects
         button.addActionListener(e -> {
             if (direction == -1) {
-                // Play the back button sound for navigating to the previous slide
                 playSound("/audio/backButtonClickPS.wav");
             } else if (direction == 1) {
-                // Play the next button sound for navigating to the next slide
                 playSound("/audio/nextButtonClickPS.wav");
             }
-
-            // Navigate to the next or previous slide based on the direction
             navigateSlides(direction);
         });
 
-        // Add a mouse listener to handle hover effects
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Change the button icon to the hover version when the mouse enters
-                button.setIcon(new ImageIcon(resizeImage(String.valueOf(getClass().getResource(hoverIconPath)), 170, 110)));
+                button.setIcon(new ImageIcon(resizeImage(hoverIconPath, 170, 110)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Revert to the default icon when the mouse exits
-                button.setIcon(new ImageIcon(resizeImage(String.valueOf(getClass().getResource(defaultIconPath)), 170, 110)));
+                button.setIcon(new ImageIcon(resizeImage(defaultIconPath, 170, 110)));
             }
         });
 
-        // Return the fully configured navigation button
         return button;
     }
 
     /**
-     * Navigates to the next or previous slide based on the direction provided.
-     * Wraps around the slide index to loop through the slides when reaching the start or end.
+     * Navigates through tutorial slides based on the given direction.
+     * Handles circular navigation, wrapping around to the first or last slide when appropriate.
      *
-     * @param direction An integer specifying the navigation direction:
-     *                  -1 for the previous slide, 1 for the next slide.
+     * @param direction navigation direction (-1 for previous, 1 for next)
      */
     private void navigateSlides(int direction) {
-        // Adjust the current slide index by the given direction
         currentSlideIndex += direction;
 
-        // Wrap around to the last slide if navigating backward from the first slide
         if (currentSlideIndex < 0) {
-            currentSlideIndex = slideImages.length - 1; // Set to the last slide index
+            currentSlideIndex = slideImages.length - 1;
+        } else if (currentSlideIndex >= slideImages.length) {
+            currentSlideIndex = 0;
         }
 
-        // Wrap around to the first slide if navigating forward from the last slide
-        else if (currentSlideIndex >= slideImages.length) {
-            currentSlideIndex = 0; // Reset to the first slide index
-        }
-
-        // Update the displayed slide content
         updateSlideContent();
     }
 
-
     /**
-     * Updates the content of the tutorial screen based on the current slide index.
-     * Sets the slide image and corresponding descriptive text.
+     * Updates the slide content by setting the current slide's image and descriptive text.
+     * Called after each slide navigation to refresh the display.
      */
     private void updateSlideContent() {
-        // Load and set the current slide image
-        ImageIcon slideIcon = new ImageIcon(resizeImage(String.valueOf(getClass().getResource(slideImages[currentSlideIndex])), 1000, 600));
-        slideImageLabel.setIcon(slideIcon); // Set the slide image in the label
-
-        // Set the corresponding text for the current slide
+        ImageIcon slideIcon = new ImageIcon(resizeImage(slideImages[currentSlideIndex], 1000, 600));
+        slideImageLabel.setIcon(slideIcon);
         slideTextArea.setText(slideTexts[currentSlideIndex]);
     }
 
     /**
-     * Resizes an image to the specified dimensions.
+     * Resizes an image to the specified width and height while maintaining its aspect ratio.
      *
-     * @param imagePath The file path of the image to resize.
-     * @param width     The desired width of the resized image.
-     * @param height    The desired height of the resized image.
-     * @return A resized `Image` object.
+     * @param imagePath path to the image resource
+     * @param width desired width of the resized image
+     * @param height desired height of the resized image
+     * @return a scaled Image instance
+     * @throws RuntimeException if the image resource cannot be found
      */
     private Image resizeImage(String imagePath, int width, int height) {
         URL imageUrl = getClass().getResource(imagePath);
         if (imageUrl == null) {
-            System.err.println("Image not found: " + imagePath);
-            return new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            throw new RuntimeException("Image not found: " + imagePath);
         }
         Image img = new ImageIcon(imageUrl).getImage();
         return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
     }
 
-
     /**
-     * Plays a sound from the specified file path.
-     * Used for feedback during interactions like button clicks or navigation.
+     * Plays a sound effect from the specified audio file path.
+     * Used for button click and navigation sounds.
      *
-     * @param soundFilePath The file path of the sound file to be played.
+     * @param soundFilePath path to the sound file resource
      */
     private void playSound(String soundFilePath) {
         try {
-            // Load the sound file
-            URL soundFile = getClass().getResource(soundFilePath);
+            URL soundUrl = getClass().getResource(soundFilePath);
+            if (soundUrl == null) {
+                System.err.println("Sound file not found: " + soundFilePath);
+                return;
+            }
 
-            // Create an audio input stream from the sound file
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
-
-            // Create a clip to play the audio
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundUrl);
             Clip clip = AudioSystem.getClip();
-
-            // Open and play the clip
             clip.open(audioStream);
             clip.start();
-        }
-
-        // Handle exceptions for unsupported audio formats, I/O errors, or unavailable lines
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace(); // Print the stack trace for debugging
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        // Ensure Swing components are created on the Event Dispatch Thread
-        SwingUtilities.invokeLater(() -> {
-            // Create the main application frame
-            JFrame frame = new JFrame("Pet Quest Tutorial");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            // Set the frame to full screen
-            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-            // Create an instance of TutorialScreen
-            TutorialScreen tutorialScreen = new TutorialScreen();
-
-            // Add the tutorial screen to the frame
-            frame.add(tutorialScreen);
-
-            // Make the frame visible
-            frame.setVisible(true);
-        });
-    }
-
 }

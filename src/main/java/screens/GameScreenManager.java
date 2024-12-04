@@ -29,7 +29,6 @@ public class GameScreenManager
     public void showItemInventoryScreen()
     {
         frame.getContentPane().removeAll(); // Clear the current screen
-        itemInventoryScreen = new ItemInventoryScreen(this, player);
         frame.add(itemInventoryScreen);
         frame.revalidate(); // Refresh the frame
         frame.repaint();

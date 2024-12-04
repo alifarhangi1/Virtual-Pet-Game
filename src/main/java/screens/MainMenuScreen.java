@@ -1,7 +1,12 @@
-// Package declaration indicating that this class is part of the 'screens' package
-package test;
+package screens;
 
 // Importing necessary Swing components for building the graphical user interface
+import managers.AudioManager;
+import managers.GameManager;
+import managers.ScreenManager;
+import misc.Inventory;
+import misc.LevelSelect;
+
 import javax.swing.*;
 
 // Importing classes for playing sound effects and background music
@@ -15,8 +20,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // Importing classes for file operations
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 
 public class MainMenuScreen extends JPanel {
@@ -28,10 +34,10 @@ public class MainMenuScreen extends JPanel {
      * Each element represents an image associated with a specific screen or feature.
      */
     private final String[] slideImages = {
-            "src/assets/visuals/PetSelectScreenMM.png",  // Slide for the Pet Select Screen
-            "src/assets/visuals/MiniGameScreenMM.png",   // Slide for the Mini Game Screen
-            "src/assets/visuals/InventoryScreenMM.png",  // Slide for the Inventory Screen
-            "src/assets/visuals/PlayerScoreScreenMM.png" // Slide for the Player Score Screen
+            "/visuals/PetSelectScreenMM.png",  // Slide for the Pet Select Screen
+            "/visuals/MiniGameScreenMM.png",   // Slide for the Mini Game Screen
+            "/visuals/InventoryScreenMM.png",  // Slide for the Inventory Screen
+            "/visuals/PlayerScoreScreenMM.png" // Slide for the Player Score Screen
     };
 
     /**
@@ -41,20 +47,20 @@ public class MainMenuScreen extends JPanel {
      */
     private final String[][] buttonIcons = {
             { // Icons for the "Pet Roster" button
-                    "src/assets/visuals/petRosterButtonDefault.png",  // Default icon
-                    "src/assets/visuals/petRosterButtonHover.png"    // Hover icon
+                    "/visuals/petRosterButtonDefault.png",  // Default icon
+                    "/visuals/petRosterButtonHover.png"    // Hover icon
             },
             { // Icons for the "Mini Game" button
-                    "src/assets/visuals/miniGameButtonDefault.png",  // Default icon
-                    "src/assets/visuals/miniGameButtonHover.png"     // Hover icon
+                    "/visuals/miniGameButtonDefault.png",  // Default icon
+                    "/visuals/miniGameButtonHover.png"     // Hover icon
             },
             { // Icons for the "Inventory" button
-                    "src/assets/visuals/inventoryButtonDefault.png", // Default icon
-                    "src/assets/visuals/inventoryButtonHover.png"    // Hover icon
+                    "/visuals/inventoryButtonDefault.png", // Default icon
+                    "/visuals/inventoryButtonHover.png"    // Hover icon
             },
             { // Icons for the "Player Score" button
-                    "src/assets/visuals/playerScoreButtonDefault.png", // Default icon
-                    "src/assets/visuals/playerScoreButtonHover.png"    // Hover icon
+                    "/visuals/playerScoreButtonDefault.png", // Default icon
+                    "/visuals/playerScoreButtonHover.png"    // Hover icon
             }
     };
 
@@ -70,7 +76,7 @@ public class MainMenuScreen extends JPanel {
     // JButton for navigating to the next slide
     private JButton nextButton;
 
-    // JLabel for the "Back" button, typically used to return to a previous menu or screen
+    // JLabel for the "Back" button, used to return to a previous menu or screen
     private JLabel backButton;
 
     // JButton for performing an action related to the current slide (e.g., starting a game or opening a menu)
@@ -79,6 +85,10 @@ public class MainMenuScreen extends JPanel {
     // ImageIcon for the background image of the screen
     private ImageIcon backgroundIcon;
 
+    private ScreenManager screenManager;
+    private GameManager gm;
+    private AudioManager audioManager;
+    private GameScreenManager gameScreenManager;
 
     /**
      * Constructs the main menu screen for the application.
@@ -86,51 +96,61 @@ public class MainMenuScreen extends JPanel {
      * and an action button that triggers actions based on the current slide.
      * The layout is manually positioned, and the first slide content is initialized.
      */
-    public MainMenuScreen() {
-        // Set layout to null for manual positioning of components
-        setLayout(null);
+    public MainMenuScreen(GameManager gm) {
+        this.gm = gm;
+        screenManager = ScreenManager.getInstance();
+        audioManager = AudioManager.getInstance();
+
+        JFrame frame = new JFrame();
+        frame.setSize(800, 600);
+        gameScreenManager = new GameScreenManager(frame, gm.getPlayer());
+        frame.setVisible(true);
+        gameScreenManager.showPetStatusScreen();
+
+        // Set layout to FlowLayout with custom alignment and gaps
+        setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         // Load the background image for the screen
-        backgroundIcon = new ImageIcon("src/assets/visuals/background.gif");
+        backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
+
+        // Back Button: Allows the user to navigate back to the previous menu or screen
+        backButton = createBackButton();
+        add(backButton); // Add the back button to the screen
 
         // Title Label: Displays the title of the main menu at the top center
-        titleLabel = new JLabel(new ImageIcon(resizeImage("src/assets/visuals/MainMenuTitle.png", 900, 80)));
+        titleLabel = new JLabel(new ImageIcon(resizeImage("/visuals/MainMenuTitle.png", 900, 80)));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the title
-        titleLabel.setBounds(550, 70, 900, 80); // Set position and size for the title
         add(titleLabel); // Add the title label to the screen
+
+        // Panel to organize navigation and slide image
+        JPanel slidePanel = new JPanel(new BorderLayout());
+        slidePanel.setOpaque(false); // Make panel transparent for background visibility
+
+        // Previous Button: Navigates to the previous slide
+        previousButton = createNavigationButton(
+                "/visuals/backArrowButtonDefault.png",  // Path to the default icon
+                "/visuals/backArrowButtonHover.png",    // Path to the hover icon
+                -1 // Direction for navigation (-1 for previous slide)
+        );
+        slidePanel.add(previousButton, BorderLayout.WEST); // Place the previous button to the left of the slide image
 
         // Slide Image Label: Displays an image for the current slide (feature previews)
         slideImageLabel = new JLabel();
         slideImageLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center-align the slide image
-        slideImageLabel.setBounds(460, 120, 1100, 750); // Position the slide image below the title
-        add(slideImageLabel); // Add the slide image label to the screen
-
-        // Back Button: Allows the user to navigate back to the previous menu or screen
-        backButton = createBackButton();
-        backButton.setBounds(5, 50, 160, 100); // Position the back button in the top-left corner
-        add(backButton); // Add the back button to the screen
-
-        // Previous Button: Navigates to the previous slide
-        previousButton = createNavigationButton(
-                "src/assets/visuals/backArrowButtonDefault.png",  // Path to the default icon
-                "src/assets/visuals/backArrowButtonHover.png",    // Path to the hover icon
-                -1 // Direction for navigation (-1 for previous slide)
-        );
-        previousButton.setBounds(270, 420, 170, 110); // Position the button to the left of the slide image
-        add(previousButton); // Add the previous button to the screen
+        slidePanel.add(slideImageLabel, BorderLayout.CENTER); // Add slide image label to the center of the panel
 
         // Next Button: Navigates to the next slide
         nextButton = createNavigationButton(
-                "src/assets/visuals/nextArrowButtonDefault.png",  // Path to the default icon
-                "src/assets/visuals/nextArrowButtonHover.png",    // Path to the hover icon
+                "/visuals/nextArrowButtonDefault.png",  // Path to the default icon
+                "/visuals/nextArrowButtonHover.png",    // Path to the hover icon
                 1 // Direction for navigation (1 for next slide)
         );
-        nextButton.setBounds(1580, 420, 170, 110); // Position the button to the right of the slide image
-        add(nextButton); // Add the next button to the screen
+        slidePanel.add(nextButton, BorderLayout.EAST); // Place the next button to the right of the slide image
+
+        add(slidePanel); // Add the slide panel to the screen
 
         // Action Button: Performs an action related to the current slide (e.g., starts a game or opens a menu)
         actionButton = new JButton();
-        actionButton.setBounds(820, 820, 330, 118); // Position the button below the slide image
         actionButton.setBorderPainted(false); // Remove the button's border for a cleaner look
         actionButton.setContentAreaFilled(false); // Make the button's background transparent
         actionButton.setFocusPainted(false); // Remove the focus indicator
@@ -140,6 +160,7 @@ public class MainMenuScreen extends JPanel {
         // Initialize the first slide with its content (image, associated actions, etc.)
         updateSlideContent();
     }
+
 
 
     /**
@@ -171,7 +192,7 @@ public class MainMenuScreen extends JPanel {
         JLabel backButton = new JLabel();
 
         // Set the default icon for the back button
-        backButton.setIcon(new ImageIcon(resizeImage("src/assets/visuals/woodButtonDefault.png", 160, 100)));
+        backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonDefault.png", 160, 100)));
 
         // Set the cursor to a hand icon to indicate interactivity
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -184,23 +205,22 @@ public class MainMenuScreen extends JPanel {
                 playHoverSound();
 
                 // Change to the hover icon
-                backButton.setIcon(new ImageIcon(resizeImage("src/assets/visuals/woodButtonHover.png", 160, 100)));
+                backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonHover.png", 160, 100)));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // Revert to the default icon when the mouse exits the button
-                backButton.setIcon(new ImageIcon(resizeImage("src/assets/visuals/woodButtonDefault.png", 160, 100)));
+                backButton.setIcon(new ImageIcon(resizeImage("/visuals/woodButtonDefault.png", 160, 100)));
             }
 
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Play the click sound effect when the back button is clicked
-                playSound("src/assets/audio/back_button_click.wav");
+                playSound("/audio/back_button_click.wav");
 
                 // Navigate back to the "SaveScreen" using the parent container's CardLayout
-                CardLayout cardLayout = (CardLayout) getParent().getLayout();
-                cardLayout.show(getParent(), "saveScreen");
+                screenManager.showScreen("save");
             }
         });
 
@@ -234,9 +254,9 @@ public class MainMenuScreen extends JPanel {
         button.addActionListener(e -> {
             // Play the appropriate sound effect based on the navigation direction
             if (direction == -1) {
-                playSound("src/assets/audio/backButtonClickPS.wav"); // Back button sound
+                playSound("/audio/backButtonClickPS.wav"); // Back button sound
             } else if (direction == 1) {
-                playSound("src/assets/audio/nextButtonClickPS.wav"); // Next button sound
+                playSound("/audio/nextButtonClickPS.wav"); // Next button sound
             }
 
             // Navigate to the next or previous slide
@@ -293,7 +313,7 @@ public class MainMenuScreen extends JPanel {
      */
     private void updateSlideContent() {
         // Update the slide image using the current slide index
-        ImageIcon slideIcon = new ImageIcon(resizeImage(slideImages[currentSlideIndex], 1100, 600));
+        ImageIcon slideIcon = new ImageIcon(resizeImage(slideImages[currentSlideIndex], 1100, 500));
         slideImageLabel.setIcon(slideIcon); // Set the updated image to the slide image label
 
         // Retrieve the button icons for the current slide
@@ -322,10 +342,30 @@ public class MainMenuScreen extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Play button click sound when the action button is clicked
-                playSound("src/assets/audio/button_click.wav");
+                playSound("/audio/button_click.wav");
 
-                // Placeholder for slide-specific action logic
-                System.out.println("Action button clicked for slide " + currentSlideIndex);
+                if (currentSlideIndex == 0) {
+                    if (screenManager.hasScreen("pet-select")) {
+                        screenManager.deleteScreen("pet-select");
+                    }
+                    screenManager.addScreen("pet-select", new PetSelect(gm));
+                    audioManager.stopBackgroundMusic();
+                    screenManager.showScreen("pet-select");
+                } else if (currentSlideIndex == 1) {
+                    audioManager.stopBackgroundMusic();
+                    new LevelSelect();
+                } else if (currentSlideIndex == 2) {
+                    if (screenManager.hasScreen("pet-select")) {
+                        screenManager.deleteScreen("pet-select");
+                    }
+                    screenManager.addScreen("pet-select", new PetSelect(gm));
+                    audioManager.stopBackgroundMusic();
+                    screenManager.showScreen("pet-select");
+                } else {
+                    PlayerScoreScreen scoreScreen = new PlayerScoreScreen(gm.getPlayer());
+                    scoreScreen.displayScreen();
+                }
+
             }
         });
     }
@@ -339,11 +379,29 @@ public class MainMenuScreen extends JPanel {
      * @return A resized `Image` object.
      */
     private Image resizeImage(String imagePath, int width, int height) {
-        // Load the image from the specified file path
-        Image img = new ImageIcon(imagePath).getImage();
+        try {
+            // Use getResourceAsStream instead of getResource
+            InputStream inputStream = getClass().getResourceAsStream(imagePath);
 
-        // Scale the image to the desired dimensions using smooth scaling
-        return img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            if (inputStream == null) {
+                System.err.println("ERROR: Image not found - " + imagePath);
+                return null;
+            }
+
+            // Read the image bytes
+            byte[] imageBytes = inputStream.readAllBytes();
+
+            // Create ImageIcon directly from bytes
+            ImageIcon originalIcon = new ImageIcon(imageBytes);
+            Image originalImage = originalIcon.getImage();
+
+            // Resize the image
+            return originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        } catch (IOException e) {
+            System.err.println("Error reading image: " + imagePath);
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -355,7 +413,7 @@ public class MainMenuScreen extends JPanel {
     private void playHoverSound() {
         try {
             // Specify the path to the hover sound file
-            File audioFile = new File("src/assets/audio/menu_hover.wav");
+             URL audioFile = getClass().getResource("/audio/menu_hover.wav");
 
             // Create an audio input stream from the file
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
@@ -373,6 +431,8 @@ public class MainMenuScreen extends JPanel {
     }
 
 
+
+
     /**
      * Plays a sound effect from the specified file path.
      * This method can be used for various sound effects like button clicks or other interactions.
@@ -382,7 +442,7 @@ public class MainMenuScreen extends JPanel {
     private void playSound(String soundFilePath) {
         try {
             // Specify the path to the sound file
-            File soundFile = new File(soundFilePath);
+            URL soundFile = getClass().getResource(soundFilePath);
 
             // Create an audio input stream from the file
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
@@ -398,5 +458,4 @@ public class MainMenuScreen extends JPanel {
             e.printStackTrace();
         }
     }
-
 }

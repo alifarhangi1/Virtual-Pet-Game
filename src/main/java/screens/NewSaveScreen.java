@@ -100,8 +100,12 @@ public class NewSaveScreen extends GameScreen {
                         userExistsLabel.setVisible(false);
                         Player newPlayer = new Player(textField.getText(), passwordField.getPassword());
                         GameManager gm = new GameManager(newPlayer);
-                        screenManager.addScreen("pet-selection", new PetSelect(gm));
-                        screenManager.showScreen("pet-selection");
+                        if (screenManager.hasScreen("pet-selection")) {
+                            screenManager.showScreen("pet-selection");
+                        } else {
+                            screenManager.addScreen("pet-selection", new PetSelect(gm));
+                            screenManager.showScreen("pet-selection");
+                        }
                         audioManager.stopBackgroundMusic();
                     }
                 }

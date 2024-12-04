@@ -1,10 +1,8 @@
 import managers.DatabaseManager;
 import managers.ScreenManager;
 import managers.AudioManager;
-import misc.Item;
-import misc.Panda;
-import misc.Player;
 import screens.*;
+import screens.TutorialScreen;
 
 /**
  * Main method for the game, initializes the manager classes for audio({@link AudioManager}) and screen manipulation({@link ScreenManager}),
@@ -41,6 +39,7 @@ public class Main {
         screenManager.addScreen("newgame", new NewSaveScreen());
         screenManager.addScreen("loadgame", new LoadSaveScreen());
         screenManager.addScreen("parental", new ParentalControlScreen());
+        screenManager.addScreen("tutorial", new TutorialScreen());
 
         /** Show main frame and initial screen */
         screenManager.showMainFrame();

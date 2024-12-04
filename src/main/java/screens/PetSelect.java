@@ -1,8 +1,10 @@
 package screens;
 
 // Importing necessary Swing components for GUI creation
+import managers.AudioManager;
 import managers.DatabaseManager;
 import managers.GameManager;
+import managers.ScreenManager;
 import misc.*;
 
 import javax.swing.*;
@@ -88,6 +90,8 @@ public class PetSelect extends JPanel {
 
     private GameManager gm;
     private DatabaseManager databaseManager;
+    private ScreenManager screenManager;
+    private AudioManager audioManager;
 
     /**
      * Constructor for the PetSelect class.
@@ -97,6 +101,8 @@ public class PetSelect extends JPanel {
     public PetSelect(GameManager gm) {
         /** Grabs instance of player passed by new game screen */
         this.gm = gm;
+        screenManager = ScreenManager.getInstance();
+        audioManager = AudioManager.getInstance();
 
         /** Grabs instance of DatabaseManager */
         databaseManager = DatabaseManager.getInstance();
@@ -187,6 +193,15 @@ public class PetSelect extends JPanel {
                 this::goToTitleMenu, // Action to navigate to the title menu
                 "/audio/titleMenuClick.wav" // Click sound for the title menu button
         );
+        titleMenuButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                audioManager.playBackButtonClickSound();
+                stopBackgroundMusic();
+                screenManager.showScreen("title");
+                audioManager.startBackgroundMusic();
+            }
+        });
         add(titleMenuButton); // Add the Title Menu button to the screen
 
         // Initially update the layout
@@ -845,10 +860,19 @@ public class PetSelect extends JPanel {
                 // Set the newly added pet as the active pet
                 gm.getPlayer().setPet(newPet);
 
-                databaseManager.addPlayer(gm.getPlayer());
+                if (!databaseManager.getAllPlayers().contains(gm.getPlayer())) {
+                    databaseManager.addPlayer(gm.getPlayer());
+                }
 
                 // Save changes to the database
                 databaseManager.saveAllChanges();
+
+                if (!screenManager.hasScreen("main")) {
+                    screenManager.addScreen("main", new MainMenuScreen(gm));
+                }
+                stopBackgroundMusic();
+                screenManager.showScreen("main");
+                audioManager.startBackgroundMusic();
             }
         });
 

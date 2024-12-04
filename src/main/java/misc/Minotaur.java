@@ -1,6 +1,7 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Minotaur extends Pet
 {
@@ -17,11 +18,11 @@ public class Minotaur extends Pet
         this.setEnergy(120); // Initial energy
 
         // Load the minotaur's images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/minotaur.png")), // Happy state
-                new ImageIcon(getClass().getResource("/visuals/minotaurDead.png")),  // Dead state
-                new ImageIcon(getClass().getResource("/visuals/minotaurSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/minotaurSleep.png"))  // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/minotaur.png"), // Happy state
+                ("/visuals/minotaurDead.png"),  // Dead state
+                ("/visuals/minotaurSad.png"),  // Sad state
+                ("/visuals/minotaurSleep.png")  // Sleep state
         });
     }
 }

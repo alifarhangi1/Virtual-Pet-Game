@@ -13,12 +13,7 @@ public class Inventory {
     private ImageIcon[] icons;
     public int petNumber = 8; // Adjust this variable to adjust amount of pet slots
 
-    public static void main(String[] args)
-    {
-        new Inventory();
-    }
-
-    Inventory()
+    public Inventory()
     {
         frame = new JFrame();
         frame.setLayout(new BorderLayout()); // Use BorderLayout to center the inventory panel

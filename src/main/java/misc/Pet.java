@@ -1,6 +1,7 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Pet
 {
@@ -14,7 +15,7 @@ public class Pet
     private boolean[] states = new boolean[4];
     private int maxHP;
     private int maxEnergy;
-    private ImageIcon[] images;
+    private String[] images;
 
     public Pet() {}
     public Pet(String name, String type)
@@ -160,12 +161,12 @@ public class Pet
         this.maxEnergy = maxEnergy;
     }
 
-    public void setImages(ImageIcon[] images)
+    public void setImages(String[] images)
     {
         this.images = images;
     }
 
-    public ImageIcon[] getImages()
+    public String[] getImages()
     {
         return this.images;
     }

@@ -102,6 +102,7 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players.inventory")
                     .include("players.petList")
                     .include("players.pet")
+                    .include("players.pet.images")
                     .include("players.petList.name")
                     .include("players.petList.maxHP")
                     .include("players.petList.HP")
@@ -110,6 +111,7 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players.petList.happiness")
                     .include("players.petList.energy")
                     .include("players.petList.maxEnergy")
+                    .include("players.petList.images")
                     .include("players.passwordString")
                     .exclude("*.class");
 

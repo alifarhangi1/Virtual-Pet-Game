@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.Player;
 
 import javax.swing.*;
@@ -92,7 +93,13 @@ public class LoadSaveScreen extends GameScreen {
                     Player player = databaseManager.findPlayer(textField.getText());
                     if (player != null) {
                         userExistsLabel.setVisible(false);
-                        JOptionPane.showMessageDialog(null,"Logging in...");
+                        GameManager gm = new GameManager(player);
+                        if (screenManager.hasScreen("main")) {
+                            screenManager.deleteScreen("main");
+                        }
+                        screenManager.addScreen("main", new MainMenuScreen(gm));
+                        audioManager.stopBackgroundMusic();
+                        screenManager.showScreen("main");
                     } else {
                         userExistsLabel.setVisible(true);
                         boxPanel.revalidate();

@@ -367,21 +367,21 @@ public class ReferenceStatusScreen extends JPanel {
         if (isSleeping)
         {
             // Show sleep sprite when sleeping
-            petImageLabel.setIcon(resizeIcon(pet.getImages()[3])); // Sleep state
+            petImageLabel.setIcon(resizeIcon(new ImageIcon(getClass().getResource(pet.getImages()[3])))); // Sleep state
         } else if (pet.getHP() <= 0)
         {
             // Show dead sprite when health is zero or below
-            petImageLabel.setIcon(resizeIcon(pet.getImages()[1])); // Dead state
+            petImageLabel.setIcon(resizeIcon(new ImageIcon(getClass().getResource(pet.getImages()[1])))); // Dead state
         }
         else if (pet.getHappiness() <= 50)
         {
             // Show sad sprite when happiness is low
-            petImageLabel.setIcon(resizeIcon(pet.getImages()[2])); // Sad state
+            petImageLabel.setIcon(resizeIcon(new ImageIcon(getClass().getResource(pet.getImages()[2])))); // Sad state
         }
         else
         {
             // Show happy sprite otherwise
-            petImageLabel.setIcon(resizeIcon(pet.getImages()[0])); // Happy state
+            petImageLabel.setIcon(resizeIcon(new ImageIcon(getClass().getResource(pet.getImages()[0])))); // Happy state
         }
     }
 

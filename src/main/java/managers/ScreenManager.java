@@ -53,8 +53,23 @@ public class ScreenManager {
      * @param screen panel object representing the screen
      */
     public void addScreen(String name, JPanel screen) {
-        screens.put(name, screen);
-        mainPanel.add(screen, name);
+        if (!screens.containsKey(name)) {
+            screens.put(name, screen);
+            mainPanel.add(screen, name);
+        }
+    }
+
+    /**
+     * Checks if given screen already exists
+     *
+     * @param name name of the screen
+     * @return true if screen exists, false if not
+     */
+    public boolean hasScreen(String name) {
+        if (screens.containsKey(name)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -76,6 +91,15 @@ public class ScreenManager {
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    /**
+     * Deletes screen from card layout
+     *
+     * @param name screen to delete
+     */
+    public void deleteScreen(String name) {
+        screens.remove(name);
     }
 
 }

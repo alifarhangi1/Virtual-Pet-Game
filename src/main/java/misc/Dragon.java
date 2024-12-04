@@ -1,6 +1,7 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Dragon extends Pet
 {
@@ -17,11 +18,11 @@ public class Dragon extends Pet
         this.setEnergy(140); // Initial energy
 
         // Load the dragon's images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/dragon.png")), // Happy state
-                new ImageIcon(getClass().getResource("/visuals/dragonDead.png")),  // Dead state
-                new ImageIcon(getClass().getResource("/visuals/dragonSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/dragonSleep.png"))  // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/dragon.png"), // Happy state
+                ("/visuals/dragonDead.png"),  // Dead state
+                ("/visuals/dragonSad.png"),  // Sad state
+                ("/visuals/dragonSleep.png")  // Sleep state
         });
     }
 }
