@@ -1,5 +1,6 @@
 package misc;
 
+import managers.GameManager;
 import screens.GameScreenManager;
 
 import javax.swing.*;
@@ -18,9 +19,9 @@ public class PetInventory extends JPanel {
     private JPanel gridPanel;  // We'll use this instead of 'panel'
     public int petNumber = 8;
 
-    public PetInventory(GameScreenManager manager, Player player) {
+    public PetInventory(GameScreenManager manager, GameManager gm) {
         this.manager = manager;
-        this.player = player;
+        this.player = gm.getPlayer();
 
         setLayout(new BorderLayout());
 

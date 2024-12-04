@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class PetStatusScreen extends JPanel {
     private GameScreenManager manager;
+    private GameManager gameManager;
     private DatabaseManager databaseManager;
     private Player player;
     private Timer petImageTimer;
@@ -28,49 +29,14 @@ public class PetStatusScreen extends JPanel {
     private JTextField petNameField;
     private ScreenManager screenManager;
     private AudioManager audioManager;
+    private GameManager gm;
 
-    public static void main(String[] args)
+    public PetStatusScreen(GameScreenManager manager, GameManager gm)
     {
-        JFrame mainFrame = new JFrame("Pet Game");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(800, 600);
-
-        Pet pet = new Owl("JohnDo");
-        Pet Pet2 = new Wolf("JainDo");
-        Player player = new Player();
-        player.addPet(pet);
-        player.addPet(Pet2);
-        player.setPet(pet);
-
-        // Mock inventory with items
-        HashMap<String, Item> inventory = player.getInventory();
-        inventory.put("Bone", new MediumGift());
-        GameManager gameManager = new GameManager(player);
-        player = gameManager.getPlayer();
-
-        GameScreenManager manager = new GameScreenManager(mainFrame, player);
-
-        // Create the PetStatusScreen and pass the manager and player
-        PetStatusScreen petStatusScreen = new PetStatusScreen(manager, player);
-
-        // Add the PetStatusScreen to the frame
-        mainFrame.add(petStatusScreen);
-        mainFrame.setVisible(true);
-
-        // Set the initial screen
-        manager.showPetStatusScreen();
-
-
-        // Remove or comment out this line to prevent creating an extra instance
-        // SwingUtilities.invokeLater(() -> new PetStatusScreen(manager, player));
-    }
-
-    public PetStatusScreen(GameScreenManager manager, Player player)
-    {
+        this.gm = gm;
         this.manager = manager;
-        this.player = player;
+        this.player =  gm.getPlayer();
         databaseManager = DatabaseManager.getInstance();
-
         screenManager = ScreenManager.getInstance();
         audioManager = AudioManager.getInstance();
 
@@ -130,10 +96,26 @@ public class PetStatusScreen extends JPanel {
                     bgmClip = null;
                 }
 
+                // Explicitly stop and nullify all timers
+                if (sleepTimer != null) {
+                    sleepTimer.stop();
+                    sleepTimer = null;
+                }
+                if (refreshTimer != null) {
+                    refreshTimer.stop();
+                    refreshTimer = null;
+                }
+                if (petImageTimer != null) {
+                    petImageTimer.stop();
+                    petImageTimer = null;
+                }
 
-                // Dispose of the panel
-                manager.closeFrame();
-
+                MainMenuScreen menu = new MainMenuScreen(gm);
+                JFrame frame = screenManager.getMainFrame();
+                frame.getContentPane().removeAll(); // Clear the current screen
+                frame.add(menu);
+                frame.revalidate(); // Refresh the frame
+                frame.repaint();
             }
 
             @Override

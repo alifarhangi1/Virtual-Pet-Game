@@ -34,9 +34,8 @@ public class MainMenuScreen extends JPanel {
      * Each element represents an image associated with a specific screen or feature.
      */
     private final String[] slideImages = {
-            "/visuals/PetSelectScreenMM.png",  // Slide for the Pet Select Screen
-            "/visuals/MiniGameScreenMM.png",   // Slide for the Mini Game Screen
             "/visuals/InventoryScreenMM.png",  // Slide for the Inventory Screen
+            "/visuals/MiniGameScreenMM.png",   // Slide for the Mini Game Screen
             "/visuals/PlayerScoreScreenMM.png" // Slide for the Player Score Screen
     };
 
@@ -53,10 +52,6 @@ public class MainMenuScreen extends JPanel {
             { // Icons for the "Mini Game" button
                     "/visuals/miniGameButtonDefault.png",  // Default icon
                     "/visuals/miniGameButtonHover.png"     // Hover icon
-            },
-            { // Icons for the "Inventory" button
-                    "/visuals/inventoryButtonDefault.png", // Default icon
-                    "/visuals/inventoryButtonHover.png"    // Hover icon
             },
             { // Icons for the "Player Score" button
                     "/visuals/playerScoreButtonDefault.png", // Default icon
@@ -91,6 +86,7 @@ public class MainMenuScreen extends JPanel {
     private GameScreenManager gameScreenManager;
     private boolean isPlayerScoreScreenOpen = false;
     private boolean isMinigameOpen = false;
+    private JFrame mainFrame;
 
     /**
      * Constructs the main menu screen for the application.
@@ -102,6 +98,7 @@ public class MainMenuScreen extends JPanel {
         this.gm = gm;
         screenManager = ScreenManager.getInstance();
         audioManager = AudioManager.getInstance();
+        mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
 //        JFrame frame = new JFrame();
 //        frame.setSize(800, 600);
@@ -347,12 +344,8 @@ public class MainMenuScreen extends JPanel {
                 playSound("/audio/button_click.wav");
 
                 if (currentSlideIndex == 0) {
-                    if (screenManager.hasScreen("pet-select")) {
-                        screenManager.deleteScreen("pet-select");
-                    }
-                    screenManager.addScreen("pet-select", new PetSelect(gm));
-                    audioManager.stopBackgroundMusic();
-                    screenManager.showScreen("pet-select");
+                    gameScreenManager = new GameScreenManager(screenManager.getMainFrame(), gm);
+                    gameScreenManager.showPetStatusScreen();
                 } else if (currentSlideIndex == 1) {
                     if(!isMinigameOpen){
                         isMinigameOpen = true;
@@ -361,13 +354,6 @@ public class MainMenuScreen extends JPanel {
                         // Reset the flag when the screen is closed
                         SwingUtilities.invokeLater(() -> isMinigameOpen = false);
                     }
-                } else if (currentSlideIndex == 2) {
-                    if (screenManager.hasScreen("pet-select")) {
-                        screenManager.deleteScreen("pet-select");
-                    }
-                    screenManager.addScreen("pet-select", new PetSelect(gm));
-                    audioManager.stopBackgroundMusic();
-                    screenManager.showScreen("pet-select");
                 } else {
                     // Only display PlayerScoreScreen if it's not already open
                     if (!isPlayerScoreScreenOpen) {

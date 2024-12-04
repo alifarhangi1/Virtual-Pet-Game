@@ -573,16 +573,16 @@
             "passwordString": "",
             "pet": {
                 "HP": 105,
-                "energy": 66,
-                "fullness": 32,
-                "happiness": 56,
+                "energy": 81,
+                "fullness": 62,
+                "happiness": 81,
                 "images": [
                     "/visuals/owl.png",
                     "/visuals/owlDead.png",
                     "/visuals/owlSad.png",
                     "/visuals/owlSleep.png"
                 ],
-                "maxEnergy": 130,
+                "maxEnergy": 135,
                 "maxHP": 105,
                 "name": "Luca",
                 "petCooldown": 0,
@@ -607,7 +607,7 @@
                     "type": null
                 }
             ],
-            "playTime": 5,
+            "playTime": 19,
             "score": 0,
             "username": "TIciana"
         }

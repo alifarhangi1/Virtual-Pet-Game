@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.*;
 
 import javax.swing.*;
@@ -13,10 +14,10 @@ public class ItemInventoryScreen extends JPanel
     private GameScreenManager manager;
     private Player player;
 
-    public ItemInventoryScreen(GameScreenManager manager, Player player)
+    public ItemInventoryScreen(GameScreenManager manager, GameManager gm)
     {
         this.manager = manager;
-        this.player = player;
+        this.player = gm.getPlayer();
 
         setLayout(new BorderLayout()); // Use BorderLayout for the main panel
         setBackground(Color.LIGHT_GRAY);

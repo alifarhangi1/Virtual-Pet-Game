@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.PetInventory;
 import misc.PetInventory;
 import misc.Player;
@@ -12,16 +13,17 @@ public class GameScreenManager {
     private ItemInventoryScreen itemInventoryScreen;
     private PetInventory petInventoryScreen; // Reference to the Inventory screen
     private Player player;
+    private GameManager gm;
 
-    public GameScreenManager(JFrame frame, Player player) {
+    public GameScreenManager(JFrame frame, GameManager gm) {
+        this.player = gm.getPlayer();
         this.frame = frame;
-        this.petStatusScreen = new PetStatusScreen(this, player);
-        this.itemInventoryScreen = new ItemInventoryScreen(this, player);
-        this.petInventoryScreen = new PetInventory(this, player); // Initialize the pet inventory screen
-        this.player = player; // Pass this manager to allow navigation
+        this.gm = gm;
+        this.player = gm.getPlayer(); // Pass this manager to allow navigation
     }
 
     public void showPetStatusScreen() {
+        this.petStatusScreen = new PetStatusScreen(this, gm);
         frame.getContentPane().removeAll(); // Clear the current screen
         frame.add(petStatusScreen);
         petStatusScreen.refreshPetDisplay();
@@ -30,6 +32,7 @@ public class GameScreenManager {
     }
 
     public void showItemInventoryScreen() {
+        this.itemInventoryScreen = new ItemInventoryScreen(this, gm);
         frame.getContentPane().removeAll(); // Clear the current screen
         frame.add(itemInventoryScreen);
         frame.revalidate(); // Refresh the frame
@@ -41,6 +44,7 @@ public class GameScreenManager {
      * Show the pet inventory screen.
      */
     public void showPetInventoryScreen() {
+        this.petInventoryScreen = new PetInventory(this, gm); // Initialize the pet inventory screen
         frame.getContentPane().removeAll();
         frame.add(petInventoryScreen);  // Add the panel directly
         petInventoryScreen.setVisible(true);

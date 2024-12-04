@@ -110,6 +110,15 @@ public class ScreenManager {
     }
 
     /**
+     * Getter for main frame
+     *
+     * @return main frame
+     */
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    /**
      * Deletes screen from card layout
      *
      * @param name screen to delete
