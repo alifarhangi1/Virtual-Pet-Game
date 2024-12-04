@@ -33,7 +33,7 @@ public class PetStatusScreen extends JPanel {
 
     public PetStatusScreen(GameScreenManager manager, GameManager gm)
     {
-        this.gm = gm;
+        this.gm = GameManager.getInstance();;
         this.manager = manager;
         this.player =  gm.getPlayer();
         databaseManager = DatabaseManager.getInstance();

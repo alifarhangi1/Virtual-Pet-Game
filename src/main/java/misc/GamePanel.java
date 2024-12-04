@@ -17,7 +17,6 @@ public class GamePanel extends JPanel implements Runnable {
     /** The main window frame of the game. */
     JFrame mainWindow;
 
-    private GameManager gameManager;
     // Screen settings
     /** Original tile size (16x16 pixels). */
     final int originalTileSize = 16;
@@ -101,7 +100,6 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel(String levelName)
     {
         this.levelName = levelName;
-        this.gameManager = gameManager;
         tileManager = new TileManager(this, levelName);
         assetSetter = new AssetSetter(this, levelName);
 

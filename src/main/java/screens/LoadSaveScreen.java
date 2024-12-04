@@ -22,8 +22,10 @@ public class LoadSaveScreen extends GameScreen {
     }
 
     @Override
-    protected void initializeComponents() {
-        try {
+    protected void initializeComponents()
+    {
+        try
+        {
             backgroundIcon = new ImageIcon(getClass().getResource("/visuals/boxbackground.jpg"));
             Font customFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResource("/visuals/ProtestRevolution-Regular.ttf").openStream());
             Font derivedFont = customFont.deriveFont(16f);
@@ -101,7 +103,8 @@ public class LoadSaveScreen extends GameScreen {
                         if (player.getPasswordString().equals(new String(passwordField.getPassword()))) {
                             userExistsLabel.setVisible(false);
                             wrongPasswordLabel.setVisible(false);
-                            GameManager gm = new GameManager(player);
+                            GameManager.getInstance(player);
+                            GameManager gm = GameManager.getInstance();
                             if (screenManager.hasScreen("main")) {
                                 screenManager.deleteScreen("main");
                             }

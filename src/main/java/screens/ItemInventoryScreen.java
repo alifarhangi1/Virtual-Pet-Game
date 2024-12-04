@@ -97,7 +97,7 @@ public class ItemInventoryScreen extends JPanel
                                 }
                                 else
                                 {
-                                    player.giveGift(pet, item);
+                                    ((Wolf) pet).Evolve();
                                     JOptionPane.showMessageDialog(ItemInventoryScreen.this,
                                             itemName + " has been given to the pet!");
                                     item.setAmount(itemAmount - 1);
@@ -119,7 +119,7 @@ public class ItemInventoryScreen extends JPanel
                                 }
                                 else
                                 {
-                                    player.giveGift(pet, item);
+                                    ((Owl) pet).Evolve();
                                     JOptionPane.showMessageDialog(ItemInventoryScreen.this,
                                             itemName + " has been given to the pet!");
                                     item.setAmount(itemAmount - 1);
@@ -140,7 +140,7 @@ public class ItemInventoryScreen extends JPanel
                                 }
                                 else
                                 {
-                                    player.giveGift(pet, item);
+                                    ((Panda) pet).Evolve();
                                     JOptionPane.showMessageDialog(ItemInventoryScreen.this,
                                             itemName + " has been given to the pet!");
                                     item.setAmount(itemAmount - 1);

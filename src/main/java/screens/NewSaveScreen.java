@@ -100,7 +100,8 @@ public class NewSaveScreen extends GameScreen {
                     } else {
                         userExistsLabel.setVisible(false);
                         Player newPlayer = new Player(textField.getText(), passwordField.getPassword());
-                        GameManager gm = new GameManager(newPlayer);
+                        GameManager.getInstance(newPlayer);
+                        GameManager gm = GameManager.getInstance();
                         gm.getPlayer().getInventory().put("Small Food", new SmallFood());
                         if (screenManager.hasScreen("pet-selection")) {
                             screenManager.showScreen("pet-selection");
