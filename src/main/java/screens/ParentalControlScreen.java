@@ -7,6 +7,36 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The {@code ParentalControlScreen} class represents a user interface for managing parental controls.
+ * This screen allows users to set time limits, view usage statistics, and access additional control options.
+ * It features dynamic components such as a toggle switch, input fields, and buttons for interaction.
+ *
+ * Features include:
+ *   Enable or disable time limits using a toggle switch.
+ *   Input and set a time limit in minutes.
+ *   Reset settings to default values.
+ *   View basic statistics such as total and average playtime.
+ *   Navigate back to the title screen using a back button.
+ *   Custom-styled buttons and toggle switches for enhanced user experience.
+ *
+ * This class is part of a larger application and interacts with the {@link ScreenManager}
+ * to switch between different screens. The background image and button icons are loaded
+ * from external resources.
+ *
+ * Usage Example:
+ * {@code
+ * JFrame frame = new JFrame("Parental Control Screen");
+ * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ * frame.setSize(800, 500);
+ * frame.setContentPane(new ParentalControlScreen());
+ * frame.setVisible(true);
+ * }
+ *
+ * @author Adam Yassine
+ * @version 1.0
+ */
+
 public class ParentalControlScreen extends JPanel {
     private ScreenManager screenManager;
     private ImageIcon backgroundIcon;
