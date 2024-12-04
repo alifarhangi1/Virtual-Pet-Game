@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * The {@code ParentalControlScreen} class represents a user interface for managing parental controls.
@@ -264,8 +265,8 @@ public class ParentalControlScreen extends JPanel {
                 // Attempt to find the player in the database
                 Player player = databaseManager.findPlayer(playerName.trim()); // Assuming databaseManager has this method
                 if (player != null) {
-                    Pet[] pets = player.getPetList();
-                    if (pets != null && pets.length > 0) {
+                    ArrayList<Pet> pets = player.getPetList();
+                    if (pets != null && !pets.isEmpty()) {
                         for (Pet pet : pets) {
                             if (pet != null) {
                                 pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
