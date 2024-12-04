@@ -12,6 +12,6 @@ public class LargeGift extends Item
         setType(1); // Type 1 for gift
         setName("Large Gift");
         setAmount(1);
-        setImage(new ImageIcon(getClass().getResource("/visuals/LargeGift.jpg")));
+        setImage("/visuals/LargeGift.jpg");
     }
 }

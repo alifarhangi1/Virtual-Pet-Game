@@ -11,6 +11,6 @@ public class MediumGift extends Item {
         setName("Medium Gift");
         setAmount(1);
 
-        setImage(new ImageIcon(getClass().getResource("/visuals/MiddleGift.jpg")));
+        setImage("/visuals/MiddleGift.jpg");
     }
 }

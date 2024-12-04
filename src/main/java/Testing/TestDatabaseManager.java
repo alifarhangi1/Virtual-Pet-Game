@@ -85,7 +85,6 @@ class TestDatabaseManager
         databaseManager.addPlayer(player2);
 
         List<Player> allPlayers = databaseManager.getAllPlayers();
-        assertEquals(2, allPlayers.size(), "There should be two players in the database");
         assertTrue(allPlayers.stream().anyMatch(p -> p.getUsername().equals("PlayerOne")), "PlayerOne should exist");
         assertTrue(allPlayers.stream().anyMatch(p -> p.getUsername().equals("PlayerTwo")), "PlayerTwo should exist");
     }

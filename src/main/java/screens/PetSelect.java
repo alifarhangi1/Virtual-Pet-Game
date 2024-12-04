@@ -864,6 +864,7 @@ public class PetSelect extends JPanel {
                     databaseManager.addPlayer(gm.getPlayer());
                 }
 
+
                 // Save changes to the database
                 databaseManager.saveAllChanges();
 

@@ -121,11 +121,18 @@ public class TestGameManager
     }
 
     @Test
-    void testGameManagerInitialization() {
-        // Test initialization
-        assertNotNull(gameManager, "GameManager should not be null after initialization.");
-        assertEquals(testPlayer, gameManager.getPlayer(), "GameManager should initialize with the given player.");
-        assertEquals(testPet1, gameManager.getPlayer().getPet(), "Active pet should match player's active pet.");
+    void testGameManagerInitializationOnly() {
+    // Create fresh instances just for this test
+        TestPet testPet = new TestPet("Fluffy");
+        TestPlayer testPlayer = new TestPlayer();
+        testPlayer.addPet(testPet);
+        testPlayer.setPlayerPet(0);
+
+        GameManager gameManager = GameManager.getInstance(testPlayer);
+
+        assertNotNull(gameManager);
+        assertEquals(testPlayer, gameManager.getPlayer());
+        assertEquals(testPet, gameManager.getPlayer().getPet());
     }
 
     @Test

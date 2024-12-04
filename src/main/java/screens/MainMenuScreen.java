@@ -4,7 +4,7 @@ package screens;
 import managers.AudioManager;
 import managers.GameManager;
 import managers.ScreenManager;
-import misc.Inventory;
+import misc.PetInventory;
 import misc.LevelSelect;
 
 import javax.swing.*;

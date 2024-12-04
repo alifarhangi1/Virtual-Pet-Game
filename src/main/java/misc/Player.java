@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Player {
+public class Player
+{
     private int score;
     private HashMap<String, Item> inventory;
     private ArrayList<Pet> petList;
@@ -17,7 +18,8 @@ public class Player {
     private String passwordString;
 
     // Default constructor with minimal initialization
-    public Player() {
+    public Player()
+    {
         this.username = null;
         this.passwordString = null;
         this.score = 0;
@@ -28,7 +30,8 @@ public class Player {
     }
 
     // Existing constructor
-    public Player(String id, char[] password) {
+    public Player(String id, char[] password)
+    {
         this.username = id;
         this.passwordString = new String(password);
         this.score = 0;
@@ -88,7 +91,6 @@ public class Player {
     public void addPet(Pet pet)
     {
         this.petList.add(pet);
-        this.pet = pet;
     }
 
     public Pet getPet() {
@@ -157,7 +159,7 @@ public class Player {
         this.petList = petList;
     }
 
-    public List<Pet> getPetList() {
+    public ArrayList<Pet> getPetList() {
         return petList;
     }
 }

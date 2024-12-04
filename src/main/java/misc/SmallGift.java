@@ -11,7 +11,7 @@ public class SmallGift extends Item {
         setName("Small Gift");
         setAmount(1);
 
-        setImage(new ImageIcon(getClass().getResource("/visuals/SmallGift.png")));
+        setImage("/visuals/SmallGift.png");
     }
 }
 

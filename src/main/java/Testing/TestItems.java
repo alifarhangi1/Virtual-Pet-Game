@@ -100,9 +100,9 @@ public class TestItems
     @Test
     void testSetImage() {
         Item item = new Item("Image item");
-        ImageIcon icon = new ImageIcon("test.png");
-        item.setImage(icon);
+        String imgPath = "test.png";
+        item.setImage("test.png");
 
-        assertEquals(icon, item.getImg());
+        assertEquals(imgPath, item.getImg());
     }
 }

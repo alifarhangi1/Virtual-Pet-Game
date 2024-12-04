@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class    PetStatusScreen extends JPanel {
+public class PetStatusScreen extends JPanel {
     private GameScreenManager manager;
     private DatabaseManager databaseManager;
     private Player player;
@@ -22,15 +22,20 @@ public class    PetStatusScreen extends JPanel {
     private boolean isSleeping = false; // Track toggle state
     private ImageIcon backgroundIcon;
     private static Clip bgmClip;
+    private JLabel petImageLabel;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         JFrame mainFrame = new JFrame("Pet Game");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(800, 600);
 
         Pet pet = new Owl("JohnDo");
+        Pet Pet2 = new Wolf("JainDo");
         Player player = new Player();
+        player.addPet(pet);
+        player.addPet(Pet2);
         player.setPet(pet);
 
         // Mock inventory with items
@@ -51,11 +56,13 @@ public class    PetStatusScreen extends JPanel {
         // Set the initial screen
         manager.showPetStatusScreen();
 
+
         // Remove or comment out this line to prevent creating an extra instance
         // SwingUtilities.invokeLater(() -> new PetStatusScreen(manager, player));
     }
 
-    public PetStatusScreen(GameScreenManager manager, Player player) {
+    public PetStatusScreen(GameScreenManager manager, Player player)
+    {
         this.manager = manager;
         this.player = player;
         databaseManager = DatabaseManager.getInstance();
@@ -69,7 +76,7 @@ public class    PetStatusScreen extends JPanel {
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
         // Create top panel for back button
-        JPanel topPanel = new JPanel(new BorderLayout());
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));  // 10 pixel gap, 5 pixel padding
         topPanel.setOpaque(false);
 
         // Create back button JLabel
@@ -82,14 +89,25 @@ public class    PetStatusScreen extends JPanel {
         backButton.setHorizontalAlignment(SwingConstants.CENTER);
         backButton.setPreferredSize(new Dimension(80, 30)); // Adjust size as needed
 
+        JLabel petInventoryButton = new JLabel("Pet Inventory");
+        petInventoryButton.setOpaque(true);
+        petInventoryButton.setBackground(new Color(70, 130, 180));  // Steel blue
+        petInventoryButton.setForeground(Color.WHITE);
+        petInventoryButton.setFont(new Font("Arial", Font.BOLD, 14));
+        petInventoryButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        petInventoryButton.setHorizontalAlignment(SwingConstants.CENTER);
+        petInventoryButton.setPreferredSize(new Dimension(120, 30));
+
         // Add back button to topPanel in the EAST
-        topPanel.add(backButton, BorderLayout.EAST);
+        topPanel.add(petInventoryButton);
+        topPanel.add(backButton);
 
         // Add topPanel to the main panel in the NORTH
         add(topPanel, BorderLayout.NORTH);
 
         // Add MouseListener to backButton
-        backButton.addMouseListener(new MouseAdapter() {
+        backButton.addMouseListener(new MouseAdapter()
+        {
             @Override
             public void mouseClicked(MouseEvent e) {
                 playSound("/audio/button_click.wav");
@@ -122,7 +140,30 @@ public class    PetStatusScreen extends JPanel {
             public void mouseExited(MouseEvent e) {
                 backButton.setCursor(Cursor.getDefaultCursor());
             }
+
+
         });
+
+        petInventoryButton.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                playSound("/audio/button_click.wav");
+                manager.showPetInventoryScreen();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                petInventoryButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                playSound("/audio/menu_hover.wav");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                petInventoryButton.setCursor(Cursor.getDefaultCursor());
+            }
+        });
+
 
         // Left panel for status bars
         JPanel leftPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adjusted layout
@@ -145,7 +186,7 @@ public class    PetStatusScreen extends JPanel {
         // Center panel for image placeholder
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
-        JLabel petImageLabel = new JLabel();
+        petImageLabel = new JLabel(); // Store reference in class field
         petImageLabel.setBackground(new Color(255, 250, 205));
         petImageLabel.setOpaque(true);
         petImageLabel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -192,7 +233,8 @@ public class    PetStatusScreen extends JPanel {
         exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
         sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
-        refreshTimer = new Timer(100, e -> {
+        refreshTimer = new Timer(100, e ->
+        {
             updateStats(healthBar, energyBar, fullnessBar, happinessBar);
             databaseManager.saveDatabase();
         });
@@ -264,6 +306,46 @@ public class    PetStatusScreen extends JPanel {
             updateStats(healthBar, energyBar, fullnessBar, happinessBar);
         });
         refreshTimer.start();
+    }
+
+    public void refreshPetDisplay() {
+        Pet currentPet = player.getPet();
+
+// Update pet name field
+        for (Component comp : getComponents()) {
+            if (comp instanceof JPanel) {
+                JPanel panel = (JPanel) comp;
+                for (Component innerComp : panel.getComponents()) {
+                    if (innerComp instanceof JTextField) {
+                        ((JTextField) innerComp).setText(currentPet.getName());
+                    }
+                }
+            }
+        }
+
+        // Force image update
+        if (petImageTimer != null) {
+            petImageTimer.stop();
+            petImageTimer = new Timer(100, e -> updatePetImage(currentPet, petImageLabel));
+            petImageTimer.start();
+        }
+    }
+
+    private JLabel findPetImageLabel()
+    {
+        // Find the center panel and get the pet image label
+        for (Component comp : getComponents())
+        {
+            if (comp instanceof JPanel)
+            {
+                JPanel panel = (JPanel) comp;
+                if (panel.getLayout() instanceof BorderLayout)
+                {
+                    return (JLabel) panel.getComponent(0);
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -525,6 +607,8 @@ class ProgressLabel extends JLabel {
             warningShown = false;
         }
     }
+
+
 
 
 }

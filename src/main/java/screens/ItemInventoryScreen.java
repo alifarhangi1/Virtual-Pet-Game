@@ -8,23 +8,49 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
-public class ItemInventoryScreen extends JPanel {
+public class ItemInventoryScreen extends JPanel
+{
     private GameScreenManager manager;
     private Player player;
 
-    public ItemInventoryScreen(GameScreenManager manager, Player player) {
+    public ItemInventoryScreen(GameScreenManager manager, Player player)
+    {
         this.manager = manager;
         this.player = player;
 
-        setLayout(new GridLayout(0, 1)); // Each item in a row
+        setLayout(new BorderLayout()); // Use BorderLayout for the main panel
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        // Inventory items will go in a scrollable panel
+        JPanel inventoryPanel = new JPanel();
+        inventoryPanel.setLayout(new GridLayout(0, 1)); // Each item in a row
+        inventoryPanel.setBackground(Color.LIGHT_GRAY);
 
+        JScrollPane scrollPane = new JScrollPane(inventoryPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Add a back button at the bottom-left corner
+        JButton backButton = new JButton("Back to Pet Status");
+        backButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        backButton.addActionListener(e -> manager.showPetStatusScreen());
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(backButton, BorderLayout.WEST); // Place the button on the bottom-left
+        bottomPanel.setBackground(Color.LIGHT_GRAY);
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // Pass inventory panel to `displayInventory` method
+        this.inventoryPanel = inventoryPanel;
     }
 
+    private JPanel inventoryPanel;
+
     public void displayInventory(HashMap<String, Item> inventory) {
-        removeAll(); // Clear existing components
+        inventoryPanel.removeAll(); // Clear existing components
         for (String itemName : inventory.keySet()) {
             Item item = inventory.get(itemName);
 
@@ -34,7 +60,7 @@ public class ItemInventoryScreen extends JPanel {
             itemPanel.setBackground(Color.WHITE);
 
             // Add an image on the left
-            JLabel imageLabelLeft = new JLabel(resizeIcon(item.getImg()));
+            JLabel imageLabelLeft = new JLabel(resizeIcon(new ImageIcon(getClass().getResource(item.getImg()))));
             itemPanel.add(imageLabelLeft, BorderLayout.WEST);
 
             // Add the item description
@@ -166,17 +192,18 @@ public class ItemInventoryScreen extends JPanel {
                 }
             });
 
-            add(itemPanel);
+            inventoryPanel.add(itemPanel);
         }
-        revalidate(); // Refresh the panel after adding components
-        repaint();
+        inventoryPanel.revalidate(); // Refresh the panel after adding components
+        inventoryPanel.repaint();
     }
 
-
-
-    private ImageIcon resizeIcon(ImageIcon icon) {
+    private ImageIcon resizeIcon(ImageIcon icon)
+    {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
+
+
 }

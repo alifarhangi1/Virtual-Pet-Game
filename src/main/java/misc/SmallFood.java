@@ -13,7 +13,7 @@ public class SmallFood extends Item
         setHappyAmount(5); // Adds 5 to happiness
         setType(0); // Type 0 for food
         setAmount(1);
-        setImage(new ImageIcon(getClass().getResource("/visuals/SmallFood.jpg")));
+        setImage("/visuals/SmallFood.jpg");
     }
 }
 
