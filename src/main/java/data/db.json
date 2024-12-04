@@ -1,5 +1,5 @@
 {
-    "parentalPassword": "bollocks",
+    "parentalPassword": "password",
     "players": [
         {
             "inventory": {
@@ -128,6 +128,70 @@
             "playTime": 0,
             "score": 0,
             "username": "Jonas"
+        },
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "111",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Johnson"
+        },
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "11",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "blah"
+        },
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "123",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Amanda"
+        },
+        {
+            "inventory": {
+
+            },
+            "miniGame": [
+
+            ],
+            "passwordString": "123",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Vanessa"
         }
     ],
     "timeLimit": 0

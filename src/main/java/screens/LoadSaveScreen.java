@@ -92,6 +92,7 @@ public class LoadSaveScreen extends GameScreen {
                     Player player = databaseManager.findPlayer(textField.getText());
                     if (player != null) {
                         userExistsLabel.setVisible(false);
+                        JOptionPane.showMessageDialog(null,"Logging in...");
                     } else {
                         userExistsLabel.setVisible(true);
                         boxPanel.revalidate();
