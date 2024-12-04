@@ -39,9 +39,29 @@ public class PlayerScoreScreen {
         JLabel levelValue = new JLabel("0", SwingConstants.CENTER);
         levelValue.setFont(new Font("Arial", Font.BOLD, 24));
 
+        // Create a sub-panel for the Back button with FlowLayout
+        JPanel backButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        backButtonPanel.setPreferredSize(new Dimension(100,50));
+        backButtonPanel.setOpaque(false); // Make it transparent if needed
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Arial", Font.BOLD, 16));
+        backButton.setPreferredSize(new Dimension(100, 50)); // Set desired size
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.WHITE);
+        backButton.setFocusPainted(false);
+        backButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        backButton.setOpaque(true);
+
+// Action listener for Back button
+        backButton.addActionListener(e -> frame.dispose()); // Lambda version
+
+        backButtonPanel.add(backButton); // Add the button to its sub-panel
+
         // Add components to the panel
         panel.add(scoreLabel);
         panel.add(levelLabel);
+        panel.add(backButtonPanel);
         panel.add(scoreValue);
         panel.add(levelValue);
 
@@ -64,14 +84,16 @@ public class PlayerScoreScreen {
         frame.setVisible(true); // Show the frame
     }
 
-    public static void main(String[] args)
-    {
-        // Mock scrap.Player instance
-        Player player = new Player();
-        player.setScore(0); // Set initial score
+//    public static void main(String[] args)
+//    {
+//        // Mock scrap.Player instance
+//        Player player = new Player();
+//        player.setScore(0); // Set initial score
+//
+//        // Create an instance of the game and display the screen
+//        PlayerScoreScreen gameScreen = new PlayerScoreScreen(player);
+//        gameScreen.displayScreen();
+//    }
 
-        // Create an instance of the game and display the screen
-        PlayerScoreScreen gameScreen = new PlayerScoreScreen(player);
-        gameScreen.displayScreen();
-    }
+
 }

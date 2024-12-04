@@ -89,6 +89,8 @@ public class MainMenuScreen extends JPanel {
     private GameManager gm;
     private AudioManager audioManager;
     private GameScreenManager gameScreenManager;
+    private boolean isPlayerScoreScreenOpen = false;
+    private boolean isMinigameOpen = false;
 
     /**
      * Constructs the main menu screen for the application.
@@ -101,11 +103,11 @@ public class MainMenuScreen extends JPanel {
         screenManager = ScreenManager.getInstance();
         audioManager = AudioManager.getInstance();
 
-        JFrame frame = new JFrame();
-        frame.setSize(800, 600);
-        gameScreenManager = new GameScreenManager(frame, gm.getPlayer());
-        frame.setVisible(true);
-        gameScreenManager.showPetStatusScreen();
+//        JFrame frame = new JFrame();
+//        frame.setSize(800, 600);
+//        gameScreenManager = new GameScreenManager(frame, gm.getPlayer());
+//        frame.setVisible(true);
+//        gameScreenManager.showPetStatusScreen();
 
         // Set layout to FlowLayout with custom alignment and gaps
         setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
@@ -352,8 +354,13 @@ public class MainMenuScreen extends JPanel {
                     audioManager.stopBackgroundMusic();
                     screenManager.showScreen("pet-select");
                 } else if (currentSlideIndex == 1) {
-                    audioManager.stopBackgroundMusic();
-                    new LevelSelect();
+                    if(!isMinigameOpen){
+                        isMinigameOpen = true;
+                        audioManager.stopBackgroundMusic();
+                        new LevelSelect();
+                        // Reset the flag when the screen is closed
+                        SwingUtilities.invokeLater(() -> isMinigameOpen = false);
+                    }
                 } else if (currentSlideIndex == 2) {
                     if (screenManager.hasScreen("pet-select")) {
                         screenManager.deleteScreen("pet-select");
@@ -362,8 +369,14 @@ public class MainMenuScreen extends JPanel {
                     audioManager.stopBackgroundMusic();
                     screenManager.showScreen("pet-select");
                 } else {
-                    PlayerScoreScreen scoreScreen = new PlayerScoreScreen(gm.getPlayer());
-                    scoreScreen.displayScreen();
+                    // Only display PlayerScoreScreen if it's not already open
+                    if (!isPlayerScoreScreenOpen) {
+                        isPlayerScoreScreenOpen = true; // Set the flag
+                        PlayerScoreScreen scoreScreen = new PlayerScoreScreen(gm.getPlayer());
+                        scoreScreen.displayScreen();
+                        // Reset the flag when the screen is closed
+                        SwingUtilities.invokeLater(() -> isPlayerScoreScreenOpen = false);
+                    }
                 }
 
             }

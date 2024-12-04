@@ -1,7 +1,9 @@
 package screens;
 
+import managers.AudioManager;
 import managers.DatabaseManager;
 import managers.GameManager;
+import managers.ScreenManager;
 import misc.*;
 
 import javax.sound.sampled.*;
@@ -24,7 +26,8 @@ public class PetStatusScreen extends JPanel {
     private static Clip bgmClip;
     private JLabel petImageLabel;
     private JTextField petNameField;
-
+    private ScreenManager screenManager;
+    private AudioManager audioManager;
 
     public static void main(String[] args)
     {
@@ -67,6 +70,9 @@ public class PetStatusScreen extends JPanel {
         this.manager = manager;
         this.player = player;
         databaseManager = DatabaseManager.getInstance();
+
+        screenManager = ScreenManager.getInstance();
+        audioManager = AudioManager.getInstance();
 
         // Music
         playBackgroundMusic("/audio/inventory_bgm.wav");
@@ -124,11 +130,10 @@ public class PetStatusScreen extends JPanel {
                     bgmClip = null;
                 }
 
-                // Dispose of the panel by removing all components and making it invisible
-                PetStatusScreen.this.removeAll();
-                PetStatusScreen.this.setVisible(false);
-                PetStatusScreen.this.revalidate();
-                PetStatusScreen.this.repaint();
+
+                // Dispose of the panel
+                manager.closeFrame();
+
             }
 
             @Override

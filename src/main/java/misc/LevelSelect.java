@@ -173,7 +173,7 @@ public class LevelSelect implements MouseListener {
     private void createLevelIcon() {
         icon1 = resizeImage(new ImageIcon(getClass().getResource("/visuals/KungFuChaos.png")));
         icon2 = resizeImage(new ImageIcon(getClass().getResource("/visuals/maze.png")));
-        icon3 = resizeImage(new ImageIcon(getClass().getResource("/visuals/dragon.png")));
+        icon3 = resizeImage(new ImageIcon(getClass().getResource("/visuals/dragonduel.png")));
 
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(icon1.getIconWidth(), icon1.getIconHeight()));

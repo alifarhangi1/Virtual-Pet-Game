@@ -47,4 +47,11 @@ public class GameScreenManager {
         frame.revalidate();
         frame.repaint();
     }
+
+    public void closeFrame() {
+        if (frame != null) {
+            frame.dispose();
+        }
+    }
+
 }

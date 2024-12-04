@@ -119,7 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
         fullScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2D = (Graphics2D) fullScreen.getGraphics();
 
-        setFullScreen();
+//        setFullScreen();
 
         // Add music for levels with specific names
         if (levelName.equals("Maze Madness") || levelName.equals("Kung Fu Chaos") || levelName.equals("Dragon Duel")) {
@@ -135,14 +135,14 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Sets the game to fullscreen mode by adjusting the screen size.
      */
-    public void setFullScreen() {
-        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
-        graphicsDevice.setFullScreenWindow(WindowManager.getWindow());
-
-        screenWidth2 = WindowManager.getWindow().getWidth();
-        screenHeight2 = WindowManager.getWindow().getHeight();
-    }
+//    public void setFullScreen() {
+//        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        GraphicsDevice graphicsDevice = graphicsEnvironment.getDefaultScreenDevice();
+//        graphicsDevice.setFullScreenWindow(WindowManager.getWindow());
+//
+//        screenWidth2 = WindowManager.getWindow().getWidth();
+//        screenHeight2 = WindowManager.getWindow().getHeight();
+//    }
 
     /**
      * Starts the game thread, which executes the game loop.

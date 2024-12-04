@@ -52,28 +52,28 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("visuals/tree.png"));
+            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/visuals/tree.png"));
             tile[0].collision = true;
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("visuals/wall.png"));
+            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/visuals/wall.png"));
             tile[1].collision = true;
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("visuals/water01.png"));
+            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/visuals/water01.png"));
             tile[2].collision = true;
 
             tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("visuals/road00.png"));
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/visuals/road00.png"));
 
             tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("visuals/grass01.png"));
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/visuals/grass01.png"));
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("visuals/path.jpg"));
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/visuals/path.jpg"));
 
             tile[6] = new Tile();
-            tile[6].image = ImageIO.read(getClass().getResourceAsStream("visuals/hut.png"));
+            tile[6].image = ImageIO.read(getClass().getResourceAsStream("/visuals/hut.png"));
             tile[6].collision = true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -87,7 +87,7 @@ public class TileManager {
      */
     public void loadMap(String mapName) {
         try {
-            InputStream inputStream = getClass().getResourceAsStream(mapName);
+            InputStream inputStream = getClass().getResourceAsStream("/" + mapName);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             int col = 0;
