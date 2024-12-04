@@ -19,7 +19,7 @@ public class OBJ_EvolutionFruit extends SuperObject {
 
         try {
             // Load the sprite image for the Evolution Fruit
-            image = ImageIO.read(getClass().getResourceAsStream("visuals/evolutionFruit.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/visuals/evolutionFruit.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

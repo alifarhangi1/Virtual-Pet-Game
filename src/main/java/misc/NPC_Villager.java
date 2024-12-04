@@ -31,14 +31,14 @@ public class NPC_Villager extends Entity {
      */
     public void getNPCImage_Villager() {
         try {
-            down1 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            up1 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("visuals/npcVillager.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/visuals/npcVillager.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

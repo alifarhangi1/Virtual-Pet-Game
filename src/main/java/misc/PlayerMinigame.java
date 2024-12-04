@@ -68,14 +68,14 @@ public class PlayerMinigame extends Entity {
      */
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_up1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_up2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_down1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_down2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_left.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_left3.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_right.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("visuals/monkey_right3.png"));
+            up1 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_up1.png"));
+            up2 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_up2.png"));
+            down1 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_down1.png"));
+            down2 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_down2.png"));
+            left1 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_left.png"));
+            left2 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_left3.png"));
+            right1 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_right.png"));
+            right2 = ImageIO.read(getClass().getResourceAsStream("/visuals/monkey_right3.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,14 +148,14 @@ public class PlayerMinigame extends Entity {
                 if (gamePanel.npc[i].attackable) {
                     // Handle attack logic
                     try {
-                        up1 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(11).png"));
-                        up2 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(11).png"));
-                        down1 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(10).png"));
-                        down2 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(10).png"));
-                        left1 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(6).png"));
-                        left2 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(6).png"));
-                        right1 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(7).png"));
-                        right2 = ImageIO.read(getClass().getResourceAsStream("visuals/Monkey(7).png"));
+                        up1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(11).png"));
+                        up2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(11).png"));
+                        down1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(10).png"));
+                        down2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(10).png"));
+                        left1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(6).png"));
+                        left2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(6).png"));
+                        right1 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(7).png"));
+                        right2 = ImageIO.read(getClass().getResourceAsStream("/visuals/Monkey(7).png"));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -185,7 +185,7 @@ public class PlayerMinigame extends Entity {
                 }
             } else if ("Maze Madness".equals(gamePanel.levelName)) {
                 gamePanel.dialogueState = true;
-                gamePanel.musicPlayer.playSound("audio/minotaurroar.wav");
+                gamePanel.musicPlayer.playSound("/audio/minotaurroar.wav");
                 gamePanel.npc[i].speak();
             }
         }

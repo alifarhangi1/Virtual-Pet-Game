@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The misc.MinigameUI class is responsible for rendering the user interface (UI)
@@ -41,7 +42,11 @@ public class MinigameUI {
 
         enemyCounterFont = new Font("Papyrus", Font.PLAIN, 40);
         try {
-            enemiesLogo = ImageIO.read(getClass().getResourceAsStream("visuals/samuraiSymbol.png"));
+            InputStream is = getClass().getResourceAsStream("/visuals/samuraiSymbol.png");
+            if (is == null) {
+                throw new IOException("Resource not found: /visuals/samuraiSymbol.png");
+            }
+            enemiesLogo = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         }

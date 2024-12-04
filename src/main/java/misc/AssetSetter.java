@@ -112,24 +112,24 @@ public class AssetSetter {
     public void setMusic() {
         if (selectedLevel.equals("Kung Fu Chaos")) {
             try {
-                gamePanel.musicPlayer.playMusic("audio/kungfuchaos.wav");
+                gamePanel.musicPlayer.playMusic("/audio/kungfuchaos.wav");
             } catch (Exception e) {
                 System.out.println("Classpath: " + System.getProperty("java.class.path"));
-                System.out.println("Resource: " + getClass().getClassLoader().getResource("audio/kungfuchaos.wav"));
+                System.out.println("Resource: " + getClass().getClassLoader().getResource("/audio/kungfuchaos.wav"));
             }
         } else if (selectedLevel.equals("Maze Madness")) {
             try {
-                gamePanel.musicPlayer.playMusic("audio/mazemadness.wav");
+                gamePanel.musicPlayer.playMusic("/audio/mazemadness.wav");
             } catch (Exception e) {
                 System.out.println("Classpath: " + System.getProperty("java.class.path"));
-                System.out.println("Resource: " + getClass().getClassLoader().getResource("audio/mazemadness.wav"));
+                System.out.println("Resource: " + getClass().getClassLoader().getResource("/audio/mazemadness.wav"));
             }
         } else if (selectedLevel.equals("Dragon Duel")) {
             try {
-                gamePanel.musicPlayer.playMusic("audio/dragonduel.wav");
+                gamePanel.musicPlayer.playMusic("/audio/dragonduel.wav");
             } catch (Exception e) {
                 System.out.println("Classpath: " + System.getProperty("java.class.path"));
-                System.out.println("Resource: " + getClass().getClassLoader().getResource("audio/dragonduel.wav"));
+                System.out.println("Resource: " + getClass().getClassLoader().getResource("/audio/dragonduel.wav"));
             }
         }
     }
