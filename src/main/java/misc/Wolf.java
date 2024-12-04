@@ -1,6 +1,7 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Wolf extends Pet
 {
@@ -17,11 +18,11 @@ public class Wolf extends Pet
         this.setEnergy(100); // Initial energy
         this.isEvolve = false; // Initial evolve status
         // Load the wolf's images (assuming images are stored in a folder named "images")
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/wolf.png")), // Happy state
-                new ImageIcon(getClass().getResource("/visuals/wolfDead.png")),  // Dead state
-                new ImageIcon(getClass().getResource("/visuals/wolfSad.png")),  // Sad State
-                new ImageIcon(getClass().getResource("/visuals/wolfSleep.png"))  // Sleep State
+        this.setImages(new String[]{
+                ("/visuals/wolf.png"), // Happy state
+                ("/visuals/wolfDead.png"),  // Dead state
+                ("/visuals/wolfSad.png"),  // Sad State
+                ("/visuals/wolfSleep.png")  // Sleep State
         });
     }
 
@@ -30,7 +31,7 @@ public class Wolf extends Pet
         return isEvolve;
     }
 
-    void Evolve()
+    public void Evolve()
     {
         // Increase stats
         this.setMaxHP(this.getMaxHP() * 2); // Double HP
@@ -38,11 +39,11 @@ public class Wolf extends Pet
         this.setHP(this.getMaxHP()); // Fully heal the pet
 
         // Update to evolved images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/wolfEvo.png")),      // Happy state
-                new ImageIcon(getClass().getResource("/visuals/wolfEvoDead.png")), // Dead state
-                new ImageIcon(getClass().getResource("/visuals/wolfEvoSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/wolfEvoSleep.png")) // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/wolfEvo.png"),      // Happy state
+                ("/visuals/wolfEvoDead.png"), // Dead state
+                ("/visuals/wolfEvoSad.png"),  // Sad state
+                ("/visuals/wolfEvoSleep.png") // Sleep state
         });
 
         // Set isEvolve to true

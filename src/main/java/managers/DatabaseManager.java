@@ -28,7 +28,8 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     public static DatabaseManager getInstance() {
-        if (instance == null) {
+        if (instance == null)
+        {
             instance = new DatabaseManager();
         }
         return instance;
@@ -64,7 +65,7 @@ public class DatabaseManager implements AutoCloseable {
                     .use("players", ArrayList.class)
                     .use("players.elementType", Player.class)
                     .use("players.inventory", HashMap.class)
-                    .use("players.petList", Pet[].class)
+                    .use("players.petList", ArrayList.class)
                     .use("players.miniGame", boolean[].class);
 
             database = deserializer.deserialize(json.toString());
@@ -81,7 +82,7 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
-    private void saveDatabase() {
+    public void saveDatabase() {
         try {
             System.out.println("Attempting to save database...");
 
@@ -100,12 +101,21 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players")
                     .include("players.inventory")
                     .include("players.petList")
-                    .include("players.miniGame")
+                    .include("players.pet")
+                    .include("players.pet.images")
+                    .include("players.petList.name")
+                    .include("players.petList.maxHP")
+                    .include("players.petList.HP")
+                    .include("players.petList.type")
+                    .include("players.petList.fullness")
+                    .include("players.petList.happiness")
+                    .include("players.petList.energy")
+                    .include("players.petList.maxEnergy")
+                    .include("players.petList.images")
                     .include("players.passwordString")
                     .exclude("*.class");
 
             String json = serializer.serialize(database);
-            System.out.println("Serialized JSON: " + json);
 
             // Write to a temporary file first
             File tempFile = new File(DATABASE_FILE + "_tmp");
@@ -119,8 +129,6 @@ public class DatabaseManager implements AutoCloseable {
                 mainFile.delete();
             }
             tempFile.renameTo(mainFile);
-
-            System.out.println("Database saved successfully to: " + mainFile.getAbsolutePath());
 
             hasUnsavedChanges = false;
             cleanupOldBackups();

@@ -1,11 +1,17 @@
 package screens;
 
+import managers.AudioManager;
+import managers.ScreenManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 
 public class ParentalControlScreen extends JPanel {
+    private ScreenManager screenManager;
+    private AudioManager audioManager;
     private ImageIcon backgroundIcon;
     private JTextField timeInputField;
     private JButton confirmButton;
@@ -27,6 +33,8 @@ public class ParentalControlScreen extends JPanel {
     public ParentalControlScreen() {
         // Set layout for the main panel
         setLayout(new BorderLayout());
+        screenManager = ScreenManager.getInstance();
+        audioManager = AudioManager.getInstance();
 
         // Background image
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
@@ -307,6 +315,7 @@ public class ParentalControlScreen extends JPanel {
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
+                audioManager.playHoverSound();
                 button.setIcon(hoverIcon); // Change to hover icon
             }
 
@@ -314,21 +323,17 @@ public class ParentalControlScreen extends JPanel {
             public void mouseExited(java.awt.event.MouseEvent e) {
                 button.setIcon(backIcon); // Revert to default icon
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                audioManager.playButtonClickSound();
+                switchToGameScreen();
+            }
         });
-
-        // Add ActionListener for button click
-        button.addActionListener(e -> switchToGameScreen());
-
         return button;
     }
 
     private void switchToGameScreen() {
-        TitleScreen TitleScreen = new TitleScreen();
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-
-        frame.getContentPane().removeAll();
-        frame.getContentPane().add(TitleScreen);
-        frame.revalidate();
-        frame.repaint();
+        screenManager.showScreen("title");
     }
 }

@@ -12,17 +12,29 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 
+/**
+ * GameScreen class represents the main template for the screens present in starting menu for the game.
+ * It creates the main background for the starting menu, and also adds other features such as an exit button,
+ * back button and the logo
+ *
+ * @author Luca Duarte
+ * @see TitleScreen
+ * @see LoadSaveScreen
+ * @see NewSaveScreen
+ * @see AudioManager
+ * @see ScreenManager
+ * @see DatabaseManager
+ */
 public class GameScreen extends JPanel {
+    /** variables for instances of the manager classes */
     public AudioManager audioManager;
     public ScreenManager screenManager;
     public DatabaseManager databaseManager;
+
+    /** various elements that compose each of the screens */
     protected final JPanel contentPanel;
     protected int originalBackButtonWidth;
     protected int originalBackButtonHeight;
-    protected static final double BACK_BUTTON_WIDTH_SCALE = 0.12;
-    protected static final double BACK_BUTTON_HEIGHT_SCALE = 0.11;
-    protected static final int MIN_BACK_BUTTON_WIDTH = 140;
-    protected static final int MIN_BACK_BUTTON_HEIGHT = 40;
     private final JPanel exitPanel;
     private final JPanel logoPanel;
     private final JPanel bottomPanel;
@@ -36,54 +48,62 @@ public class GameScreen extends JPanel {
     private final ImageIcon exitDefaultIcon;
     private final ImageIcon exitHoverIcon;
 
-    // Configuration constants
+    /** Configuration constants */
+    protected static final double BACK_BUTTON_WIDTH_SCALE = 0.12;
+    protected static final double BACK_BUTTON_HEIGHT_SCALE = 0.11;
+    protected static final int MIN_BACK_BUTTON_WIDTH = 140;
+    protected static final int MIN_BACK_BUTTON_HEIGHT = 40;
     private static final double TEXT_BASE_SCALE = 0.02;
     private static final int MIN_FONT_SIZE = 10;
     private static final double LOGO_SCALE = 0.35;
     private static final double EXIT_SCALE = 0.08;
 
+    /**
+     * GameScreen default constructor
+     */
     protected GameScreen() {
         setLayout(new BorderLayout());
+        /** gets instances of each manager */
         audioManager = AudioManager.getInstance();
         screenManager = ScreenManager.getInstance();
         databaseManager = DatabaseManager.getInstance();
 
-        // Load resources
+        /** Load resources */
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
         logo = new ImageIcon(getClass().getResource("/visuals/logo.png"));
         exitDefaultIcon = new ImageIcon(getClass().getResource("/visuals/exitButtonDefault.png"));
         exitHoverIcon = new ImageIcon(getClass().getResource("/visuals/exitButtonHover.png"));
 
-        // Initialize with background
+        /** Initialize with background */
         setBackground(new Color(0, 0, 0, 0));
 
-        // Logo panel setup
+        /** Logo panel setup */
         logoPanel = new JPanel();
         logoPanel.setOpaque(false);
         logoLabel = new JLabel();
         logoPanel.add(logoLabel);
         logoPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
 
-        // Exit button panel setup with margin
+        /** Exit button panel setup with margin */
         exitPanel = new JPanel();
         exitPanel.setOpaque(false);
         exitButton = new JLabel();
         exitPanel.add(exitButton);
         exitPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 30));
 
-        // Content panel for child screens
+        /** Content panel for child screens */
         contentPanel = new JPanel();
         contentPanel.setOpaque(false);
 
-        // Bottom panel setup
+        /** Bottom panel setup */
         bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setOpaque(false);
 
-        // Top panel setup with GridBagLayout
+        /** Top panel setup with GridBagLayout */
         topPanel = new JPanel(new GridBagLayout());
         topPanel.setOpaque(false);
 
-        // Configure logo constraints to be centered
+        /** Configure logo constraints to be centered */
         GridBagConstraints logoConstraints = new GridBagConstraints();
         logoConstraints.gridx = 0;
         logoConstraints.gridy = 0;
@@ -91,7 +111,7 @@ public class GameScreen extends JPanel {
         logoConstraints.anchor = GridBagConstraints.CENTER;
         topPanel.add(logoPanel, logoConstraints);
 
-        // Configure exit button constraints to overlay in top-right
+        /** Configure exit button constraints to overlay in top-right */
         GridBagConstraints exitConstraints = new GridBagConstraints();
         exitConstraints.gridx = 1;
         exitConstraints.gridy = 0;
@@ -99,12 +119,12 @@ public class GameScreen extends JPanel {
         exitConstraints.weightx = 1.0;
         topPanel.add(exitPanel, exitConstraints);
 
-        // Create bottom labels
+        /** Create bottom labels */
         bottomLeftLabel = createLabel("TEAM 50 CS 2212 FALL 2024 WESTERN UNIVERSITY", true);
         bottomRightLabel = createLabel(
                 "Adam Yassine, Ali Farhangi, Luca Duarte, Robin (Sangjae) Lee, Yazan Abushirbi", false);
 
-        // Bottom panel layout
+        /** Bottom panel layout */
         JPanel bottomLeftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         bottomLeftPanel.setOpaque(false);
         bottomLeftPanel.add(bottomLeftLabel);
@@ -116,12 +136,12 @@ public class GameScreen extends JPanel {
         bottomPanel.add(bottomLeftPanel, BorderLayout.WEST);
         bottomPanel.add(bottomRightPanel, BorderLayout.EAST);
 
-        // Arrange panels
+        /** Arrange panels */
         add(topPanel, BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Add mouse listener to exit button
+        /** Add mouse listener to exit button */
         exitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         exitButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -170,18 +190,31 @@ public class GameScreen extends JPanel {
         });
     }
 
+    /**
+     * Generates the background for the menu
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
+    /**
+     * Initializes back button
+     */
     protected void initializeBackButtonDimensions() {
         ImageIcon originalBackButton = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
         originalBackButtonWidth = originalBackButton.getIconWidth();
         originalBackButtonHeight = originalBackButton.getIconHeight();
     }
 
+    /**
+     * Method to resize the back button according to the screen size
+     *
+     * @return resized back button
+     */
     protected int[] resizeBackButton() {
         double backButtonWidthScaleFactor = Math.max(getWidth() * BACK_BUTTON_WIDTH_SCALE / originalBackButtonWidth,
                 MIN_BACK_BUTTON_WIDTH / (double)originalBackButtonWidth);
@@ -196,6 +229,12 @@ public class GameScreen extends JPanel {
         return size;
     }
 
+    /**
+     * Creates the back button on the chosen screen
+     *
+     * @param screen screen in which the back button will be created
+     * @return back button
+     */
     protected JLabel createBackButton(final String screen) {
         JLabel backButton = new JLabel();
         backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -203,6 +242,7 @@ public class GameScreen extends JPanel {
         ImageIcon defaultIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
         backButton.setIcon(defaultIcon);
 
+        /** Add mouse listeners to the back button */
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -231,7 +271,7 @@ public class GameScreen extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                audioManager.playButtonClickSound();
+                audioManager.playBackButtonClickSound();
                 screenManager.showScreen(screen);
             }
         });
@@ -239,6 +279,14 @@ public class GameScreen extends JPanel {
         return backButton;
     }
 
+    /**
+     * Creates a scaled version of a given UI component based on screen size
+     *
+     * @param path path to the UI image asset
+     * @param width width of the component
+     * @param height height of the component
+     * @return component scaled based on screen size
+     */
     protected ImageIcon createScaledIcon(String path, int width, int height) {
         URL resourceUrl = getClass().getResource(path);
         if (resourceUrl == null) {
@@ -249,6 +297,13 @@ public class GameScreen extends JPanel {
                 .getScaledInstance(width, height, Image.SCALE_SMOOTH));
     }
 
+    /**
+     * Creates text labels in the screen
+     *
+     * @param text text for the label
+     * @param isLeftLabel is the label on the left side of the screen
+     * @return finalized text label
+     */
     private JLabel createLabel(String text, boolean isLeftLabel) {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setOpaque(false);
@@ -259,17 +314,26 @@ public class GameScreen extends JPanel {
         return label;
     }
 
+    /**
+     * Sets the size for the starting menu buttons
+     *
+     * @param button button to be resized
+     * @param size new size
+     */
     protected void setButtonSize(JLabel button, Dimension size) {
         button.setPreferredSize(size);
         button.setMinimumSize(size);
         button.setMaximumSize(size);
     }
 
+    /**
+     * Resizes all components in the main UI based on screen size
+     */
     private void resizeComponents() {
         int windowWidth = getWidth();
         int windowHeight = getHeight();
 
-        // Resize logo
+        /** Resize logo */
         Image originalLogoImage = logo.getImage();
         int originalLogoWidth = logo.getIconWidth();
         int originalLogoHeight = logo.getIconHeight();
@@ -286,7 +350,7 @@ public class GameScreen extends JPanel {
                 newLogoWidth, newLogoHeight, Image.SCALE_SMOOTH);
         logoLabel.setIcon(new ImageIcon(resizedLogo));
 
-        // Resize exit button
+        /** Resize exit button */
         Image originalExitImage = exitDefaultIcon.getImage();
         int originalExitWidth = exitDefaultIcon.getIconWidth();
         int originalExitHeight = exitDefaultIcon.getIconHeight();
@@ -299,7 +363,7 @@ public class GameScreen extends JPanel {
         int newExitWidth = (int)(originalExitWidth * exitScaleFactor);
         int newExitHeight = (int)(originalExitHeight * exitScaleFactor);
 
-        // Create and set the scaled default icon
+        /** Create and set the scaled default icon */
         ImageIcon scaledDefaultIcon = createScaledIcon(
                 "/visuals/exitButtonDefault.png",
                 newExitWidth,
@@ -307,38 +371,30 @@ public class GameScreen extends JPanel {
         );
         exitButton.setIcon(scaledDefaultIcon);
 
-        // Resize text
+        /** Resize text */
         int leftLabelSize = Math.max((int)(windowHeight * TEXT_BASE_SCALE * 1.2), MIN_FONT_SIZE);
         int rightLabelSize = Math.max((int)(windowHeight * TEXT_BASE_SCALE), MIN_FONT_SIZE);
 
         bottomLeftLabel.setFont(new Font("Monospaced", Font.BOLD | Font.ITALIC, leftLabelSize));
         bottomRightLabel.setFont(new Font("Monospaced", Font.BOLD, rightLabelSize));
 
-        // Call onResize for child-specific resizing
+        /** Call onResize for child-specific resizing */
         onResize(windowWidth, windowHeight);
 
         revalidate();
         repaint();
     }
 
-    // Optional methods with default empty implementations
+    /** Optional methods with default empty implementations to override if needed */
     protected void onResize(int width, int height) {
-        // Default empty implementation
-        // Child classes can override this if they need custom resize behavior
     }
 
     public void onShow() {
-        // Default empty implementation
-        // Child classes can override this if they need custom show behavior
     }
 
     public void cleanup() {
-        // Default empty implementation
-        // Child classes can override this if they need custom cleanup behavior
     }
 
     protected void initializeComponents() {
-        // Default empty implementation
-        // Child classes can override this if they need custom cleanup behavior
     }
 }

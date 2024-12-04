@@ -218,5 +218,3 @@ public class PlayerMinigame extends Entity {
         gamePanel.ui.gameFinished = true;
     }
 }
-
-

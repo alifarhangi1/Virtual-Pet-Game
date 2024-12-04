@@ -19,11 +19,11 @@ public class Owl extends Pet
         this.isEvolve = false;
 
         // Load the owl's images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/owl.png")), // Happy state
-                new ImageIcon(getClass().getResource("/visuals/owlDead.png")),  // Dead state
-                new ImageIcon(getClass().getResource("/visuals/owlSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/owlSleep.png"))  // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/owl.png"), // Happy state
+                ("/visuals/owlDead.png"),  // Dead state
+                ("/visuals/owlSad.png"),  // Sad state
+                ("/visuals/owlSleep.png")  // Sleep state
         });
     }
 
@@ -35,11 +35,11 @@ public class Owl extends Pet
         this.setHP(this.getMaxHP()); // Fully heal the pet
 
         // Update to evolved images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/owlEvo.png")),      // Happy state
-                new ImageIcon(getClass().getResource("/visuals/owlEvoDead.png")), // Dead state
-                new ImageIcon(getClass().getResource("/visuals/owlEvoSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/owlEvoSleep.png")) // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/owlEvo.png"),      // Happy state
+                ("/visuals/owlEvoDead.png"), // Dead state
+                ("/visuals/owlEvoSad.png"),  // Sad state
+                ("/visuals/owlEvoSleep.png") // Sleep state
         });
 
         // Set isEvolve to true

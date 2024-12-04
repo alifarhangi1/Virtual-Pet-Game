@@ -9,11 +9,9 @@ public class SmallGift extends Item {
         setMaxHpControl(5); // Increases max HP by 5
         setType(1); // Type 1 for gift
         setName("Small Gift");
-        if (getAmount() <= 0)
-            setAmount(1);
-        else
-            setAmount(getAmount() + 1);
-        setImage(new ImageIcon(getClass().getResource("/visuals/SmallGift.png")));
+        setAmount(1);
+
+        setImage("/visuals/SmallGift.png");
     }
 }
 

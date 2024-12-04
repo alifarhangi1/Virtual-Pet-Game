@@ -75,7 +75,7 @@ public class LevelSelect implements MouseListener {
 
         // Play background music
         musicPlayer = new MusicPlayerMinigame();
-        musicPlayer.playMusic("audio/levelselectbackgroundmusic.wav");
+        musicPlayer.playMusic("/audio/levelselectbackgroundmusic.wav");
 
         // Initialize Main Panel
         mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 500, 15));
@@ -134,8 +134,8 @@ public class LevelSelect implements MouseListener {
      */
     private void addReturnButton() {
         returnButton = new JLabel();
-        returnIcon = new ImageIcon(getClass().getResource("visuals/returnButton.png"));
-        retrunIconHover = new ImageIcon(getClass().getResource("visuals/returnButtonHover.png"));
+        returnIcon = new ImageIcon(getClass().getResource("/visuals/returnButton.png"));
+        retrunIconHover = new ImageIcon(getClass().getResource("/visuals/returnButtonHover.png"));
         returnButton.setIcon(returnIcon);
         returnButton.setOpaque(false);
 
@@ -151,8 +151,8 @@ public class LevelSelect implements MouseListener {
         levelSelectContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 100, 10));
         levelSelectContainer.setBackground(Color.black);
 
-        arrowL = new ImageIcon(getClass().getResource("visuals/arrowLeft.png"));
-        arrowR = new ImageIcon(getClass().getResource("visuals/arrowRight.png"));
+        arrowL = new ImageIcon(getClass().getResource("/visuals/arrowLeft.png"));
+        arrowR = new ImageIcon(getClass().getResource("/visuals/arrowRight.png"));
         arrowLLabel = new JLabel(arrowL);
         arrowRLabel = new JLabel(arrowR);
 
@@ -171,9 +171,9 @@ public class LevelSelect implements MouseListener {
      * Initializes level icons and their associated labels.
      */
     private void createLevelIcon() {
-        icon1 = resizeImage(new ImageIcon(getClass().getResource("visuals/KungFuChaos.png")));
-        icon2 = resizeImage(new ImageIcon(getClass().getResource("visuals/maze.png")));
-        icon3 = resizeImage(new ImageIcon(getClass().getResource("visuals/dragon.png")));
+        icon1 = resizeImage(new ImageIcon(getClass().getResource("/visuals/KungFuChaos.png")));
+        icon2 = resizeImage(new ImageIcon(getClass().getResource("/visuals/maze.png")));
+        icon3 = resizeImage(new ImageIcon(getClass().getResource("/visuals/dragon.png")));
 
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(icon1.getIconWidth(), icon1.getIconHeight()));
@@ -235,7 +235,7 @@ public class LevelSelect implements MouseListener {
         Object source = e.getSource();
 
         if (source == levelName || source == returnButton || source == arrowLLabel || source == arrowRLabel) {
-            musicPlayer.playSound("audio/buttonclick.wav");
+            musicPlayer.playSound("/audio/buttonclick.wav");
         }
 
         if (source == arrowLLabel) {

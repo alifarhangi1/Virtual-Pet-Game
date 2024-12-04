@@ -10,6 +10,6 @@ public class LargeFood extends Item {
         setType(0); // Type 0 for food
         setName("Large Food");
         setAmount(1);
-        setImage(new ImageIcon(getClass().getResource("/visuals/LargeFood.jpg")));
+        setImage("/visuals/LargeFood.jpg");
     }
 }

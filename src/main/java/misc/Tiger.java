@@ -1,6 +1,8 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
+
 public class Tiger extends Pet {
     public Tiger(String name) {
         super(name, "misc.Tiger");
@@ -14,11 +16,11 @@ public class Tiger extends Pet {
         this.setEnergy(130); // Initial energy
 
         // Load the tiger's images
-        this.setImages(new ImageIcon[]{
-                new ImageIcon(getClass().getResource("/visuals/tiger.png")), // Happy state
-                new ImageIcon(getClass().getResource("/visuals/tigerDead.png")),  // Dead state
-                new ImageIcon(getClass().getResource("/visuals/tigerSad.png")),  // Sad state
-                new ImageIcon(getClass().getResource("/visuals/tigerSleep.png"))  // Sleep state
+        this.setImages(new String[]{
+                ("/visuals/tiger.png"), // Happy state
+                ("/visuals/tigerDead.png"),  // Dead state
+                ("/visuals/tigerSad.png"),  // Sad state
+                ("/visuals/tigerSleep.png")  // Sleep state
         });
     }
 }

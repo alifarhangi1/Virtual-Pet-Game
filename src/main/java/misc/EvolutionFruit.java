@@ -16,7 +16,7 @@ public class EvolutionFruit extends Item
         {
             setAmount(getAmount() + 1);
         }
-        setImage(new ImageIcon(getClass().getResource("/visuals/evolutionFruit.png")));
+        setImage("/visuals/evolutionFruit.png");
     }
 }
 

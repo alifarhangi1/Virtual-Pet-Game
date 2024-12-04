@@ -1,6 +1,7 @@
 package misc;
 
 import javax.swing.*;
+import java.net.URL;
 
 public class Pet
 {
@@ -14,8 +15,9 @@ public class Pet
     private boolean[] states = new boolean[4];
     private int maxHP;
     private int maxEnergy;
-    private ImageIcon[] images;
+    private String[] images;
 
+    public Pet() {}
     public Pet(String name, String type)
     {
         this.name = name;
@@ -38,7 +40,7 @@ public class Pet
         return type;
     }
 
-    public int getHunger() {
+    public int getFullness() {
         return fullness;
     }
 
@@ -70,18 +72,16 @@ public class Pet
         petCooldown = i;
     }
 
-    // Actions that affect the pet's stats
-    public void giveGift(int healAmount, int happinessAmount)
-    {
-        fullness = Math.min(100, fullness + 10);
-        happiness = Math.min(100, happiness + 10);
+    public void setName(String name) {
+        this.name = name;
     }
 
-
-    public void feed(Item item) {
-        fullness = Math.min(100, fullness + item.getFullAmount());
-        happiness = Math.min(100, happiness + item.getHappyAmount());
-        HP = Math.min(100, HP + item.getHealAmount());
+    // Actions that affect the pet's stats
+    public void giveGift(int fullAmount, int happinessAmount, int maxHealthAmount)
+    {
+        this.setFullness(Math.min(100, this.getFullness() + fullAmount));
+        this.setHappiness(Math.min(100, this.getHappiness() + happinessAmount));
+        this.setMaxHP(this.getMaxHP() + maxHealthAmount);
     }
 
     public void play() {
@@ -96,7 +96,8 @@ public class Pet
         fullness = Math.max(0, fullness - 10);
     }
 
-    public void vet() {
+    public void vet()
+    {
         happiness = Math.max(0, happiness - 20);
         fullness = Math.min(100, fullness + 10);
         energy = Math.min(maxEnergy, energy + 15);
@@ -160,12 +161,12 @@ public class Pet
         this.maxEnergy = maxEnergy;
     }
 
-    public void setImages(ImageIcon[] images)
+    public void setImages(String[] images)
     {
         this.images = images;
     }
 
-    public ImageIcon[] getImages()
+    public String[] getImages()
     {
         return this.images;
     }

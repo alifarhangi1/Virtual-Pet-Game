@@ -5,16 +5,26 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Class responsible for managing audio queues and music for the game
+ *
+ * @author Luca Duarte
+ */
 public class AudioManager {
     private static AudioManager instance;
+    /** audio source */
     private Clip bgmClip;
     private static boolean introPlayed = false;
+    /** volume quantity */
     private float currentVolume = 1.0f;
 
     public AudioManager() {
-        // Private constructor for singleton
+        /** Private constructor for singleton */
     }
 
+    /**
+     * @return instance of audio manager
+     */
     public static AudioManager getInstance() {
         if (instance == null) {
             instance = new AudioManager();
@@ -22,6 +32,9 @@ public class AudioManager {
         return instance;
     }
 
+    /**
+     * Plays the intro music for the game when it first starts
+     */
     public void playIntroSound() {
         if (!introPlayed) {
             try {
@@ -38,6 +51,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Starts background music for the title screen
+     */
     public void startBackgroundMusic() {
         if (bgmClip == null || !bgmClip.isRunning()) {
             try {
@@ -53,6 +69,10 @@ public class AudioManager {
             }
         }
     }
+
+    /**
+     * Plays sound for when buttons are hovered
+     */
     public void playHoverSound() {
         try {
             URL audioURL = getClass().getResource("/audio/menu_hover.wav");
@@ -65,6 +85,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Plays sound for when buttons are clicked
+     */
     public void playButtonClickSound() {
         try {
             URL audioURL = getClass().getResource("/audio/button_click.wav");
@@ -77,7 +100,10 @@ public class AudioManager {
         }
     }
 
-    public static void playBackButtonClickSound() {
+    /**
+     * Plays sound for when the back button is clicked
+     */
+    public void playBackButtonClickSound() {
         try {
             URL audioURL = AudioManager.class.getResource("/audio/back_button_click.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioURL);
@@ -89,12 +115,20 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Stops background music from playing
+     */
     public void stopBackgroundMusic() {
         if (bgmClip != null && bgmClip.isRunning()) {
             bgmClip.stop();
         }
     }
 
+    /**
+     * Sets main volume for music
+     *
+     * @param volume quantity
+     */
     public void setVolume(float volume) {
         currentVolume = Math.max(0.0f, Math.min(1.0f, volume));
         if (bgmClip != null) {
@@ -102,6 +136,12 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Sets volume for a specific audio source
+     *
+     * @param clip audio source
+     * @param volume quantity
+     */
     private void setVolume(Clip clip, float volume) {
         if (clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -111,6 +151,9 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Cleans up files used for audio
+     */
     public void cleanup() {
         if (bgmClip != null) {
             bgmClip.close();

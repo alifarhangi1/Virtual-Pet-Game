@@ -1,5 +1,6 @@
 package screens;
 
+import managers.GameManager;
 import misc.Pet;
 import misc.Player;
 
@@ -97,7 +98,15 @@ public class NewSaveScreen extends GameScreen {
                         boxPanel.repaint();
                     } else {
                         userExistsLabel.setVisible(false);
-                        databaseManager.addPlayer(new Player(textField.getText(), passwordField.getPassword(), new Pet[]{}));
+                        Player newPlayer = new Player(textField.getText(), passwordField.getPassword());
+                        GameManager gm = new GameManager(newPlayer);
+                        if (screenManager.hasScreen("pet-selection")) {
+                            screenManager.showScreen("pet-selection");
+                        } else {
+                            screenManager.addScreen("pet-selection", new PetSelect(gm));
+                            screenManager.showScreen("pet-selection");
+                        }
+                        audioManager.stopBackgroundMusic();
                     }
                 }
             });

@@ -3,6 +3,7 @@ package misc;
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * The misc.MusicPlayerMinigame class handles background music and sound effects for the game.
@@ -30,10 +31,12 @@ public class MusicPlayerMinigame {
                 musicClip.close();
             }
 
+            System.out.println(filepath);
+            URL url = getClass().getResource(filepath);
+            System.out.println("Playing music from: " + url);
+
             // Load the audio file from resources
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(
-                    getClass().getResource(filepath)
-            );
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(url);
 
             musicClip = AudioSystem.getClip();
             musicClip.open(audioStream);
