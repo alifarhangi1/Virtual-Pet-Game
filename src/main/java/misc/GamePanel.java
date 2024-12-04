@@ -98,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
      *
      * @param levelName the name of the selected game level
      */
-    public GamePanel(String levelName, GameManager gameManager)
+    public GamePanel(String levelName)
     {
         this.levelName = levelName;
         this.gameManager = gameManager;
