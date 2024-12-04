@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class MusicPlayerMinigame {
 
     /** Clip for playing background music. */
-    private Clip musicClip;
+    public Clip musicClip;
 
     /** Clip for playing sound effects. */
     private Clip soundEffectClip;

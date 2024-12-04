@@ -46,10 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldRow = 50;
 
     // Full screen settings
-    int screenWidth2 = screenWidth;
-    int screenHeight2 = screenHeight;
-    BufferedImage fullScreen;
-    Graphics2D g2D;
+    public int screenWidth2 = screenWidth;
+    public int screenHeight2 = screenHeight;
+    public BufferedImage fullScreen;
+    public Graphics2D g2D;
 
     /** Dialogue state to determine if the game is paused for dialogue. */
     public boolean dialogueState;
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
     double FPS = 60;
 
     /** Manages tiles for the current level. */
-    TileManager tileManager;
+    public TileManager tileManager;
 
     /** Handles user input via the keyboard. */
     KeyHandler keyHandler = new KeyHandler(this);
@@ -231,7 +231,7 @@ public class GamePanel extends JPanel implements Runnable {
      * @param g the Graphics object used for drawing
      */
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g); // Clear the previous frame
         g.drawImage(fullScreen, 0, 0, screenWidth2, screenHeight2, null);
     }
