@@ -12,7 +12,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+/**
+ * Classes responsible for managing the database and performing any operations on it.
+ * uses FlexJSON to edit the JSON database({@link Database}) in the backend.
+ *
+ * @author Luca Duarte
+ * @see Database
+ */
 public class DatabaseManager implements AutoCloseable {
+    /** filepaths to the database itself and the backup saves */
     private static final String DATABASE_FILE = "C:/university_projects/CS2212/group50/src/main/java/data/db.json";
     private static final String BACKUP_DIRECTORY = "C:/university_projects/CS2212/group50/src/main/java/data/backup";
     private static final int MAX_BACKUP_FILES = 5;
@@ -21,12 +30,19 @@ public class DatabaseManager implements AutoCloseable {
     private Database database;
     private boolean hasUnsavedChanges;
 
+    /**
+     * Default constructor, initalizes the backup directory and loads the database on startup
+     */
     public DatabaseManager() {
         hasUnsavedChanges = false;
         initializeBackupDirectory();
         loadDatabase();
     }
 
+    /**
+     * Returns instance of DatabeManager
+     * @return DatabaseManager instance
+     */
     public static DatabaseManager getInstance() {
         if (instance == null)
         {

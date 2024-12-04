@@ -34,8 +34,15 @@ public class ScreenManager {
         mainPanel = new JPanel(cardLayout);
         screens = new HashMap<>();
 
-        mainFrame.setMinimumSize(new Dimension(1920, 1080));
-        mainFrame.setPreferredSize(new Dimension(1024, 768));
+        // Get the screen size
+        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        Rectangle screenBounds = graphicsDevice.getDefaultConfiguration().getBounds();
+
+        // Set the frame to screen size
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        // Optional: Center the frame
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
