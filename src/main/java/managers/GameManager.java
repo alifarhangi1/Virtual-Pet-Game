@@ -20,7 +20,8 @@ public class GameManager {
     private PetStatusScreen statusScreen;
     private static GameManager instance; // Singleton instance
 
-    private GameManager(Player player) {
+    private GameManager(Player player)
+    {
         this.player = player;
         this.pets = player.getPetList(); // Load pets from player
         this.pet = player.getPet(); // Set the active pet
@@ -42,8 +43,10 @@ public class GameManager {
         this.timer.start();
     }
 
-    public static GameManager getInstance(Player player) {
-        if (instance == null) {
+    public static GameManager getInstance(Player player)
+    {
+        if (instance == null)
+        {
             instance = new GameManager(player);
         }
         return instance;

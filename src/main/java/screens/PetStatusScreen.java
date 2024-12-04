@@ -20,6 +20,7 @@ public class PetStatusScreen extends JPanel {
     private ImageIcon backgroundIcon;
     private static Clip bgmClip;
 
+
     public static void main(String[] args) {
         JFrame mainFrame = new JFrame("Pet Game");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -264,6 +265,7 @@ public class PetStatusScreen extends JPanel {
             // Draw the background image
             g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
         }
+
     }
 
     private ProgressLabel createProgressLabel(String name, int currentValue, int maxValue) {
@@ -390,16 +392,39 @@ public class PetStatusScreen extends JPanel {
         return label;
     }
 
-    private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping) {
-        return new MouseAdapter() {
+    private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping)
+    {
+        return new MouseAdapter()
+        {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (disabledWhenSleeping && isSleeping) {
-                    JOptionPane.showMessageDialog(PetStatusScreen.this, "Your pet is currently sleeping!", "Pet Sleeping", JOptionPane.INFORMATION_MESSAGE);
-                    return;
+            public void mouseClicked(MouseEvent e)
+            {
+                JLabel button = (JLabel) e.getSource();
+                if (button.isEnabled())
+                {
+                    if (disabledWhenSleeping && isSleeping)
+                    {
+                        JOptionPane.showMessageDialog(PetStatusScreen.this,
+                                "Your pet is currently sleeping!", "Pet Sleeping",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        return;
+                    }
+
+                    action.run();
+                    playSound("/audio/button_click.wav");
+
+                    // Add cooldown for vet and exercise buttons
+                    if (button.getText().equals("Take To Vet") ||
+                            button.getText().equals("Play")) {
+                        button.setEnabled(false);
+                        Timer cooldown = new Timer(60000, event ->
+                        {
+                            button.setEnabled(true);
+                        });
+                        cooldown.setRepeats(false);
+                        cooldown.start();
+                    }
                 }
-                action.run(); // Execute the provided action
-                playSound("/audio/button_click.wav");
             }
 
             @Override
@@ -422,6 +447,9 @@ class ProgressLabel extends JLabel {
     private int currentValue;
     private int maxValue;
     private String labelText;
+    private boolean warningShown = false;
+    private Timer vetCooldown;
+    private Timer exerciseCooldown;
 
     public ProgressLabel(String labelText, int currentValue, int maxValue) {
         this.labelText = labelText;
@@ -481,5 +509,14 @@ class ProgressLabel extends JLabel {
 
         g2.setColor(Color.BLACK);
         g2.drawString(text, (width - textWidth) / 2, (height + textHeight) / 2 - 2);
+
+        if (percentage <= 0.25 && !warningShown) {
+            warningShown = true;
+            JOptionPane.showMessageDialog(null, labelText + " is critically low!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (percentage > 0.25) {
+            warningShown = false;
+        }
     }
+
+
 }
