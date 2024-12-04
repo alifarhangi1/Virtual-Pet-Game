@@ -101,7 +101,7 @@ public class GameManager {
         {
             timer.stop();
             System.out.println("Game Over! Your pet has run out of health.");
-        } else if (pet.getHunger() <= 0)
+        } else if (pet.getFullness() <= 0)
         {
             System.out.println(pet.getName() + " is starving! Feed it quickly.");
         }

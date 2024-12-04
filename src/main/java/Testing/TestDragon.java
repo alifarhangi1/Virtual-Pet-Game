@@ -21,7 +21,7 @@ public class TestDragon
         assertEquals("misc.Dragon", testDragon.getType());
         assertEquals(200, testDragon.getMaxHP());
         assertEquals(150, testDragon.getMaxEnergy());
-        assertEquals(100, testDragon.getHunger());
+        assertEquals(100, testDragon.getFullness());
         assertEquals(95, testDragon.getHappiness());
         assertEquals(140, testDragon.getEnergy());
     }

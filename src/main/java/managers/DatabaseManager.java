@@ -82,7 +82,7 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
-    private void saveDatabase() {
+    public void saveDatabase() {
         try {
             System.out.println("Attempting to save database...");
 
@@ -110,8 +110,6 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players.petList.happiness")
                     .include("players.petList.energy")
                     .include("players.petList.maxEnergy")
-                    .include("players.petList.states")
-                    .include("players.petList.images")
                     .include("players.passwordString")
                     .exclude("*.class");
 

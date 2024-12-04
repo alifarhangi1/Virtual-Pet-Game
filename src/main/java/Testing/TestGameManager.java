@@ -36,7 +36,7 @@ public class TestGameManager
         public String getName() { return name; }
 
         @Override
-        public int getHunger() { return fullness; }
+        public int getFullness() { return fullness; }
 
         @Override
         public void setFullness(int value) { this.fullness = value; }

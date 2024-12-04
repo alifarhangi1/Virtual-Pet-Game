@@ -21,7 +21,7 @@ public class TestTiger
         assertEquals("misc.Tiger", testTiger.getType());
         assertEquals(180, testTiger.getMaxHP());
         assertEquals(140, testTiger.getMaxEnergy());
-        assertEquals(90, testTiger.getHunger());
+        assertEquals(90, testTiger.getFullness());
         assertEquals(85, testTiger.getHappiness());
         assertEquals(130, testTiger.getEnergy());
         assertEquals(180, testTiger.getHP());

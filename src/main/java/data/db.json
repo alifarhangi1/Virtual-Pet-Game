@@ -299,6 +299,125 @@
             "playTime": 0,
             "score": 0,
             "username": "00000"
+        },
+        {
+            "inventory": {
+                "": {
+                    "amount": 0,
+                    "description": null,
+                    "energyAmount": 0,
+                    "fullAmount": 0,
+                    "happyAmount": 0,
+                    "healAmount": 0,
+                    "img": null,
+                    "maxEnergyControl": 0,
+                    "maxHpControl": 0,
+                    "name": "",
+                    "type": 0
+                }
+            },
+            "passwordString": "xample",
+            "pet": {
+                "HP": 110,
+                "energy": 80,
+                "fullness": 95,
+                "happiness": 90,
+                "maxEnergy": 90,
+                "maxHP": 110,
+                "name": "Po",
+                "petCooldown": 0,
+                "type": null
+            },
+            "petList": [
+                {
+                    "HP": 110,
+                    "energy": 80,
+                    "fullness": 95,
+                    "happiness": 90,
+                    "maxEnergy": 90,
+                    "maxHP": 110,
+                    "name": "Po",
+                    "petCooldown": 0,
+                    "type": null
+                }
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Antonio"
+        },
+        {
+            "inventory": {
+
+            },
+            "passwordString": "0000",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Alexander"
+        },
+        {
+            "inventory": {
+
+            },
+            "passwordString": "1111",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Yoonha"
+        },
+        {
+            "inventory": {
+
+            },
+            "passwordString": "1111",
+            "pet": null,
+            "petList": [
+
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Yoomha"
+        },
+        {
+            "inventory": {
+
+            },
+            "passwordString": "0000",
+            "pet": {
+                "HP": 120,
+                "energy": 100,
+                "fullness": 80,
+                "happiness": 70,
+                "isEvolve": false,
+                "maxEnergy": 110,
+                "maxHP": 120,
+                "name": "Andrew",
+                "petCooldown": 0,
+                "type": "misc.Wolf"
+            },
+            "petList": [
+                {
+                    "HP": 120,
+                    "energy": 100,
+                    "fullness": 80,
+                    "happiness": 70,
+                    "isEvolve": false,
+                    "maxEnergy": 110,
+                    "maxHP": 120,
+                    "name": "Andrew",
+                    "petCooldown": 0,
+                    "type": "misc.Wolf"
+                }
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Sheila"
         }
     ],
     "timeLimit": 0

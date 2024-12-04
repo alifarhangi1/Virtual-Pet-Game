@@ -80,7 +80,7 @@ public class ReferenceStatusScreen extends JPanel {
         // Create status bars
         JProgressBar healthBar = createStatusBar("Health", pet.getHP(), pet.getMaxHP());
         JProgressBar energyBar = createStatusBar("Sleep", pet.getEnergy(), pet.getMaxEnergy());
-        JProgressBar fullnessBar = createStatusBar("Fullness", pet.getHunger(), 100);
+        JProgressBar fullnessBar = createStatusBar("Fullness", pet.getFullness(), 100);
         JProgressBar happinessBar = createStatusBar("Happiness", pet.getHappiness(), 100);
 
         leftPanel.add(new JLabel("Health:"));
@@ -299,7 +299,7 @@ public class ReferenceStatusScreen extends JPanel {
         Pet pet = player.getPet();
         updateStatusBar(healthBar, pet.getHP(), pet.getMaxHP());
         updateStatusBar(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusBar(fullnessBar, pet.getHunger(), 100);
+        updateStatusBar(fullnessBar, pet.getFullness(), 100);
         updateStatusBar(happinessBar, pet.getHappiness(), 100);
     }
     /**
@@ -316,7 +316,7 @@ public class ReferenceStatusScreen extends JPanel {
         Pet pet = player.getPet();
         updateStatusBar(healthBar, pet.getHP(), pet.getMaxHP());
         updateStatusBar(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusBar(fullnessBar, pet.getHunger(), 100);
+        updateStatusBar(fullnessBar, pet.getFullness(), 100);
         updateStatusBar(happinessBar, pet.getHappiness(), 100);
     }
 

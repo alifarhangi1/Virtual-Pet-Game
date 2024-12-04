@@ -129,7 +129,7 @@ public class PetStatusScreen extends JPanel {
         // Create progress labels
         ProgressLabel healthBar = createProgressLabel("Health", pet.getHP(), pet.getMaxHP());
         ProgressLabel energyBar = createProgressLabel("Energy", pet.getEnergy(), pet.getMaxEnergy());
-        ProgressLabel fullnessBar = createProgressLabel("Fullness", pet.getHunger(), 100);
+        ProgressLabel fullnessBar = createProgressLabel("Fullness", pet.getFullness(), 100);
         ProgressLabel happinessBar = createProgressLabel("Happiness", pet.getHappiness(), 100);
 
         // Add progress labels to the panel
@@ -286,7 +286,7 @@ public class PetStatusScreen extends JPanel {
         Pet pet = player.getPet();
         updateStatusLabel(healthBar, pet.getHP(), pet.getMaxHP());
         updateStatusLabel(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusLabel(fullnessBar, pet.getHunger(), 100);
+        updateStatusLabel(fullnessBar, pet.getFullness(), 100);
         updateStatusLabel(happinessBar, pet.getHappiness(), 100);
     }
 
@@ -294,7 +294,7 @@ public class PetStatusScreen extends JPanel {
         Pet pet = player.getPet();
         updateStatusLabel(healthBar, pet.getHP(), pet.getMaxHP());
         updateStatusLabel(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusLabel(fullnessBar, pet.getHunger(), 100);
+        updateStatusLabel(fullnessBar, pet.getFullness(), 100);
         updateStatusLabel(happinessBar, pet.getHappiness(), 100);
     }
 

@@ -16,6 +16,7 @@ public class Pet
     private int maxEnergy;
     private ImageIcon[] images;
 
+    public Pet() {}
     public Pet(String name, String type)
     {
         this.name = name;
@@ -38,7 +39,7 @@ public class Pet
         return type;
     }
 
-    public int getHunger() {
+    public int getFullness() {
         return fullness;
     }
 
@@ -77,7 +78,7 @@ public class Pet
     // Actions that affect the pet's stats
     public void giveGift(int fullAmount, int happinessAmount, int maxHealthAmount)
     {
-        this.setFullness(Math.min(100, this.getHunger() + fullAmount));
+        this.setFullness(Math.min(100, this.getFullness() + fullAmount));
         this.setHappiness(Math.min(100, this.getHappiness() + happinessAmount));
         this.setMaxHP(this.getMaxHP() + maxHealthAmount);
     }

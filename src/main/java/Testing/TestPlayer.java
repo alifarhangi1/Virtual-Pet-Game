@@ -27,7 +27,7 @@ class TestPlayer {
         }
 
         @Override
-        public int getHunger() { return hunger; }
+        public int getFullness() { return hunger; }
         @Override
         public void setFullness(int value) { this.hunger = value; }
         @Override
@@ -106,7 +106,7 @@ class TestPlayer {
         // Assert
         assertAll(
                 "Gift effects on pet",
-                () -> assertEquals(80, pet.getHunger(), "Fullness should increase by 30"),
+                () -> assertEquals(80, pet.getFullness(), "Fullness should increase by 30"),
                 () -> assertEquals(70, pet.getHappiness(), "Happiness should increase by 20"),
                 () -> assertEquals(110, pet.getMaxHP(), "MaxHP should increase by 10")
         );
@@ -168,7 +168,7 @@ class TestPlayer {
         player.giveGift(player.getPet(), item);
 
         // Assert
-        assertTrue(pet.getHunger() == 50);
+        assertTrue(pet.getFullness() == 50);
         assertTrue(pet.getHappiness()  == 70);
         assertTrue(pet.getMaxHP()  == 110);
     }

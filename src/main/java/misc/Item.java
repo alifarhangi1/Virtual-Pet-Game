@@ -15,6 +15,8 @@ public class Item {
     private int type;
     private int amount;
 
+    public Item() {}
+
     public Item(String description) {
         this.description = description;
         this.healAmount = 0;

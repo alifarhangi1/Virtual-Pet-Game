@@ -21,7 +21,7 @@ public class TestWolf
         assertEquals("misc.Wolf", testWolf.getType());
         assertEquals(120, testWolf.getMaxHP());
         assertEquals(110, testWolf.getMaxEnergy());
-        assertEquals(80, testWolf.getHunger());
+        assertEquals(80, testWolf.getFullness());
         assertEquals(70, testWolf.getHappiness());
         assertEquals(100, testWolf.getEnergy());
         assertFalse(testWolf.getIsEvolve());

@@ -2,6 +2,7 @@ package screens;
 
 // Importing necessary Swing components for GUI creation
 import managers.DatabaseManager;
+import managers.GameManager;
 import misc.*;
 
 import javax.swing.*;
@@ -85,7 +86,7 @@ public class PetSelect extends JPanel {
     private JButton mainMenuButton;
     private JButton titleMenuButton;
 
-    private Player player;
+    private GameManager gm;
     private DatabaseManager databaseManager;
 
     /**
@@ -93,10 +94,9 @@ public class PetSelect extends JPanel {
      * Initializes the pet selection screen by setting up the layout, components,
      * and audio features (introductory audio and background music).
      */
-    public PetSelect(Player player) {
-
+    public PetSelect(GameManager gm) {
         /** Grabs instance of player passed by new game screen */
-        this.player = player;
+        this.gm = gm;
 
         /** Grabs instance of DatabaseManager */
         databaseManager = DatabaseManager.getInstance();
@@ -840,15 +840,15 @@ public class PetSelect extends JPanel {
                 }
 
                 // Add the pet to the player's pet list
-                player.addPet(newPet);
+                gm.getPlayer().addPet(newPet);
 
                 // Set the newly added pet as the active pet
-                player.setPet(newPet);
+                gm.getPlayer().setPet(newPet);
+
+                databaseManager.addPlayer(gm.getPlayer());
 
                 // Save changes to the database
                 databaseManager.saveAllChanges();
-
-                System.exit(0);
             }
         });
 

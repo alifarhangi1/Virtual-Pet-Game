@@ -1,5 +1,9 @@
+import managers.DatabaseManager;
 import managers.ScreenManager;
 import managers.AudioManager;
+import misc.Item;
+import misc.Panda;
+import misc.Player;
 import screens.*;
 
 /**
@@ -25,6 +29,7 @@ public class Main {
         /** Initialize managers */
         ScreenManager screenManager = ScreenManager.getInstance();
         AudioManager audioManager = AudioManager.getInstance();
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
 
         /** Audio manager plays the intro and menu music */
         audioManager.playIntroSound();

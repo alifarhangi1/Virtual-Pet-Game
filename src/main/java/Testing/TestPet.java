@@ -23,7 +23,7 @@ public class TestPet
         assertEquals("TestPet", testPet.getName());
         assertEquals("misc.Wolf", testPet.getType());
         assertEquals(100, testPet.getHP());
-        assertEquals(100, testPet.getHunger());
+        assertEquals(100, testPet.getFullness());
         assertEquals(100, testPet.getHappiness());
         assertEquals(100, testPet.getEnergy());
     }
@@ -33,7 +33,7 @@ public class TestPet
     {
         testPet.play();
         assertEquals(85, testPet.getEnergy());
-        assertEquals(95, testPet.getHunger());
+        assertEquals(95, testPet.getFullness());
         assertEquals(100, testPet.getHappiness());
     }
 
@@ -45,7 +45,7 @@ public class TestPet
         testPet.setHappiness(100);
         testPet.play();
         assertEquals(0, testPet.getEnergy());
-        assertEquals(0, testPet.getHunger());
+        assertEquals(0, testPet.getFullness());
         assertEquals(100, testPet.getHappiness());
     }
 
@@ -59,7 +59,7 @@ public class TestPet
         testPet.setFullness(50);
         testPet.setMaxHP(100);
         testPet.giveGift(testFood.getFullAmount(), testFood.getHappyAmount(), testFood.getMaxHpControl());
-        assertTrue(testPet.getHunger() == 51);
+        assertTrue(testPet.getFullness() == 51);
         assertTrue(testPet.getHappiness()  == 51);
         assertTrue(testPet.getMaxHP()  == 100);
     }
@@ -74,7 +74,7 @@ public class TestPet
         testPet.setFullness(100);
         testPet.setMaxHP(100);
         testPet.giveGift(testFood.getFullAmount(), testFood.getHappyAmount(), testFood.getMaxHpControl());
-        assertTrue(testPet.getHunger() == 100);
+        assertTrue(testPet.getFullness() == 100);
         assertTrue(testPet.getHappiness()  == 100);
         assertTrue(testPet.getMaxHP()  == 100);
     }
@@ -89,7 +89,7 @@ public class TestPet
         testPet.setFullness(50);
         testPet.setMaxHP(100);
         testPet.giveGift(testFood.getFullAmount(), testFood.getHappyAmount(), testFood.getMaxHpControl());
-        assertTrue(testPet.getHunger() == 50);
+        assertTrue(testPet.getFullness() == 50);
         assertTrue(testPet.getHappiness()  == 51);
         assertTrue(testPet.getMaxHP()  == 101);
     }
@@ -98,7 +98,7 @@ public class TestPet
     void testUpdateDecreasesStats()
     {
         testPet.update();
-        assertEquals(98, testPet.getHunger());
+        assertEquals(98, testPet.getFullness());
         assertEquals(99, testPet.getHappiness());
         assertEquals(99, testPet.getEnergy());
     }
@@ -121,7 +121,7 @@ public class TestPet
         testPet.vet();
         assertEquals(60, testPet.getHP());        // HP should increase by 10
         assertEquals(80, testPet.getHappiness()); // Happiness decreases by 20
-        assertEquals(60, testPet.getHunger());  // Fullness increases by 10
+        assertEquals(60, testPet.getFullness());  // Fullness increases by 10
         assertEquals(65, testPet.getEnergy());    // Energy increases by 15
     }
 
@@ -133,7 +133,7 @@ public class TestPet
         testPet.setEnergy(95);
         testPet.vet();
         assertEquals(100, testPet.getHP());       // Should not exceed 100
-        assertEquals(100, testPet.getHunger()); // Should not exceed 100
+        assertEquals(100, testPet.getFullness()); // Should not exceed 100
         assertEquals(100, testPet.getEnergy());   // Should not exceed 100
     }
 
@@ -164,7 +164,7 @@ public class TestPet
         testPet.setFullness(100);
         testPet.sleep();
         assertEquals(70, testPet.getEnergy());    // Energy increases by 20
-        assertEquals(90, testPet.getHunger());  // Fullness decreases by 10
+        assertEquals(90, testPet.getFullness());  // Fullness decreases by 10
     }
 
     @Test

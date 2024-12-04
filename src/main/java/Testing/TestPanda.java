@@ -22,7 +22,7 @@ public class TestPanda
         assertEquals("misc.Panda", testPanda.getType());
         assertEquals(110, testPanda.getMaxHP());
         assertEquals(90, testPanda.getMaxEnergy());
-        assertEquals(95, testPanda.getHunger());
+        assertEquals(95, testPanda.getFullness());
         assertEquals(90, testPanda.getHappiness());
         assertEquals(80, testPanda.getEnergy());
         assertFalse(testPanda.getIsEvolve());

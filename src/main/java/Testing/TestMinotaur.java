@@ -21,7 +21,7 @@ public class TestMinotaur
         assertEquals("misc.Minotaur", testMinotaur.getType());
         assertEquals(220, testMinotaur.getMaxHP());
         assertEquals(130, testMinotaur.getMaxEnergy());
-        assertEquals(85, testMinotaur.getHunger());
+        assertEquals(85, testMinotaur.getFullness());
         assertEquals(80, testMinotaur.getHappiness());
         assertEquals(120, testMinotaur.getEnergy());
     }

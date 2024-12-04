@@ -20,7 +20,7 @@ public class TestOwl
         assertEquals("misc.Owl", testOwl.getType());
         assertEquals(100, testOwl.getMaxHP());
         assertEquals(120, testOwl.getMaxEnergy());
-        assertEquals(90, testOwl.getHunger());
+        assertEquals(90, testOwl.getFullness());
         assertEquals(85, testOwl.getHappiness());
         assertEquals(110, testOwl.getEnergy());
         assertFalse(testOwl.getIsEvolve());
