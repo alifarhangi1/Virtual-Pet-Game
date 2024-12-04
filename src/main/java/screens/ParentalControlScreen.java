@@ -269,7 +269,7 @@ public class ParentalControlScreen extends JPanel {
                     if (pets != null && !pets.isEmpty()) {
                         for (Pet pet : pets) {
                             if (pet != null) {
-                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
+                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximumssss
                             }
                         }
                         JOptionPane.showMessageDialog(null, "All pets revived successfully for player: " + playerName, "Revive Pets", JOptionPane.INFORMATION_MESSAGE);
