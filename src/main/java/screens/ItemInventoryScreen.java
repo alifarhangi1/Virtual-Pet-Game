@@ -19,6 +19,8 @@ public class ItemInventoryScreen extends JPanel {
         setLayout(new GridLayout(0, 1)); // Each item in a row
         setBackground(Color.LIGHT_GRAY);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+
     }
 
     public void displayInventory(HashMap<String, Item> inventory) {
@@ -169,6 +171,8 @@ public class ItemInventoryScreen extends JPanel {
         revalidate(); // Refresh the panel after adding components
         repaint();
     }
+
+
 
     private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();

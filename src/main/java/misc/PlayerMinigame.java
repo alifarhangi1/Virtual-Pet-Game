@@ -29,7 +29,7 @@ public class PlayerMinigame extends Entity {
     /** Flags indicating whether the player has won in each level. */
     public boolean mazeMadnessWin;
     public boolean kungfuChaosWin;
-    public boolean dragonDuelWin;
+    public boolean firstWin = true;
 
     /**
      * Constructs a misc.PlayerMinigame instance and initializes its attributes and sprites.
@@ -127,10 +127,12 @@ public class PlayerMinigame extends Entity {
         if (i != 999) {
             String objectName = gamePanel.obj[i].name;
             if ("Evolution Fruit".equals(objectName)) {
-                gamePanel.obj[i] = null;
-                gamePanel.musicPlayer.playSound("/audio/evoFruit.wav");
-                playerWin();
-                mazeMadnessWin = true;
+                if(firstWin){
+                    gamePanel.obj[i] = null;
+                    gamePanel.musicPlayer.playSound("/audio/evoFruit.wav");
+                    playerWin();
+                    mazeMadnessWin = true;
+                }
             }
         }
     }
@@ -172,8 +174,10 @@ public class PlayerMinigame extends Entity {
 
                     // Check for win condition
                     if (enemiesLeft == 0) {
-                        playerWin();
-                        kungfuChaosWin = true;
+                        if(firstWin){
+                            playerWin();
+                            kungfuChaosWin = true;
+                        }
                     }
                 } else {
                     gamePanel.dialogueState = true;
@@ -208,10 +212,9 @@ public class PlayerMinigame extends Entity {
      */
     public void playerWin() {
         System.out.println("Win!");
+        firstWin = false;
         gamePanel.musicPlayer.stopMusic();
         gamePanel.musicPlayer.playSound("/audio/levelup.wav");
         gamePanel.ui.gameFinished = true;
     }
 }
-
-

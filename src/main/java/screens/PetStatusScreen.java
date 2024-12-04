@@ -1,75 +1,172 @@
 package screens;
 
-import misc.Pet;
-import misc.Player;
+import misc.*;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
 
-public class PetStatusScreen extends JPanel
-{
+public class PetStatusScreen extends JPanel {
     private GameScreenManager manager;
     private Player player;
+    private Timer petImageTimer;
     private Timer sleepTimer;
     private Timer refreshTimer;
     private boolean isSleeping = false; // Track toggle state
+    private ImageIcon backgroundIcon;
+    private static Clip bgmClip;
+
+    public static void main(String[] args) {
+        JFrame mainFrame = new JFrame("Pet Game");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setSize(800, 600);
+
+        Pet pet = new Owl("JohnDo");
+        Player player = new Player();
+        player.setPet(pet);
+        player.finishMinigame(0);
+        player.setPlayerPet(0);
+
+        // Mock inventory with items
+        HashMap<String, Item> inventory = player.getInventory();
+        inventory.put("Bone", new MediumGift());
+
+        GameScreenManager manager = new GameScreenManager(mainFrame, player);
+
+        // Create the PetStatusScreen and pass the manager and player
+        PetStatusScreen petStatusScreen = new PetStatusScreen(manager, player);
+
+        // Add the PetStatusScreen to the frame
+        mainFrame.add(petStatusScreen);
+        mainFrame.setVisible(true);
+
+        // Set the initial screen
+        manager.showPetStatusScreen();
+
+        // Remove or comment out this line to prevent creating an extra instance
+        // SwingUtilities.invokeLater(() -> new PetStatusScreen(manager, player));
+    }
 
     public PetStatusScreen(GameScreenManager manager, Player player) {
         this.manager = manager;
         this.player = player;
 
+        // Music
+        playBackgroundMusic("/audio/inventory_bgm.wav");
+
         // Set layout for the panel
         setLayout(new BorderLayout());
 
-        // Top panel for title
-        JPanel topPanel = new JPanel();
-        JLabel titleLabel = new JLabel("misc.Pet Status and Interaction Screen");
-        topPanel.add(titleLabel);
+        backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
+
+        // Create top panel for back button
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+
+        // Create back button JLabel
+        JLabel backButton = new JLabel("Back");
+        backButton.setOpaque(true);
+        backButton.setBackground(Color.RED);
+        backButton.setForeground(Color.WHITE);
+        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+        backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        backButton.setHorizontalAlignment(SwingConstants.CENTER);
+        backButton.setPreferredSize(new Dimension(80, 30)); // Adjust size as needed
+
+        // Add back button to topPanel in the EAST
+        topPanel.add(backButton, BorderLayout.EAST);
+
+        // Add topPanel to the main panel in the NORTH
         add(topPanel, BorderLayout.NORTH);
 
+        // Add MouseListener to backButton
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                playSound("/audio/button_click.wav");
+                // Stop any timers
+                if (sleepTimer != null) sleepTimer.stop();
+                if (refreshTimer != null) refreshTimer.stop();
+                if (petImageTimer != null) petImageTimer.stop();
+
+                // Stop and close the background music
+                if (bgmClip != null) {
+                    bgmClip.stop();
+                    bgmClip.close();
+                    bgmClip = null;
+                }
+
+                // Dispose of the panel by removing all components and making it invisible
+                PetStatusScreen.this.removeAll();
+                PetStatusScreen.this.setVisible(false);
+                PetStatusScreen.this.revalidate();
+                PetStatusScreen.this.repaint();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                backButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                playSound("/audio/menu_hover.wav");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                backButton.setCursor(Cursor.getDefaultCursor());
+            }
+        });
+
         // Left panel for status bars
-        JPanel leftPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+        JPanel leftPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adjusted layout
+        leftPanel.setOpaque(false);
         Pet pet = player.getPet();
 
-        // Create status bars
-        JProgressBar healthBar = createStatusBar("Health", pet.getHP(), pet.getMaxHP());
-        JProgressBar energyBar = createStatusBar("Sleep", pet.getEnergy(), pet.getMaxEnergy());
-        JProgressBar fullnessBar = createStatusBar("Fullness", pet.getHunger(), 100);
-        JProgressBar happinessBar = createStatusBar("Happiness", pet.getHappiness(), 100);
+        // Create progress labels
+        ProgressLabel healthBar = createProgressLabel("Health", pet.getHP(), pet.getMaxHP());
+        ProgressLabel energyBar = createProgressLabel("Energy", pet.getEnergy(), pet.getMaxEnergy());
+        ProgressLabel fullnessBar = createProgressLabel("Fullness", pet.getHunger(), 100);
+        ProgressLabel happinessBar = createProgressLabel("Happiness", pet.getHappiness(), 100);
 
-        leftPanel.add(new JLabel("Health:"));
+        // Add progress labels to the panel
         leftPanel.add(healthBar);
-        leftPanel.add(new JLabel("Sleep:"));
         leftPanel.add(energyBar);
-        leftPanel.add(new JLabel("Fullness:"));
         leftPanel.add(fullnessBar);
-        leftPanel.add(new JLabel("Happiness:"));
         leftPanel.add(happinessBar);
-
         add(leftPanel, BorderLayout.WEST);
 
         // Center panel for image placeholder
         JPanel centerPanel = new JPanel();
-        JLabel petImageLabel  = new JLabel();
-        petImageLabel .setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        petImageLabel .setPreferredSize(new Dimension(300, 300));
-        petImageLabel .setHorizontalAlignment(SwingConstants.CENTER);
+        centerPanel.setOpaque(false);
+        JLabel petImageLabel = new JLabel();
+        petImageLabel.setBackground(new Color(255, 250, 205));
+        petImageLabel.setOpaque(true);
+        petImageLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+        petImageLabel.setPreferredSize(new Dimension(800, 800));
+        petImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         centerPanel.add(petImageLabel);
         add(centerPanel, BorderLayout.CENTER);
 
-        // Bottom panel for buttons and pet name
+        // Bottom panel for labels and pet name
         JPanel bottomPanel = new JPanel(new GridLayout(2, 4, 10, 10));
+        bottomPanel.setOpaque(false);
 
-        // Action buttons
-        JButton feedButton = new JButton("Feed/Give Gift");
-        JButton sleepButton = new JButton("Start Sleeping"); // Updated label for toggle functionality
-        JButton vetButton = new JButton("Take To Vet");
-        JButton playButton = new JButton("Play");
-        JButton exerciseButton = new JButton("Exercise");
+        // Action labels
+        JLabel feedButton = createStyledLabel("Feed/Give Gift", new Color(255, 250, 205));
+        JLabel sleepButton = createStyledLabel("Sleep", new Color(255, 250, 205));
+        JLabel vetButton = createStyledLabel("Take To Vet", new Color(255, 250, 205));
+        JLabel playButton = createStyledLabel("Play", new Color(255, 250, 205));
+        JLabel exerciseButton = createStyledLabel("Exercise", new Color(255, 250, 205));
 
-        // misc.Pet name field
+        feedButton.setForeground(Color.black);
+        sleepButton.setForeground(Color.black);
+        vetButton.setForeground(Color.black);
+        playButton.setForeground(Color.black);
+        exerciseButton.setForeground(Color.black);
+
+        // Pet name field
         JTextField petNameField = new JTextField(pet.getName());
         petNameField.setEditable(false);
 
@@ -82,111 +179,248 @@ public class PetStatusScreen extends JPanel
 
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Add button actions
+        // Add label actions using MouseListener
+        feedButton.addMouseListener(createActionMouseListener(() -> manager.showItemInventoryScreen(), true));
+        sleepButton.addMouseListener(createActionMouseListener(() -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar), false));
+        vetButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar), true));
+        playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar), true));
+        exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
-        sleepButton.addActionListener(e -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar));
-        vetButton.addActionListener(e -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar));
-        playButton.addActionListener(e -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar));
-        exerciseButton.addActionListener(e -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar));
-        feedButton.addActionListener(e -> manager.showItemInventoryScreen());
+        // Start the pet image timer
+        petImageTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        petImageTimer.start();
 
-        sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
-        refreshTimer = new Timer(100, e -> updateStats(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar));
-        sleepTimer.start();
+        // Start the refresh timer
+        refreshTimer = new Timer(1000, e -> {
+            // Optionally decrease pet stats over time here
+            updateStats(healthBar, energyBar, fullnessBar, happinessBar);
+        });
         refreshTimer.start();
-
     }
 
-    private JProgressBar createStatusBar(String name, int currentValue, int maxValue)
-    {
-        JProgressBar progressBar = new JProgressBar(0, maxValue);
-        progressBar.setValue(currentValue);
-        progressBar.setStringPainted(true);
-        progressBar.setString(currentValue + "/" + maxValue);
-        return progressBar;
-    }
-
-    private void updateStatusBar(JProgressBar progressBar, int currentValue, int maxValue) {
-        progressBar.setMaximum(maxValue);
-        progressBar.setValue(currentValue);
-        progressBar.setString(currentValue + "/" + maxValue);
-    }
-
-    private void updateStatsAfterAction(Runnable action, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
-    {
-        action.run(); // Perform the action (e.g., feed, play)
-        Pet pet = player.getPet();
-        updateStatusBar(healthBar, pet.getHP(), pet.getMaxHP());
-        updateStatusBar(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusBar(fullnessBar, pet.getHunger(), 100);
-        updateStatusBar(happinessBar, pet.getHappiness(), 100);
-    }
-    private void updateStats(Runnable action, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
-    {
-        Pet pet = player.getPet();
-        updateStatusBar(healthBar, pet.getHP(), pet.getMaxHP());
-        updateStatusBar(energyBar, pet.getEnergy(), pet.getMaxEnergy());
-        updateStatusBar(fullnessBar, pet.getHunger(), 100);
-        updateStatusBar(happinessBar, pet.getHappiness(), 100);
-    }
-
-
-    private void toggleSleep(Pet pet, JButton sleepButton, JProgressBar healthBar, JProgressBar energyBar, JProgressBar fullnessBar, JProgressBar happinessBar)
-    {
-        if (isSleeping)
-        {
-            // Stop sleeping
-            sleepTimer.stop();
-            isSleeping = false;
-            sleepButton.setText("Start Sleeping");
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundIcon != null) {
+            // Draw the background image
+            g.drawImage(backgroundIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
         }
-        else
-        {
+    }
+
+    private ProgressLabel createProgressLabel(String name, int currentValue, int maxValue) {
+        ProgressLabel progressLabel = new ProgressLabel(name, currentValue, maxValue);
+        progressLabel.setPreferredSize(new Dimension(200, 30)); // Adjust the size as needed
+        return progressLabel;
+    }
+
+    private void updateStatusLabel(ProgressLabel progressLabel, int currentValue, int maxValue) {
+        progressLabel.setCurrentValue(currentValue);
+        progressLabel.setMaxValue(maxValue);
+        progressLabel.repaint();
+    }
+
+    private void updateStatsAfterAction(Runnable action, ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
+        action.run(); // Perform the action (e.g., sleep)
+        Pet pet = player.getPet();
+        updateStatusLabel(healthBar, pet.getHP(), pet.getMaxHP());
+        updateStatusLabel(energyBar, pet.getEnergy(), pet.getMaxEnergy());
+        updateStatusLabel(fullnessBar, pet.getHunger(), 100);
+        updateStatusLabel(happinessBar, pet.getHappiness(), 100);
+    }
+
+    private void updateStats(ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
+        Pet pet = player.getPet();
+        updateStatusLabel(healthBar, pet.getHP(), pet.getMaxHP());
+        updateStatusLabel(energyBar, pet.getEnergy(), pet.getMaxEnergy());
+        updateStatusLabel(fullnessBar, pet.getHunger(), 100);
+        updateStatusLabel(happinessBar, pet.getHappiness(), 100);
+    }
+
+    private void toggleSleep(Pet pet, JLabel sleepButton, ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
+        if (isSleeping) {
+            // Stop sleeping
+            if (sleepTimer != null) {
+                sleepTimer.stop();
+                sleepTimer = null;
+            }
+            isSleeping = false;
+            sleepButton.setText("Sleep");
+        } else {
             // Start sleeping
-            sleepTimer = new Timer(5000, new ActionListener()
-            {
+            sleepTimer = new Timer(5000, new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e)
-                {
+                public void actionPerformed(ActionEvent e) {
                     updateStatsAfterAction(pet::sleep, healthBar, energyBar, fullnessBar, happinessBar);
                 }
             });
             sleepTimer.start();
             isSleeping = true;
-            sleepButton.setText("Stop Sleeping");
+            sleepButton.setText("Wake Up");
         }
     }
-    private void updatePetImage(Pet pet, JLabel petImageLabel)
-    {
-        if (isSleeping)
-        {
+
+    private void updatePetImage(Pet pet, JLabel petImageLabel) {
+        if (isSleeping) {
             // Show sleep sprite when sleeping
             petImageLabel.setIcon(resizeIcon(pet.getImages()[3])); // Sleep state
-        } else if (pet.getHP() <= 0)
-        {
+        } else if (pet.getHP() <= 0) {
             // Show dead sprite when health is zero or below
             petImageLabel.setIcon(resizeIcon(pet.getImages()[1])); // Dead state
-        }
-        else if (pet.getHappiness() <= 50)
-        {
+        } else if (pet.getHappiness() <= 50) {
             // Show sad sprite when happiness is low
             petImageLabel.setIcon(resizeIcon(pet.getImages()[2])); // Sad state
-        }
-        else
-        {
+        } else {
             // Show happy sprite otherwise
             petImageLabel.setIcon(resizeIcon(pet.getImages()[0])); // Happy state
         }
     }
 
-    private ImageIcon resizeIcon(ImageIcon icon)
-    {
+    private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
-        Image reSizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image reSizedImg = img.getScaledInstance(450, 450, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
-    public void refreshPetStatus()
-    {
+
+    private void playSound(String soundFilePath) {
+        try {
+            URL soundFile = getClass().getResource(soundFilePath);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playBackgroundMusic(String musicFilePath) {
+        try {
+            // Stop existing bgmClip if it's playing
+            if (bgmClip != null && bgmClip.isRunning()) {
+                bgmClip.stop();
+                bgmClip.close();
+                bgmClip = null;
+            }
+
+            URL musicFile = getClass().getResource(musicFilePath);
+            if (musicFile == null) {
+                System.err.println("Music file not found: " + musicFilePath);
+                return;
+            }
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+            bgmClip = AudioSystem.getClip();
+            bgmClip.open(audioStream);
+            bgmClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop the music continuously
+            bgmClip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refreshPetStatus() {
         this.repaint();
+    }
+
+    private JLabel createStyledLabel(String text, Color color) {
+        JLabel label = new JLabel(text, SwingConstants.CENTER);
+        label.setOpaque(true);
+        label.setBackground(color);
+        label.setForeground(Color.BLACK); // Text color
+        label.setFont(new Font("Arial", Font.BOLD, 14)); // Font styling
+        label.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // Optional border
+        return label;
+    }
+
+    private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (disabledWhenSleeping && isSleeping) {
+                    JOptionPane.showMessageDialog(PetStatusScreen.this, "Your pet is currently sleeping!", "Pet Sleeping", JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                action.run(); // Execute the provided action
+                playSound("/audio/button_click.wav");
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ((JLabel) e.getSource()).setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor to hand
+                playSound("/audio/menu_hover.wav");
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                ((JLabel) e.getSource()).setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // Reset cursor
+            }
+        };
+    }
+}
+
+
+
+class ProgressLabel extends JLabel {
+    private int currentValue;
+    private int maxValue;
+    private String labelText;
+
+    public ProgressLabel(String labelText, int currentValue, int maxValue) {
+        this.labelText = labelText;
+        this.currentValue = currentValue;
+        this.maxValue = maxValue;
+        setOpaque(false); // We will handle the background ourselves
+    }
+
+    public void setCurrentValue(int currentValue) {
+        this.currentValue = currentValue;
+        repaint();
+    }
+
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+        repaint();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        // Draw the background
+        Graphics2D g2 = (Graphics2D) g;
+        int width = getWidth();
+        int height = getHeight();
+
+        // Calculate the fill percentage
+        float percentage = (float) currentValue / maxValue;
+        int fillWidth = (int) (width * percentage);
+
+        // Determine color based on percentage
+        Color fillColor;
+        if (percentage > 0.7) {
+            fillColor = new Color(100, 200, 100); // Green
+        } else if (percentage > 0.3) {
+            fillColor = new Color(255, 215, 0); // Yellow
+        } else {
+            fillColor = new Color(255, 69, 0); // Red
+        }
+
+        // Draw the filled part
+        g2.setColor(fillColor);
+        g2.fillRect(0, 0, fillWidth, height);
+
+        // Draw the empty part
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fillRect(fillWidth, 0, width - fillWidth, height);
+
+        // Draw the border
+        g2.setColor(Color.BLACK);
+        g2.drawRect(0, 0, width - 1, height - 1);
+
+        // Draw the text
+        String text = labelText + ": " + currentValue + "/" + maxValue;
+        FontMetrics fm = g2.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getAscent();
+
+        g2.setColor(Color.BLACK);
+        g2.drawString(text, (width - textWidth) / 2, (height + textHeight) / 2 - 2);
     }
 }
