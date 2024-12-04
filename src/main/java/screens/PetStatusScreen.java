@@ -23,6 +23,7 @@ public class PetStatusScreen extends JPanel {
     private ImageIcon backgroundIcon;
     private static Clip bgmClip;
     private JLabel petImageLabel;
+    private JTextField petNameField;
 
 
     public static void main(String[] args)
@@ -168,13 +169,12 @@ public class PetStatusScreen extends JPanel {
         // Left panel for status bars
         JPanel leftPanel = new JPanel(new GridLayout(4, 1, 10, 10)); // Adjusted layout
         leftPanel.setOpaque(false);
-        Pet pet = player.getPet();
 
         // Create progress labels
-        ProgressLabel healthBar = createProgressLabel("Health", pet.getHP(), pet.getMaxHP());
-        ProgressLabel energyBar = createProgressLabel("Energy", pet.getEnergy(), pet.getMaxEnergy());
-        ProgressLabel fullnessBar = createProgressLabel("Fullness", pet.getFullness(), 100);
-        ProgressLabel happinessBar = createProgressLabel("Happiness", pet.getHappiness(), 100);
+        ProgressLabel healthBar = createProgressLabel("Health", player.getPet().getHP(), player.getPet().getMaxHP());
+        ProgressLabel energyBar = createProgressLabel("Energy", player.getPet().getEnergy(), player.getPet().getMaxEnergy());
+        ProgressLabel fullnessBar = createProgressLabel("Fullness", player.getPet().getFullness(), 100);
+        ProgressLabel happinessBar = createProgressLabel("Happiness", player.getPet().getHappiness(), 100);
 
         // Add progress labels to the panel
         leftPanel.add(healthBar);
@@ -213,7 +213,7 @@ public class PetStatusScreen extends JPanel {
         exerciseButton.setForeground(Color.black);
 
         // Pet name field
-        JTextField petNameField = new JTextField(pet.getName());
+        JTextField petNameField = new JTextField(player.getPet().getName());
         petNameField.setEditable(false);
 
         bottomPanel.add(feedButton);
@@ -227,12 +227,12 @@ public class PetStatusScreen extends JPanel {
 
         // Add label actions using MouseListener
         feedButton.addMouseListener(createActionMouseListener(() -> manager.showItemInventoryScreen(), true));
-        sleepButton.addMouseListener(createActionMouseListener(() -> toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar), false));
-        vetButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar), true));
-        playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar), true));
-        exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
+        sleepButton.addMouseListener(createActionMouseListener(() -> toggleSleep(player.getPet(), sleepButton, healthBar, energyBar, fullnessBar, happinessBar), false));
+        vetButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> player.getPet().vet(), healthBar, energyBar, fullnessBar, happinessBar), true));
+        playButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> player.getPet().play(), healthBar, energyBar, fullnessBar, happinessBar), true));
+        exerciseButton.addMouseListener(createActionMouseListener(() -> updateStatsAfterAction(() -> player.getPet().exercise(), healthBar, energyBar, fullnessBar, happinessBar), true));
 
-        sleepTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        sleepTimer = new Timer(100, e -> updatePetImage(player.getPet(), petImageLabel));
         refreshTimer = new Timer(100, e ->
         {
             updateStats(healthBar, energyBar, fullnessBar, happinessBar);
@@ -259,7 +259,7 @@ public class PetStatusScreen extends JPanel {
         actionMap.put("sleep", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                toggleSleep(pet, sleepButton, healthBar, energyBar, fullnessBar, happinessBar);
+                toggleSleep(player.getPet(), sleepButton, healthBar, energyBar, fullnessBar, happinessBar);
             }
         });
 
@@ -268,7 +268,7 @@ public class PetStatusScreen extends JPanel {
         actionMap.put("vet", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateStatsAfterAction(() -> pet.vet(), healthBar, energyBar, fullnessBar, happinessBar);
+                updateStatsAfterAction(() -> player.getPet().vet(), healthBar, energyBar, fullnessBar, happinessBar);
             }
         });
 
@@ -277,7 +277,7 @@ public class PetStatusScreen extends JPanel {
         actionMap.put("play", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateStatsAfterAction(() -> pet.play(), healthBar, energyBar, fullnessBar, happinessBar);
+                updateStatsAfterAction(() -> player.getPet().play(), healthBar, energyBar, fullnessBar, happinessBar);
             }
         });
 
@@ -286,7 +286,7 @@ public class PetStatusScreen extends JPanel {
         actionMap.put("exercise", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateStatsAfterAction(() -> pet.exercise(), healthBar, energyBar, fullnessBar, happinessBar);
+                updateStatsAfterAction(() -> player.getPet().exercise(), healthBar, energyBar, fullnessBar, happinessBar);
             }
         });
 
@@ -297,7 +297,7 @@ public class PetStatusScreen extends JPanel {
         exerciseButton.setToolTipText("Exercise pet (Ctrl+E)");
 
         // Start the pet image timer
-        petImageTimer = new Timer(100, e -> updatePetImage(pet, petImageLabel));
+        petImageTimer = new Timer(100, e -> updatePetImage(player.getPet(), petImageLabel));
         petImageTimer.start();
 
         // Start the refresh timer
@@ -311,7 +311,7 @@ public class PetStatusScreen extends JPanel {
     public void refreshPetDisplay() {
         Pet currentPet = player.getPet();
 
-// Update pet name field
+        // Update pet name field
         for (Component comp : getComponents()) {
             if (comp instanceof JPanel) {
                 JPanel panel = (JPanel) comp;
@@ -324,7 +324,8 @@ public class PetStatusScreen extends JPanel {
         }
 
         // Force image update
-        if (petImageTimer != null) {
+        if (petImageTimer != null)
+        {
             petImageTimer.stop();
             petImageTimer = new Timer(100, e -> updatePetImage(currentPet, petImageLabel));
             petImageTimer.start();
@@ -607,8 +608,4 @@ class ProgressLabel extends JLabel {
             warningShown = false;
         }
     }
-
-
-
-
 }

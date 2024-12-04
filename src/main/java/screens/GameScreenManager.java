@@ -24,6 +24,7 @@ public class GameScreenManager {
     public void showPetStatusScreen() {
         frame.getContentPane().removeAll(); // Clear the current screen
         frame.add(petStatusScreen);
+        petStatusScreen.refreshPetDisplay();
         frame.revalidate(); // Refresh the frame
         frame.repaint();
     }
@@ -41,8 +42,8 @@ public class GameScreenManager {
      */
     public void showPetInventoryScreen() {
         frame.getContentPane().removeAll();
-        frame.add(petStatusScreen);
-        petStatusScreen.refreshPetDisplay(); // Add this line
+        frame.add(petInventoryScreen);  // Add the panel directly
+        petInventoryScreen.setVisible(true);
         frame.revalidate();
         frame.repaint();
     }
