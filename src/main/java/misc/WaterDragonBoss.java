@@ -1,9 +1,12 @@
 package misc;
 
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URL;
 
 public class WaterDragonBoss implements KeyListener {
 
@@ -23,11 +26,12 @@ public class WaterDragonBoss implements KeyListener {
     MusicPlayerMinigame musicPlayer = new MusicPlayerMinigame();
     Graphics2D g2D;
     private DrawingPanel drawingPanel;
+    Clip bgmClip;
 
 
     WaterDragonBoss() {
 
-        musicPlayer.playMusic("dragonduel.wav");
+        playBackgroundMusic("/audio/dragonduel.wav");
         playerHealth = 100;
         initializeFrame();
         initializeMainPanel();
@@ -121,7 +125,7 @@ public class WaterDragonBoss implements KeyListener {
 
     private void createGifPanel() {
         // Add the GIF to the northeast corner
-        gifIcon = new ImageIcon(getClass().getResource("waterDragon.gif"));
+        gifIcon = new ImageIcon(getClass().getResource("/visuals/waterDragon.gif"));
         gifLabel = new JLabel(gifIcon);
 
         gifLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,21 +146,75 @@ public class WaterDragonBoss implements KeyListener {
 //            musicPlayer.stopSound();
             musicPlayer.stopMusic();
             drawingPanel.setGameStatus(true, false); // Game won
-            musicPlayer.playSound("levelup.wav");
+            playSound("/audio/levelup.wav");
         } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
 //            musicPlayer.stopSound();
             musicPlayer.stopMusic();
             drawingPanel.setGameStatus(false, true); // Game lost
-            musicPlayer.playSound("gameover.wav");
+            playSound("/audio/gameover.wav");
         }
     }
+
+    private void playSound(String musicFilePath) {
+        try {
+            // Load the music file from the provided file path
+            URL musicFile = getClass().getResource(musicFilePath);
+
+            // Create an audio stream to read the music file
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+
+            // Obtain a Clip to play the audio
+            bgmClip = AudioSystem.getClip();
+
+            // Open the audio stream in the Clip
+            bgmClip.open(audioStream);
+
+            bgmClip.start(); // Start playing the background music
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            // Log any exceptions that occur during music playback
+            e.printStackTrace();
+        }
+    }
+
+    private void playBackgroundMusic(String musicFilePath) {
+        try {
+            // Load the music file from the provided file path
+            URL musicFile = getClass().getResource(musicFilePath);
+
+            // Create an audio stream to read the music file
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
+
+            // Obtain a Clip to play the audio
+            bgmClip = AudioSystem.getClip();
+
+            // Open the audio stream in the Clip
+            bgmClip.open(audioStream);
+
+            // Set the Clip to loop continuously and start playback
+            bgmClip.loop(Clip.LOOP_CONTINUOUSLY);
+            bgmClip.start(); // Start playing the background music
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            // Log any exceptions that occur during music playback
+            e.printStackTrace();
+        }
+    }
+
+    public void stopMusic() {
+        if (bgmClip != null) {
+            bgmClip.stop();
+            bgmClip.close();
+            bgmClip = null; // Clear the reference to free resources
+        }
+    }
+
+
 
     // ADJUST MONKEY SPRITES BASED ON ATTACK HERE
     private void createMonkeyPanel() {
         // Load original and attack monkey icons
-        monkeyIconOriginal = resizeIcon(new ImageIcon(getClass().getResource("Monkey(8).png")));
-        monkeyIconAttack = resizeIcon(new ImageIcon(getClass().getResource("Monkey(7).png")));
+        monkeyIconOriginal = resizeIcon(new ImageIcon(getClass().getResource("/visuals/Monkey(8).png")));
+        monkeyIconAttack = resizeIcon(new ImageIcon(getClass().getResource("/visuals/Monkey(7).png")));
 
         // Initialize monkeyLabel with the original icon
         monkeyLabel = new JLabel(monkeyIconOriginal);
@@ -220,7 +278,7 @@ public class WaterDragonBoss implements KeyListener {
     private void startPlayerHealthDecay()
     {
         playerHealthDecayTimer = new Timer(5000, e -> {
-            musicPlayer.playSound("dragongrowl.wav");
+            playSound("/audio/dragongrowl.wav");
             playerHealthBarLabel.decreaseHealth(5);
             playerHealth = playerHealth - 5;
             checkGameOver();
@@ -247,7 +305,7 @@ public class WaterDragonBoss implements KeyListener {
             playerHealthDecayTimer.stop();
             frame.dispose();
 //            musicPlayer.stopSound();
-            musicPlayer.stopMusic();
+            stopMusic();
             new LevelSelect();
         }
     }

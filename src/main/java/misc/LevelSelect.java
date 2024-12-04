@@ -265,7 +265,7 @@ public class LevelSelect implements MouseListener {
             musicPlayer.stopMusic();
 
             if (selectedLevel.equals("Dragon Duel")) {
-                // new Dragon();
+                 new WaterDragonBoss();
             } else {
                 new MainMinigame(selectedLevel);
                 new GamePanel(selectedLevel);
