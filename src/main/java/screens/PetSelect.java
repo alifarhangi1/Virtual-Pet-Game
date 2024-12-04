@@ -333,10 +333,10 @@ public class PetSelect extends JPanel {
             return;
         }
 
-        int gifWidth = (int) (panelWidth * 0.25);
-        int gifHeight = (int) (panelHeight * 0.3);
-        int gifX = (panelWidth - gifWidth) / 2;
-        int gifY = (int) (panelHeight * 0.15);
+        int gifWidth = (int) (panelWidth * 0.25); // Adjust width to 25% of panel width
+        int gifHeight = (int) (panelHeight * 0.3); // Adjust height to 30% of panel height
+        int gifX = (panelWidth - gifWidth) / 2;   // Center horizontally
+        int gifY = (int) (panelHeight * 0.5) - (gifHeight / 2); // Center vertically in the middle
 
         // Update GIF labels and scale images
         updateGifLabel(wolfGifLabel, "/visuals/wolfSelectGo.gif", gifX, gifY, gifWidth, gifHeight);

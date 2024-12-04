@@ -143,14 +143,12 @@ public class WaterDragonBoss implements KeyListener {
     {
         if (bossHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
-//            musicPlayer.stopSound();
-            musicPlayer.stopMusic();
+            stopMusic();
             drawingPanel.setGameStatus(true, false); // Game won
             playSound("/audio/levelup.wav");
         } else if (playerHealthBarLabel.getCurrentHealth() <= 0) {
             playerHealthDecayTimer.stop();
-//            musicPlayer.stopSound();
-            musicPlayer.stopMusic();
+            stopMusic();
             drawingPanel.setGameStatus(false, true); // Game lost
             playSound("/audio/gameover.wav");
         }

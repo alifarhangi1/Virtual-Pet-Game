@@ -572,10 +572,10 @@
             },
             "passwordString": "",
             "pet": {
-                "HP": 105,
-                "energy": 80,
-                "fullness": 60,
-                "happiness": 80,
+                "HP": 45,
+                "energy": 49,
+                "fullness": 0,
+                "happiness": 49,
                 "images": [
                     "/visuals/owl.png",
                     "/visuals/owlDead.png",
@@ -607,9 +607,54 @@
                     "type": null
                 }
             ],
-            "playTime": 18,
+            "playTime": 9,
             "score": 0,
             "username": "TIciana"
+        },
+        {
+            "inventory": {
+
+            },
+            "passwordString": "",
+            "pet": {
+                "HP": 120,
+                "energy": 95,
+                "fullness": 85,
+                "happiness": 60,
+                "images": [
+                    "/visuals/wolf.png",
+                    "/visuals/wolfDead.png",
+                    "/visuals/wolfSad.png",
+                    "/visuals/wolfSleep.png"
+                ],
+                "maxEnergy": 115,
+                "maxHP": 120,
+                "name": "Geraldo",
+                "petCooldown": 0,
+                "type": null
+            },
+            "petList": [
+                {
+                    "HP": 120,
+                    "energy": 95,
+                    "fullness": 85,
+                    "happiness": 60,
+                    "images": [
+                        "/visuals/wolf.png",
+                        "/visuals/wolfDead.png",
+                        "/visuals/wolfSad.png",
+                        "/visuals/wolfSleep.png"
+                    ],
+                    "maxEnergy": 115,
+                    "maxHP": 120,
+                    "name": "Geraldo",
+                    "petCooldown": 0,
+                    "type": null
+                }
+            ],
+            "playTime": 0,
+            "score": 0,
+            "username": "Dill"
         }
     ],
     "timeLimit": 0

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class LoadSaveScreen extends GameScreen {
     private ImageIcon backgroundIcon;
@@ -76,6 +77,11 @@ public class LoadSaveScreen extends GameScreen {
             userExistsLabel.setFont(derivedFont);
             userExistsLabel.setVisible(false);
 
+            JLabel wrongPasswordLabel = new JLabel("* Wrong password, try again");
+            wrongPasswordLabel.setForeground(Color.RED);
+            wrongPasswordLabel.setFont(derivedFont);
+            wrongPasswordLabel.setVisible(false);
+
             gbc.gridx = 0;
             gbc.gridy = 2;
             gbc.gridwidth = 2;
@@ -92,15 +98,23 @@ public class LoadSaveScreen extends GameScreen {
                 public void mouseClicked(MouseEvent e) {
                     Player player = databaseManager.findPlayer(textField.getText());
                     if (player != null) {
-                        userExistsLabel.setVisible(false);
-                        GameManager gm = new GameManager(player);
-                        if (screenManager.hasScreen("main")) {
-                            screenManager.deleteScreen("main");
+                        if (player.getPasswordString().equals(new String(passwordField.getPassword()))) {
+                            userExistsLabel.setVisible(false);
+                            wrongPasswordLabel.setVisible(false);
+                            GameManager gm = new GameManager(player);
+                            if (screenManager.hasScreen("main")) {
+                                screenManager.deleteScreen("main");
+                            }
+                            screenManager.addScreen("main", new MainMenuScreen(gm));
+                            audioManager.stopBackgroundMusic();
+                            screenManager.showScreen("main");
+                        } else {
+                            wrongPasswordLabel.setVisible(true);
+                            revalidate();
+                            repaint();
                         }
-                        screenManager.addScreen("main", new MainMenuScreen(gm));
-                        audioManager.stopBackgroundMusic();
-                        screenManager.showScreen("main");
                     } else {
+                        wrongPasswordLabel.setVisible(false);
                         userExistsLabel.setVisible(true);
                         boxPanel.revalidate();
                         boxPanel.repaint();
@@ -116,6 +130,7 @@ public class LoadSaveScreen extends GameScreen {
             boxPanel.add(signUpButton, gbc);
             gbc.gridy = 3;
             boxPanel.add(userExistsLabel, gbc);
+            boxPanel.add(wrongPasswordLabel, gbc);
             contentPanel.add(mainPanel);
             mainPanel.add(boxPanel, BorderLayout.CENTER);
             mainPanel.add(backButtonPanel, BorderLayout.SOUTH);
