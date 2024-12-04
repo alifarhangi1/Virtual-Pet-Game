@@ -103,6 +103,6 @@ public class TestItems
         String imgPath = "test.png";
         item.setImage("test.png");
 
-        assertEquals(imgPath, item.getImg());
+        assertEquals(imgPath, item.getImage());
     }
 }

@@ -23,6 +23,6 @@ public class TestMediumFood
         assertEquals(1, mediumFood.getAmount());
 
         // Verify the image is correctly set (resource file should exist)
-        assertNotNull(mediumFood.getImg(), "Image should be initialized");
+        assertNotNull(mediumFood.getImage(), "Image should be initialized");
     }
 }

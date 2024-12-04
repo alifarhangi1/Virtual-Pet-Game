@@ -23,6 +23,6 @@ public class TestLargeGift
         assertEquals(1, largeGift.getAmount());
 
         // Verify the image is correctly set (resource file should exist)
-        assertNotNull(largeGift.getImg(), "Image should be initialized");
+        assertNotNull(largeGift.getImage(), "Image should be initialized");
     }
 }

@@ -61,7 +61,7 @@ public class ItemInventoryScreen extends JPanel
             itemPanel.setBackground(Color.WHITE);
 
             // Add an image on the left
-            JLabel imageLabelLeft = new JLabel(resizeIcon(new ImageIcon(getClass().getResource(item.getImg()))));
+            JLabel imageLabelLeft = new JLabel(resizeIcon(new ImageIcon(getClass().getResource(item.getImage()))));
             itemPanel.add(imageLabelLeft, BorderLayout.WEST);
 
             // Add the item description

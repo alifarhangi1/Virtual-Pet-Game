@@ -22,6 +22,6 @@ class TestLargeFood {
         assertEquals(1, largeFood.getAmount());
 
         // Verify the image is correctly set (resource file should exist)
-        assertNotNull(largeFood.getImg(), "Image should be initialized");
+        assertNotNull(largeFood.getImage(), "Image should be initialized");
     }
 }

@@ -23,6 +23,6 @@ public class TestMediumGift
         assertEquals(1, meidumGift.getAmount());
 
         // Verify the image is correctly set (resource file should exist)
-        assertNotNull(meidumGift.getImg(), "Image should be initialized");
+        assertNotNull(meidumGift.getImage(), "Image should be initialized");
     }
 }

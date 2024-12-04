@@ -11,7 +11,7 @@ public class Item {
     private int MaxHpControl;
     private int MaxEnergyControl;
     private String description;
-    private String imagePath;
+    private String image;
     private int type;
     private int amount;
 
@@ -30,7 +30,7 @@ public class Item {
     }
 
     public void setImage(String imagePath) {
-        this.imagePath = imagePath;
+        this.image = imagePath;
     }
 
     public void setHealAmount(int healAmount) {
@@ -101,8 +101,8 @@ public class Item {
         return description;
     }
 
-    public String getImg() {
-        return this.imagePath;
+    public String getImage() {
+        return this.image;
     }
 
     public int getType() {

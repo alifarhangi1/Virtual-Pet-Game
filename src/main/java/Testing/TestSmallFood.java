@@ -23,6 +23,6 @@ public class TestSmallFood
         assertEquals(1, smallFood.getAmount());
 
         // Verify the image is correctly set (resource file should exist)
-        assertNotNull(smallFood.getImg(), "Image should be initialized");
+        assertNotNull(smallFood.getImage(), "Image should be initialized");
     }
 }

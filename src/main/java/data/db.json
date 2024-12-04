@@ -309,7 +309,7 @@
                     "fullAmount": 0,
                     "happyAmount": 0,
                     "healAmount": 0,
-                    "img": null,
+                    "image": null,
                     "maxEnergyControl": 0,
                     "maxHpControl": 0,
                     "name": "",
@@ -652,9 +652,123 @@
                     "type": null
                 }
             ],
-            "playTime": 33,
+            "playTime": 5,
             "score": 0,
             "username": "Dill"
+        },
+        {
+            "inventory": {
+                "Small Food": {
+                    "amount": 1,
+                    "description": null,
+                    "energyAmount": 0,
+                    "fullAmount": 10,
+                    "happyAmount": 5,
+                    "healAmount": 0,
+                    "image": null,
+                    "maxEnergyControl": 0,
+                    "maxHpControl": 0,
+                    "name": "Small Food",
+                    "type": 0
+                }
+            },
+            "passwordString": "--",
+            "pet": {
+                "HP": 120,
+                "energy": 100,
+                "fullness": 80,
+                "happiness": 70,
+                "images": [
+                    "/visuals/wolf.png",
+                    "/visuals/wolfDead.png",
+                    "/visuals/wolfSad.png",
+                    "/visuals/wolfSleep.png"
+                ],
+                "maxEnergy": 110,
+                "maxHP": 120,
+                "name": "Andrew",
+                "petCooldown": 0,
+                "type": null
+            },
+            "petList": [
+                {
+                    "HP": 120,
+                    "energy": 100,
+                    "fullness": 80,
+                    "happiness": 70,
+                    "images": [
+                        "/visuals/wolf.png",
+                        "/visuals/wolfDead.png",
+                        "/visuals/wolfSad.png",
+                        "/visuals/wolfSleep.png"
+                    ],
+                    "maxEnergy": 110,
+                    "maxHP": 120,
+                    "name": "Andrew",
+                    "petCooldown": 0,
+                    "type": null
+                }
+            ],
+            "playTime": 21,
+            "score": 0,
+            "username": "Person"
+        },
+        {
+            "inventory": {
+                "Small Food": {
+                    "amount": 1,
+                    "description": null,
+                    "energyAmount": 0,
+                    "fullAmount": 10,
+                    "happyAmount": 5,
+                    "healAmount": 0,
+                    "image": "/visuals/SmallFood.jpg",
+                    "maxEnergyControl": 0,
+                    "maxHpControl": 0,
+                    "name": "Small Food",
+                    "type": 0
+                }
+            },
+            "passwordString": "",
+            "pet": {
+                "HP": 120,
+                "energy": 100,
+                "fullness": 80,
+                "happiness": 70,
+                "images": [
+                    "/visuals/wolf.png",
+                    "/visuals/wolfDead.png",
+                    "/visuals/wolfSad.png",
+                    "/visuals/wolfSleep.png"
+                ],
+                "maxEnergy": 110,
+                "maxHP": 120,
+                "name": "blablahh",
+                "petCooldown": 0,
+                "type": null
+            },
+            "petList": [
+                {
+                    "HP": 120,
+                    "energy": 100,
+                    "fullness": 80,
+                    "happiness": 70,
+                    "images": [
+                        "/visuals/wolf.png",
+                        "/visuals/wolfDead.png",
+                        "/visuals/wolfSad.png",
+                        "/visuals/wolfSleep.png"
+                    ],
+                    "maxEnergy": 110,
+                    "maxHP": 120,
+                    "name": "blablahh",
+                    "petCooldown": 0,
+                    "type": null
+                }
+            ],
+            "playTime": 10,
+            "score": 0,
+            "username": "PErson2"
         }
     ],
     "timeLimit": 0

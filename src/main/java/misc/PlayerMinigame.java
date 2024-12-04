@@ -59,7 +59,7 @@ public class PlayerMinigame extends Entity
         setDefaultValues();
         getPlayerImage();
 
-        this.gameManager = gameManager.getInstance();
+        this.gameManager = GameManager.getInstance();
         this.player = gameManager.getPlayer();
     }
 
