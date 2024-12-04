@@ -1,17 +1,47 @@
 package screens;
 
-import managers.AudioManager;
+import managers.DatabaseManager;
 import managers.ScreenManager;
+import misc.Pet;
+import misc.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
+
+/**
+ * The {@code ParentalControlScreen} class represents a user interface for managing parental controls.
+ * This screen allows users to set time limits, view usage statistics, and access additional control options.
+ * It features dynamic components such as a toggle switch, input fields, and buttons for interaction.
+ *
+ * Features include:
+ *   Enable or disable time limits using a toggle switch.
+ *   Input and set a time limit in minutes.
+ *   Reset settings to default values.
+ *   View basic statistics such as total and average playtime.
+ *   Navigate back to the title screen using a back button.
+ *   Custom-styled buttons and toggle switches for enhanced user experience.
+ *
+ * This class is part of a larger application and interacts with the {@link ScreenManager}
+ * to switch between different screens. The background image and button icons are loaded
+ * from external resources.
+ *
+ * Usage Example:
+ * {@code
+ * JFrame frame = new JFrame("Parental Control Screen");
+ * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ * frame.setSize(800, 500);
+ * frame.setContentPane(new ParentalControlScreen());
+ * frame.setVisible(true);
+ * }
+ *
+ * @author Adam Yassine
+ * @version 1.0
+ */
 
 public class ParentalControlScreen extends JPanel {
     private ScreenManager screenManager;
-    private AudioManager audioManager;
     private ImageIcon backgroundIcon;
     private JTextField timeInputField;
     private JButton confirmButton;
@@ -19,6 +49,7 @@ public class ParentalControlScreen extends JPanel {
     private JButton backButton;
     private JToggleButton toggleSwitch; // The toggle switch for Time Limit On/Off
     private TimerController timerController; // Reference to manage the timer
+    private DatabaseManager databaseManager;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -30,19 +61,27 @@ public class ParentalControlScreen extends JPanel {
         });
     }
 
+    /**
+     * Constructs the ParentalControlScreen and initializes its layout and components.
+     * Sets up the background image, control panel, statistics panel, and buttons.
+     */
     public ParentalControlScreen() {
         // Set layout for the main panel
         setLayout(new BorderLayout());
         screenManager = ScreenManager.getInstance();
-        audioManager = AudioManager.getInstance();
 
         // Background image
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
+        databaseManager = DatabaseManager.getInstance();
         // Set up components
         setupComponents();
     }
 
+    /**
+     * Sets up the main components of the screen, including control and statistics panels.
+     * Adds these components to the main content panel with a bordered box layout.
+     */
     private void setupComponents() {
         // Create a content panel with a background
         JPanel contentPanel = new JPanel() {
@@ -88,6 +127,12 @@ public class ParentalControlScreen extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Creates and configures the control panel containing the time input, toggle switch,
+     * and related buttons for managing parental controls.
+     *
+     * @return A JPanel representing the control panel.
+     */
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setOpaque(true);
@@ -146,7 +191,6 @@ public class ParentalControlScreen extends JPanel {
         panel.add(timeInputField, gbc);
 
         // Confirm Button (Set Timer)
-// Confirm Button (Set Timer)
         confirmButton = createStyledButton("Set");
         confirmButton.setPreferredSize(new Dimension(60, timeInputField.getPreferredSize().height)); // Match height to input field
         confirmButton.setFont(new Font("Arial", Font.BOLD, 12)); // Adjust font size
@@ -175,7 +219,6 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 1;
         panel.add(confirmButton, gbc);
 
-// Reset Button
         // Reset Button
         resetButton = createStyledButton("Reset Settings");
         resetButton.setPreferredSize(new Dimension(150, 30)); // Set identical size for both buttons
@@ -195,18 +238,50 @@ public class ParentalControlScreen extends JPanel {
         gbc.gridwidth = 2;
         panel.add(resetButton, gbc);
 
-// Revive misc.Pet Button
+        // Revive misc.Pet Button
         JButton revivePetButton = createStyledButton("Revive Pets");
         revivePetButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
         revivePetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
         revivePetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add border
+
         revivePetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "misc.Pet revived successfully!", "Revive misc.Pet", JOptionPane.INFORMATION_MESSAGE);
-                // Add additional functionality for reviving a pet here if needed
+                // Prompt the user to input the player's name
+                String playerName = JOptionPane.showInputDialog(
+                        null,
+                        "Enter the player's name:",
+                        "Find Player",
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                // Check if the input is valid
+                if (playerName == null || playerName.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Player name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Attempt to find the player in the database
+                Player player = databaseManager.findPlayer(playerName.trim()); // Assuming databaseManager has this method
+                if (player != null) {
+                    Pet[] pets = player.getPetList();
+                    if (pets != null && pets.length > 0) {
+                        for (Pet pet : pets) {
+                            if (pet != null) {
+                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "All pets revived successfully for player: " + playerName, "Revive Pets", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Player '" + playerName + "' has no pets to revive!", "Revive Pets", JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Player '" + playerName + "' not found in the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+
+
         gbc.gridx = 0;
         gbc.gridy = 5; // Place it below the Reset Button
         gbc.gridwidth = 2;
@@ -218,6 +293,11 @@ public class ParentalControlScreen extends JPanel {
 
     }
 
+    /**
+     * Creates and configures the statistics panel to display playtime information.
+     *
+     * @return A JPanel representing the statistics panel.
+     */
     private JPanel createStatisticsPanel() {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(true);
@@ -256,6 +336,11 @@ public class ParentalControlScreen extends JPanel {
         return panel;
     }
 
+    /**
+     * Creates a custom-styled rounded toggle switch with dynamic visual feedback.
+     *
+     * @return A JToggleButton styled as a rounded toggle switch.
+     */
     private JToggleButton createRoundedToggleSwitch() {
         JToggleButton toggleSwitch = new JToggleButton();
         toggleSwitch.setPreferredSize(new Dimension(50, 25));
@@ -288,6 +373,12 @@ public class ParentalControlScreen extends JPanel {
         return toggleSwitch;
     }
 
+    /**
+     * Creates a styled button with consistent dimensions and appearance.
+     *
+     * @param text The text to display on the button.
+     * @return A JButton styled according to the screen's theme.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(150, 40));
@@ -299,6 +390,12 @@ public class ParentalControlScreen extends JPanel {
         return button;
     }
 
+
+    /**
+     * Creates a back button with custom icons and hover effects to navigate to the previous screen.
+     *
+     * @return A JButton configured as the back button.
+     */
     private JButton createBackButton() {
         // Default button icon
         ImageIcon backIcon = new ImageIcon(getClass().getResource("/visuals/woodButtonDefault.png"));
@@ -315,7 +412,6 @@ public class ParentalControlScreen extends JPanel {
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
-                audioManager.playHoverSound();
                 button.setIcon(hoverIcon); // Change to hover icon
             }
 
@@ -323,16 +419,18 @@ public class ParentalControlScreen extends JPanel {
             public void mouseExited(java.awt.event.MouseEvent e) {
                 button.setIcon(backIcon); // Revert to default icon
             }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                audioManager.playButtonClickSound();
-                switchToGameScreen();
-            }
         });
+
+        // Add ActionListener for button click
+        button.addActionListener(e -> switchToGameScreen());
+
         return button;
     }
 
+
+    /**
+     * Switches the current screen back to the "title" screen using the ScreenManager.
+     */
     private void switchToGameScreen() {
         screenManager.showScreen("title");
     }
