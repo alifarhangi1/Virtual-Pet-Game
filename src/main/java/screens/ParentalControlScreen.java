@@ -1,6 +1,9 @@
 package screens;
 
+import managers.DatabaseManager;
 import managers.ScreenManager;
+import misc.Pet;
+import misc.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,6 +49,7 @@ public class ParentalControlScreen extends JPanel {
     private JButton backButton;
     private JToggleButton toggleSwitch; // The toggle switch for Time Limit On/Off
     private TimerController timerController; // Reference to manage the timer
+    private DatabaseManager databaseManager;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -69,6 +73,7 @@ public class ParentalControlScreen extends JPanel {
         // Background image
         backgroundIcon = new ImageIcon(getClass().getResource("/visuals/background.gif"));
 
+        databaseManager = DatabaseManager.getInstance();
         // Set up components
         setupComponents();
     }
@@ -238,13 +243,45 @@ public class ParentalControlScreen extends JPanel {
         revivePetButton.setPreferredSize(new Dimension(150, 30)); // Same size as Reset Settings button
         revivePetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
         revivePetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // Add border
+
         revivePetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "misc.Pet revived successfully!", "Revive misc.Pet", JOptionPane.INFORMATION_MESSAGE);
-                // Add additional functionality for reviving a pet here if needed
+                // Prompt the user to input the player's name
+                String playerName = JOptionPane.showInputDialog(
+                        null,
+                        "Enter the player's name:",
+                        "Find Player",
+                        JOptionPane.QUESTION_MESSAGE
+                );
+
+                // Check if the input is valid
+                if (playerName == null || playerName.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Player name cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Attempt to find the player in the database
+                Player player = databaseManager.findPlayer(playerName.trim()); // Assuming databaseManager has this method
+                if (player != null) {
+                    Pet[] pets = player.getPetList();
+                    if (pets != null && pets.length > 0) {
+                        for (Pet pet : pets) {
+                            if (pet != null) {
+                                pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
+                            }
+                        }
+                        JOptionPane.showMessageDialog(null, "All pets revived successfully for player: " + playerName, "Revive Pets", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Player '" + playerName + "' has no pets to revive!", "Revive Pets", JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Player '" + playerName + "' not found in the database!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+
+
         gbc.gridx = 0;
         gbc.gridy = 5; // Place it below the Reset Button
         gbc.gridwidth = 2;
