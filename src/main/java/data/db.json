@@ -573,9 +573,9 @@
             "passwordString": "",
             "pet": {
                 "HP": 105,
-                "energy": 81,
-                "fullness": 62,
-                "happiness": 81,
+                "energy": 80,
+                "fullness": 60,
+                "happiness": 80,
                 "images": [
                     "/visuals/owl.png",
                     "/visuals/owlDead.png",
@@ -607,7 +607,7 @@
                     "type": null
                 }
             ],
-            "playTime": 19,
+            "playTime": 18,
             "score": 0,
             "username": "TIciana"
         }

@@ -1,14 +1,17 @@
 package misc;
 
+import managers.DatabaseManager;
 import managers.WindowManager;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
 
 /**
  * The misc.MainMinigame class serves as the entry point for the game and handles the
  * initialization of the game window and the selected level.
  */
 public class MainMinigame {
+    private DatabaseManager databaseManager;
 
     /**
      * The main method starts the game by displaying the level selection screen.
@@ -26,8 +29,15 @@ public class MainMinigame {
      */
     public MainMinigame(String levelName) {
         // Create the game window
+        databaseManager = DatabaseManager.getInstance();
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                databaseManager.saveDatabase();
+            }
+        });
 
         // Store the JFrame globally for access throughout the application
         WindowManager.setWindow(window);
