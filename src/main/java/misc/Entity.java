@@ -43,7 +43,7 @@ public class Entity {
     public int actionLockCounter = 0;
 
     /** Array to store dialogues for NPC interactions. */
-    String dialogues[] = new String[10];
+    public String dialogues[] = new String[10];
 
     /** Flag to indicate if the entity is attackable. */
     public boolean attackable;
