@@ -10,17 +10,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 public class GameManager {
     private Pet pet; // Active pet
-    private Pet[] pets; // All pets owned by the player
+    private List<Pet> pets; // All pets owned by the player
     private Timer timer; // Timer for periodic updates
     private LocalDateTime startTime; // Game start time
     private Player player; // scrap.Player managing the pets
     private PetStatusScreen statusScreen;
     private static GameManager instance; // Singleton instance
 
-    private GameManager(Player player) {
+    private GameManager(Player player)
+    {
         this.player = player;
         this.pets = player.getPetList(); // Load pets from player
         this.pet = player.getPet(); // Set the active pet
@@ -31,10 +33,9 @@ public class GameManager {
         {
             public void actionPerformed(ActionEvent e)
             {
-                if (pet != null) {
+                if (pet != null)
+                {
                     pet.update();
-                    checkPetStatus();
-                    updatePlayTime();
                 }
 
             }
@@ -51,7 +52,7 @@ public class GameManager {
         else
         {
             instance.player = player;
-            instance.pets = player.getPetList();
+            instance.pets = player.get;
             instance.pet = player.getPet();
         }
         return instance;

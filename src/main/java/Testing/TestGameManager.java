@@ -11,6 +11,8 @@ import misc.Wolf;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -48,31 +50,30 @@ public class TestGameManager
     // Test stub for Player
     class TestPlayer extends Player
     {
-        private Pet[] petList;  // Override the parent's petList
+        private List<Pet> petList;  // Override the parent's petList
         private Pet currentPet;
 
         public TestPlayer() {
             super();  // Call parent constructor
-            this.petList = new Pet[3];  // Initialize with capacity
         }
 
         @Override
-        public Pet[] getPetList() {
+        public List<Pet> getPetList() {
             return this.petList;  // Return our local petList
         }
 
         @Override
-        public void setPetList(Pet[] pets) {
-            this.petList = pets;
+        public void addPet(Pet pet) {
+            super.addPet(pet);
         }
 
         @Override
         public void setPlayerPet(int index)
         {
-            Pet[] pets = getPetList();  // Get the pet list using the getter
-            if (index == 0 && index < petList.length)
+            List<Pet> pets = getPetList();  // Get the pet list using the getter
+            if (index == 0 && index < petList.size())
             {
-                this.currentPet = pets[index];
+                this.currentPet = pets.get(index);
             }
         }
 
@@ -97,8 +98,8 @@ public class TestGameManager
 
         // Initialize test player
         testPlayer = new TestPlayer();
-        Pet[] petArray = {testPet1, testPet2};
-        testPlayer.setPetList(petArray);
+        testPlayer.addPet(testPet1);
+        testPlayer.addPet(testPet2);
         testPlayer.setPlayerPet(0);  // Set first pet as active
 
         // Initialize GameManager with test player
