@@ -27,7 +27,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-
+/**
+ * Main Menu Screen that represents the main menu of the game
+ * It is a GUI that lets player select minigame, pet and score
+ *
+ * @author Yazan
+ * @author Luca
+ * @version 1
+ */
 public class MainMenuScreen extends JPanel {
     // Variable to track the currently displayed slide index
     private int currentSlideIndex = 0;

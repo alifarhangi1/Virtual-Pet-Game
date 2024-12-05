@@ -6,13 +6,32 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class SaveScreen extends TitleScreen {
-    public SaveScreen() {
+/**
+ * A specialized screen for handling game save functionality.
+ * Extends TitleScreen to maintain consistent UI theming while providing
+ * save-specific features.
+ *
+ * @version 1.0
+ * @author Luca Duarte
+ */
+public class SaveScreen extends TitleScreen
+{
+    /**
+     * Constructs a new save screen with customized button layout.
+     * Initializes back button dimensions and replaces default buttons
+     * with save-specific options.
+     */
+    public SaveScreen()
+    {
         super();
         initializeBackButtonDimensions();
         replaceButtons();
     }
 
+    /**
+     * Reconstructs the button layout with specific spacing and positioning.
+     * Creates a centered arrangement of game control buttons with consistent padding.
+     */
     private void replaceButtons() {
         // Clear existing buttons from parent
         buttonPanel.removeAll();
@@ -36,6 +55,12 @@ public class SaveScreen extends TitleScreen {
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(40, 0, 0, 0)); // Top padding: 20px
     }
 
+    /**
+     * Creates an interactive game button with hover effects and sound feedback.
+     *
+     * @param buttonName Identifier for the button resources and functionality
+     * @return Configured JLabel acting as a button
+     */
     private JLabel createGameButton(final String buttonName) {
         JLabel button = new JLabel();
         button.putClientProperty("buttonName", buttonName);
@@ -93,8 +118,16 @@ public class SaveScreen extends TitleScreen {
         return button;
     }
 
+    /**
+     * Handles dynamic resizing of all UI components while maintaining aspect ratios.
+     * Called automatically when the window size changes.
+     *
+     * @param width The new width of the window
+     * @param height The new height of the window
+     */
     @Override
-    protected void onResize(int width, int height) {
+    protected void onResize(int width, int height)
+    {
         // First resize game buttons using parent's calculations
         int[] buttonDimensions = calculateButtonDimensions(width, height);
         int newButtonWidth = buttonDimensions[0];

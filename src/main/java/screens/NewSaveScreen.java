@@ -11,17 +11,36 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class NewSaveScreen extends GameScreen {
+/**
+ * Specialized screen for new user registration with secure authentication.
+ * Implements custom UI components with responsive design and input validation.
+ *
+ * @author Luca
+ * @version 1
+ */
+public class NewSaveScreen extends GameScreen
+{
     private ImageIcon backgroundIcon;
     private JPanel mainPanel;
     private JPanel boxPanel;
     private JButton signUpButton;
 
-    public NewSaveScreen() {
+    /**
+     * Constructor for the NewSaveScreen
+     */
+    public NewSaveScreen()
+    {
         initializeComponents();
         initializeBackButtonDimensions();
     }
 
+    /**
+     * Initializes the registration form components with custom styling
+     * and secure password handling.
+     *
+     * @throws FontFormatException If the custom font cannot be loaded
+     * @throws IOException If required resources are missing
+     */
     @Override
     protected void initializeComponents() {
         try {
@@ -132,6 +151,13 @@ public class NewSaveScreen extends GameScreen {
         }
     }
 
+    /**
+     * Handles dynamic resizing of all UI components while maintaining aspect ratios.
+     * Called automatically when the window size changes.
+     *
+     * @param width The new width of the window
+     * @param height The new height of the window
+     */
     @Override
     protected void onResize(int width, int height) {
         int[] backButtonDimensions = resizeBackButton();

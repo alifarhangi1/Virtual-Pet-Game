@@ -11,21 +11,58 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class PetInventory extends JPanel {
+/**
+ * The PetInventory class represents a user interface screen for managing the player's pets.
+ * It displays the player's pet inventory in a grid layout, allows selection of a pet,
+ * and includes a back button to navigate to the previous screen.
+ *
+ * @author Sangjae Lee
+ * @version 1.0
+ */
+public class PetInventory extends JPanel
+{
+    /**
+     * Manages transitions between game screens.
+     */
     private GameScreenManager manager;
+
+    /**
+     * Represents the player owning the pets.
+     */
     private Player player;
+
+    /**
+     * List of labels used to display pets in the grid.
+     */
     private ArrayList<JLabel> labels;
+
+    /**
+     * Stores icons for displaying pet images.
+     */
     private ImageIcon[] icons;
-    private JPanel gridPanel;  // We'll use this instead of 'panel'
+
+    /**
+     * The panel used to organize pet labels in a grid layout.
+     */
+    private JPanel gridPanel;
+
+    /**
+     * Number of pet slots available in the inventory.
+     */
     public int petNumber = 8;
 
+    /**
+     * Constructs the PetInventory screen.
+     *
+     * @param manager the game screen manager for transitioning between screens.
+     * @param gm  the manager whose player whose pets are displayed in the inventory.
+     */
     public PetInventory(GameScreenManager manager, GameManager gm) {
         this.manager = manager;
         this.player = gm.getPlayer();
 
         setLayout(new BorderLayout());
 
-// Create background panel with gif
         BackgroundPanel backgroundPanel = new BackgroundPanel("/visuals/inventoryBackground.gif");
         backgroundPanel.setLayout(new BorderLayout());
 
@@ -66,6 +103,9 @@ public class PetInventory extends JPanel {
         add(backgroundPanel);
     }
 
+    /**
+     * Initializes the grid panel and populates it with pet labels.
+     */
     private void initializePanel() {
         gridPanel = new JPanel(new GridLayout(2, petNumber / 2));
         gridPanel.setBackground(new Color(0, 0, 0, 150));
@@ -79,7 +119,9 @@ public class PetInventory extends JPanel {
         add(gridPanel, BorderLayout.CENTER);
     }
 
-
+    /**
+     * Initializes the back button and sets its functionality.
+     */
     private void initializeBackButton() {
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> manager.showPetStatusScreen());
@@ -90,6 +132,10 @@ public class PetInventory extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);  // Add to this panel instead of mainPanel
     }
 
+    /**
+     * Initializes the labels for each pet in the player's inventory.
+     * Labels are clickable, display pet images, and highlight on hover.
+     */
     public void initializeLabels() {
         ArrayList<Pet> petList = player.getPetList();
 
@@ -137,6 +183,12 @@ public class PetInventory extends JPanel {
         }
     }
 
+    /**
+     * Creates and initializes a label with the specified icon.
+     *
+     * @param icon the icon to display on the label.
+     * @return the initialized JLabel.
+     */
     private JLabel initializeLabel(ImageIcon icon) {
         JLabel label = new JLabel();
         label.setBorder(BorderFactory.createLineBorder(Color.white));
@@ -153,6 +205,12 @@ public class PetInventory extends JPanel {
         return label;
     }
 
+    /**
+     * Resizes an image icon to a specified size.
+     *
+     * @param icon the original image icon.
+     * @return the resized image icon.
+     */
     private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);

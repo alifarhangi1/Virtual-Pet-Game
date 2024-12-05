@@ -60,6 +60,10 @@ public class Wolf extends Pet
         this.isEvolve = true;
     }
 
+    /**
+     * Getter for the is Evolve
+     * @return is Evolve in boolean
+     */
     public boolean getIsEvolve()
     {
         return isEvolve;

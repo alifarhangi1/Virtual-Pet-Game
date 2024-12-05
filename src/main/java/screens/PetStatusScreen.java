@@ -14,7 +14,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class PetStatusScreen extends JPanel {
+/**
+ * A GUI screen that displays and manages the pet's status, including health, energy,
+ * fullness, and happiness metrics. Provides interactive controls for pet care activities
+ * and real-time status updates.
+ *
+ * @version 5.0
+ * @author Robin Lee
+ */
+public class PetStatusScreen extends JPanel
+{
     private GameScreenManager manager;
     private GameManager gameManager;
     private DatabaseManager databaseManager;
@@ -31,6 +40,13 @@ public class PetStatusScreen extends JPanel {
     private AudioManager audioManager;
     private GameManager gm;
 
+    /**
+     * Initializes the pet status screen with all necessary components and listeners.
+     * Sets up the GUI layout, timers for updates, and keyboard shortcuts.
+     *
+     * @param manager The game screen manager for navigation
+     * @param gm The manager whose player whose pet status will be displayed
+     */
     public PetStatusScreen(GameScreenManager manager, GameManager gm)
     {
         this.gm = GameManager.getInstance();;
@@ -295,6 +311,10 @@ public class PetStatusScreen extends JPanel {
         refreshTimer.start();
     }
 
+    /**
+     * Refreshes the pet display by updating the pet's name and image.
+     * This method is called whenever the pet's state changes.
+     */
     public void refreshPetDisplay() {
         Pet currentPet = player.getPet();
 
@@ -336,6 +356,12 @@ public class PetStatusScreen extends JPanel {
         return null;
     }
 
+    /**
+     * Custom painting method to render the background image.
+     * Overrides the default paintComponent to maintain background scaling.
+     *
+     * @param g The Graphics context to paint on
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -346,18 +372,43 @@ public class PetStatusScreen extends JPanel {
 
     }
 
+    /**
+     * Creates a new progress label with specified parameters.
+     *
+     * @param name The name of the status bar
+     * @param currentValue The current value of the status
+     * @param maxValue The maximum possible value
+     * @return A configured ProgressLabel instance
+     */
     private ProgressLabel createProgressLabel(String name, int currentValue, int maxValue) {
         ProgressLabel progressLabel = new ProgressLabel(name, currentValue, maxValue);
         progressLabel.setPreferredSize(new Dimension(200, 30)); // Adjust the size as needed
         return progressLabel;
     }
 
+    /**
+     * Updates a progress label with new values and triggers a repaint.
+     *
+     * @param progressLabel The label to update
+     * @param currentValue New current value
+     * @param maxValue New maximum value
+     */
     private void updateStatusLabel(ProgressLabel progressLabel, int currentValue, int maxValue) {
         progressLabel.setCurrentValue(currentValue);
         progressLabel.setMaxValue(maxValue);
         progressLabel.repaint();
     }
 
+    /**
+     * Executes an action and updates all status bars accordingly.
+     * Used for actions that affect multiple pet stats simultaneously.
+     *
+     * @param action The action to perform
+     * @param healthBar Health status indicator
+     * @param energyBar Energy status indicator
+     * @param fullnessBar Fullness status indicator
+     * @param happinessBar Happiness status indicator
+     */
     private void updateStatsAfterAction(Runnable action, ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
         action.run(); // Perform the action (e.g., sleep)
         Pet pet = player.getPet();
@@ -367,6 +418,14 @@ public class PetStatusScreen extends JPanel {
         updateStatusLabel(happinessBar, pet.getHappiness(), 100);
     }
 
+    /**
+     * Update Status of the pet
+     *
+     * @param healthBar The health status bar
+     * @param energyBar The energy status bar
+     * @param fullnessBar The fullness status bar
+     * @param happinessBar The happiness status bar
+     */
     private void updateStats(ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
         Pet pet = player.getPet();
         updateStatusLabel(healthBar, pet.getHP(), pet.getMaxHP());
@@ -375,6 +434,16 @@ public class PetStatusScreen extends JPanel {
         updateStatusLabel(happinessBar, pet.getHappiness(), 100);
     }
 
+    /**
+     * Toggles the pet's sleep state and updates relevant UI elements.
+     *
+     * @param pet The pet to toggle sleep for
+     * @param sleepButton The button that toggles sleep
+     * @param healthBar The health status bar
+     * @param energyBar The energy status bar
+     * @param fullnessBar The fullness status bar
+     * @param happinessBar The happiness status bar
+     */
     private void toggleSleep(Pet pet, JLabel sleepButton, ProgressLabel healthBar, ProgressLabel energyBar, ProgressLabel fullnessBar, ProgressLabel happinessBar) {
         if (isSleeping) {
             // Stop sleeping
@@ -398,6 +467,12 @@ public class PetStatusScreen extends JPanel {
         }
     }
 
+    /**
+     * Updates the pet's image based on its current state (sleeping, dead, sad, or happy).
+     *
+     * @param pet The pet whose image should be updated
+     * @param petImageLabel The label displaying the pet's image
+     */
     private void updatePetImage(Pet pet, JLabel petImageLabel) {
         if (isSleeping) {
             // Show sleep sprite when sleeping
@@ -414,12 +489,27 @@ public class PetStatusScreen extends JPanel {
         }
     }
 
+    /**
+     * Resizes an ImageIcon to a specified width and height.
+     *
+     * @param icon the ImageIcon to resize
+     * @return the resized ImageIcon
+     */
     private ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image reSizedImg = img.getScaledInstance(450, 450, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
 
+    /**
+     * Plays a sound effect from the specified file path.
+     * Used for UI feedback like button clicks and hover sounds.
+     *
+     * @param soundFilePath Path to the sound file resource
+     * @throws UnsupportedAudioFileException If the audio format is not supported
+     * @throws IOException If the sound file cannot be read
+     * @throws LineUnavailableException If the audio line cannot be opened
+     */
     private void playSound(String soundFilePath) {
         try {
             URL soundFile = getClass().getResource(soundFilePath);
@@ -432,6 +522,15 @@ public class PetStatusScreen extends JPanel {
         }
     }
 
+    /**
+     * Manages and plays background music in a continuous loop.
+     * Handles stopping existing music before starting new tracks.
+     *
+     * @param musicFilePath Path to the music file resource
+     * @throws UnsupportedAudioFileException If the audio format is not supported
+     * @throws IOException If the music file cannot be read
+     * @throws LineUnavailableException If the audio line cannot be opened
+     */
     private void playBackgroundMusic(String musicFilePath) {
         try {
             // Stop existing bgmClip if it's playing
@@ -460,6 +559,13 @@ public class PetStatusScreen extends JPanel {
         this.repaint();
     }
 
+    /**
+     * Creates a styled label with consistent visual formatting.
+     *
+     * @param text The text to display in the label
+     * @param color The background color of the label
+     * @return A formatted JLabel instance
+     */
     private JLabel createStyledLabel(String text, Color color) {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setOpaque(true);
@@ -470,6 +576,14 @@ public class PetStatusScreen extends JPanel {
         return label;
     }
 
+    /**
+     * Creates a MouseListener for action buttons with sleep state handling
+     * and cooldown functionality for specific actions.
+     *
+     * @param action The action to perform when clicked
+     * @param disabledWhenSleeping Whether the action should be disabled during pet sleep
+     * @return A configured MouseListener instance
+     */
     private MouseListener createActionMouseListener(Runnable action, boolean disabledWhenSleeping)
     {
         return new MouseAdapter()
@@ -520,8 +634,16 @@ public class PetStatusScreen extends JPanel {
 }
 
 
-
-class ProgressLabel extends JLabel {
+/**
+ * A custom JLabel implementation that displays a dynamic progress bar with
+ * color-coded status indication and warning notifications.
+ * Extends JLabel to provide visual feedback for pet status metrics.
+ *
+ * @version 1.0
+ * @author Robin Lee
+ */
+class ProgressLabel extends JLabel
+{
     private int currentValue;
     private int maxValue;
     private String labelText;
@@ -529,7 +651,16 @@ class ProgressLabel extends JLabel {
     private Timer vetCooldown;
     private Timer exerciseCooldown;
 
-    public ProgressLabel(String labelText, int currentValue, int maxValue) {
+    /**
+     * Constructs a new progress label with specified parameters.
+     * Creates a transparent label that will be filled with custom graphics.
+     *
+     * @param labelText The text to display on the progress bar
+     * @param currentValue Initial value of the progress bar
+     * @param maxValue Maximum value the progress bar can reach
+     */
+    public ProgressLabel(String labelText, int currentValue, int maxValue)
+    {
         this.labelText = labelText;
         this.currentValue = currentValue;
         this.maxValue = maxValue;
@@ -546,6 +677,13 @@ class ProgressLabel extends JLabel {
         repaint();
     }
 
+    /**
+     * Overridden paintComponent method to create a custom progress bar visualization.
+     * Implements color-coding based on percentage and displays warning dialogs
+     * when values become critically low.
+     *
+     * @param g The Graphics context to paint on
+     */
     @Override
     protected void paintComponent(Graphics g) {
         // Draw the background

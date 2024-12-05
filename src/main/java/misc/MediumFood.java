@@ -1,8 +1,17 @@
 package misc;
 
-import javax.swing.*;
-
-public class MediumFood extends Item {
+/**
+ * Represents a medium food
+ * Extends Item
+ * @see Item
+ * @author Sangjae
+ * @version 1
+ */
+public class MediumFood extends Item
+{
+    /**
+     * constructor for medium food
+     */
     public MediumFood()
     {
         super("Medium Food: A decent meal for your pet.");

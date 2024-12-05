@@ -1,22 +1,69 @@
 package misc;
 
 import javax.swing.*;
-
+/**
+ * Represents the Item class
+ * Items are used to modify happiness, energy, and Max HP
+ *
+ * @author Sangjae
+ * @version 1
+ */
 public class Item {
+    /**
+     * name of the Item
+     */
     private String name = "";
+    /**
+     * heal amount of the item
+     */
     private int healAmount;
+    /**
+     * how much happiness it heals
+     */
     private int happyAmount;
+    /**
+     * how much energy it heals
+     */
     private int fullAmount;
+    /**
+     * how much sleep it heals
+     */
     private int energyAmount;
+    /**
+     * increase max hp
+     */
     private int MaxHpControl;
+    /**
+     * increase max energy
+     */
     private int MaxEnergyControl;
+    /**
+     * description of the item
+     */
     private String description;
+    /**
+     * String of the image path
+     */
     private String image;
+    /**
+     * type of item
+     */
     private int type;
+    /**
+     * amount of item present in the inventory
+     */
     private int amount;
 
+
+    /**
+     * Empty Constructor for Database
+     */
     public Item() {}
 
+    /**
+     * constructor for the Item
+     * @param description
+     */
     public Item(String description) {
         this.description = description;
         this.healAmount = 0;

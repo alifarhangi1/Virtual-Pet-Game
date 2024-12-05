@@ -7,14 +7,34 @@ import misc.Player;
 
 import javax.swing.*;
 
-public class GameScreenManager {
+/**
+ * Manages the navigation and display of different game screens.
+ * Controls transitions between Pet Status, Item Inventory, and Pet Inventory screens
+ * while maintaining the game state.
+ *
+ * @version 2.0
+ * @author Robin Lee
+ */
+public class GameScreenManager
+{
+    /** Main application window */
     private JFrame frame;
+    /** Screen displaying pet status information */
     private PetStatusScreen petStatusScreen;
+    /** Screen displaying player's item inventory */
     private ItemInventoryScreen itemInventoryScreen;
-    private PetInventory petInventoryScreen; // Reference to the Inventory screen
+    /** Screen displaying player's pet inventory */
+    private PetInventory petInventoryScreen;
+    /** Current player instance */
     private Player player;
     private GameManager gm;
 
+    /**
+     * Initializes the game screen manager with necessary components.
+     *
+     * @param frame The main application window
+     * @param gm The current gamemanager instance
+     */
     public GameScreenManager(JFrame frame, GameManager gm) {
         this.player = gm.getPlayer();
         this.frame = frame;
@@ -22,6 +42,9 @@ public class GameScreenManager {
         this.player = gm.getPlayer(); // Pass this manager to allow navigation
     }
 
+    /**
+     * Switches display to the pet status screen and refreshes pet information.
+     */
     public void showPetStatusScreen() {
         this.petStatusScreen = new PetStatusScreen(this, gm);
         frame.getContentPane().removeAll(); // Clear the current screen
@@ -31,6 +54,9 @@ public class GameScreenManager {
         frame.repaint();
     }
 
+    /**
+     * Switches display to the item inventory screen and updates inventory contents.
+     */
     public void showItemInventoryScreen() {
         this.itemInventoryScreen = new ItemInventoryScreen(this, gm);
         frame.getContentPane().removeAll(); // Clear the current screen
@@ -41,7 +67,7 @@ public class GameScreenManager {
     }
 
     /**
-     * Show the pet inventory screen.
+     * Switches display to the pet inventory screen.
      */
     public void showPetInventoryScreen() {
         this.petInventoryScreen = new PetInventory(this, gm); // Initialize the pet inventory screen

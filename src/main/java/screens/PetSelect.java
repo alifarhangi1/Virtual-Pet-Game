@@ -22,6 +22,13 @@ import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * A GUI screen that displays and first 3 starter pets
+ *
+ * @version 5.0
+ * @author Luca Duarte
+ * @authro Yazan
+ */
 public class PetSelect extends JPanel {
 
     /**

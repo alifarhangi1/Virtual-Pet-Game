@@ -9,11 +9,29 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
+/**
+ * A GUI panel that displays and manages the player's inventory of items.
+ * This class handles the visualization and interaction of inventory items,
+ * including usage, removal, and status updates.
+ *
+ * @version 1.0
+ * @author Robin Lee
+ */
 public class ItemInventoryScreen extends JPanel
 {
+    /** Manages screen navigation and game state */
     private GameScreenManager manager;
+    /** The player whose inventory is being displayed */
     private Player player;
 
+    /**
+     * Constructs a new inventory screen with the specified game manager and player.
+     * Initializes the GUI components including a scrollable inventory panel
+     * and navigation buttons.
+     *
+     * @param manager The game screen manager controlling screen navigation
+     * @param gm The manager containing the player whose inventory will be displayed
+     */
     public ItemInventoryScreen(GameScreenManager manager, GameManager gm)
     {
         this.manager = manager;
@@ -48,8 +66,15 @@ public class ItemInventoryScreen extends JPanel
         this.inventoryPanel = inventoryPanel;
     }
 
+    /** Panel containing the inventory item displays */
     private JPanel inventoryPanel;
 
+    /**
+     * Updates and displays the current inventory items in the GUI.
+     * Each item is displayed with its image, description, and amount if applicable.
+     *
+     * @param inventory A HashMap containing the items to display, mapped by their names
+     */
     public void displayInventory(HashMap<String, Item> inventory) {
         inventoryPanel.removeAll(); // Clear existing components
         for (String itemName : inventory.keySet()) {
@@ -199,6 +224,12 @@ public class ItemInventoryScreen extends JPanel
         inventoryPanel.repaint();
     }
 
+    /**
+     * Resizes an ImageIcon to standard dimensions for display.
+     *
+     * @param icon The ImageIcon to resize
+     * @return A new ImageIcon with standardized dimensions (150x150)
+     */
     private ImageIcon resizeIcon(ImageIcon icon)
     {
         Image img = icon.getImage();
