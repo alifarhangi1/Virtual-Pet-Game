@@ -48,6 +48,7 @@ public class ParentalControlScreen extends JPanel {
     private JButton confirmButton;
     private JButton resetButton;
     private JButton backButton;
+    private JButton statsResetButton;
     private JToggleButton toggleSwitch; // The toggle switch for Time Limit On/Off
     private TimerController timerController; // Reference to manage the timer
     private DatabaseManager databaseManager;
@@ -55,16 +56,8 @@ public class ParentalControlScreen extends JPanel {
     private long playtime;
     private JLabel totalPlaytimeLabel;
     private JLabel averagePlaytimeLabel;
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Parental Control Screen");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(800, 500);
-            frame.setContentPane(new ParentalControlScreen());
-            frame.setVisible(true);
-        });
-    }
+    private boolean playerSelected;
+    private Player selectedPlayer;
 
     /**
      * Constructs the ParentalControlScreen and initializes its layout and components.
@@ -72,6 +65,7 @@ public class ParentalControlScreen extends JPanel {
      */
     public ParentalControlScreen() {
         // Set layout for the main panel
+        playerSelected = false;
         setLayout(new BorderLayout());
         totalPlaytimeLabel = new JLabel("Total Playtime: ");
         averagePlaytimeLabel = new JLabel("Average Playtime: ");
@@ -282,6 +276,7 @@ public class ParentalControlScreen extends JPanel {
                                 pet.setHP(pet.getMaxHP()); // Set each pet's HP to its maximum
                                 pet.setEnergy(pet.getMaxEnergy()); // Set each pet's Energy to its maximum
                                 pet.setFullness(pet.getFullness()); //Set each pet's Fullness to its maximum
+                                databaseManager.saveAllChanges();
                             }
                         }
                         JOptionPane.showMessageDialog(null, "All pets revived successfully for player: " + playerName, "Revive Pets", JOptionPane.INFORMATION_MESSAGE);
@@ -325,12 +320,18 @@ public class ParentalControlScreen extends JPanel {
 
                 // Attempt to find the player in the database
                 Player player = databaseManager.findPlayer(playerName.trim());
-                playtime = player.getPlayTime();
-                System.out.println(playtime);
-                totalPlaytimeLabel.setText("Total Playtime: " + String.valueOf(playtime) + " seconds");
-                avgPlaytime = playtime/player.getLogin();
-                System.out.println(avgPlaytime);
-                averagePlaytimeLabel.setText("Average Playtime: " + avgPlaytime + " seconds");
+                if (player != null) {
+                    selectedPlayer = player;
+                    playtime = player.getTotalPlaytime();
+                    System.out.println(playtime);
+                    totalPlaytimeLabel.setText("Total Playtime: " + String.valueOf(playtime) + " seconds");
+                    avgPlaytime = playtime / player.getLogin();
+                    System.out.println(avgPlaytime);
+                    averagePlaytimeLabel.setText("Average Playtime: " + avgPlaytime + " seconds");
+                    playerSelected = true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Player not found in the database");
+                }
             }
         });
 
@@ -379,9 +380,34 @@ public class ParentalControlScreen extends JPanel {
         averagePlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(averagePlaytimeLabel);
 
+        //Reset Playtime button
+        statsResetButton = createStyledButton("Reset player stats");
+        statsResetButton.setPreferredSize(new Dimension(80, 30)); // Same size as Reset Settings button
+        statsResetButton.setFont(new Font("Arial", Font.BOLD, 14)); // Adjust font size
+        statsResetButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        statsResetButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        statsResetButton.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(40, 0, 0, 0), // Top margin of 10 pixels
+                statsResetButton.getBorder()
+        ));// Add border
+        statsResetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (playerSelected) {
+                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to reset this player's stats?",
+                            "Confirmation", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        selectedPlayer.setLogin(1);
+                        selectedPlayer.setTotalPlaytime(0);
+                        databaseManager.saveDatabase();
+                    }
+                }
+            }
+        });
+        statsBox.add(statsResetButton);
+
         // Add the stats box to the panel
         panel.add(statsBox, BorderLayout.CENTER);
-
         return panel;
     }
 

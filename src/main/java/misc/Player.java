@@ -137,6 +137,10 @@ public class Player
         this.login = login;
     }
 
+    public void setTotalPlaytime(long totalPlaytime) {
+        this.totalPlaytime = totalPlaytime;
+    }
+
     public void addLogin() {
         this.login++;
     }
