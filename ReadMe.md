@@ -78,4 +78,5 @@
 ## Notes for Teaching Assistant
 - Ensure JDK is installed and paths are correctly set before compiling or running the project.
 - Make sure project is set as a maven project.
+- The main branch to run the application is under the name main-merged
 ---
