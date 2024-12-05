@@ -15,6 +15,7 @@ import java.util.HashMap;
  */
 public class Player
 {
+    private long totalPlaytime;
     private int score;
     private HashMap<String, Item> inventory;
     private ArrayList<Pet> petList;
@@ -22,6 +23,7 @@ public class Player
     private Pet pet;
     private String username;
     private String passwordString;
+    private int login;
 
     /**
      * Default constructor with minimal initialization.
@@ -35,6 +37,8 @@ public class Player
         this.petList = new ArrayList<Pet>();
         this.playTime = 0;
         this.pet = null;
+        this.login = 1;
+        this.totalPlaytime = 0;
     }
 
     /**
@@ -52,6 +56,8 @@ public class Player
         this.petList = new ArrayList<>();
         this.playTime = 0;
         this.pet = null;
+        this.login = 1;
+        this.totalPlaytime = 0;
     }
 
     // Comprehensive setters for each field
@@ -93,6 +99,10 @@ public class Player
         return playTime;
     }
 
+    public long getTotalPlaytime() {
+        return totalPlaytime;
+    }
+
     public HashMap<String, Item> getInventory() {
         return inventory;
     }
@@ -119,6 +129,18 @@ public class Player
         }
     }
 
+    public int getLogin() {
+        return login;
+    }
+
+    public void setLogin(int login) {
+        this.login = login;
+    }
+
+    public void addLogin() {
+        this.login++;
+    }
+
     public void exercisePet(Pet pet) {
         pet.exercise();
     }
@@ -141,6 +163,10 @@ public class Player
 
     public void addItem(Item item) {
         inventory.put(item.getName(), item);
+    }
+
+    public void addTotalPlaytime() {
+        totalPlaytime += playTime;
     }
 
     /**

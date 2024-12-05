@@ -82,10 +82,9 @@ public class DatabaseManager implements AutoCloseable {
             JSONDeserializer<Database> deserializer = new JSONDeserializer<Database>()
                     .use(null, Database.class)
                     .use("players", ArrayList.class)
-                    .use("players.elementType", Player.class)
                     .use("players.inventory", HashMap.class)
                     .use("players.petList", ArrayList.class)
-                    .use("players.miniGame", boolean[].class);
+                    .use("players.login", Integer.class);
 
             database = deserializer.deserialize(json.toString());
 
@@ -116,6 +115,8 @@ public class DatabaseManager implements AutoCloseable {
             // Serialize the entire database to JSON (not just players)
             JSONSerializer serializer = new JSONSerializer().prettyPrint(true)
                     .include("players")
+                    .include("players.login")
+                    .include("players.totalPlaytime")
                     .include("players.inventory")
                     .include("players.petList")
                     .include("players.pet")

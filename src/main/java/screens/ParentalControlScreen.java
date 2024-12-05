@@ -51,6 +51,10 @@ public class ParentalControlScreen extends JPanel {
     private JToggleButton toggleSwitch; // The toggle switch for Time Limit On/Off
     private TimerController timerController; // Reference to manage the timer
     private DatabaseManager databaseManager;
+    private long avgPlaytime;
+    private long playtime;
+    private JLabel totalPlaytimeLabel;
+    private JLabel averagePlaytimeLabel;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -69,6 +73,8 @@ public class ParentalControlScreen extends JPanel {
     public ParentalControlScreen() {
         // Set layout for the main panel
         setLayout(new BorderLayout());
+        totalPlaytimeLabel = new JLabel("Total Playtime: ");
+        averagePlaytimeLabel = new JLabel("Average Playtime: ");
         screenManager = ScreenManager.getInstance();
 
         // Background image
@@ -319,6 +325,12 @@ public class ParentalControlScreen extends JPanel {
 
                 // Attempt to find the player in the database
                 Player player = databaseManager.findPlayer(playerName.trim());
+                playtime = player.getPlayTime();
+                System.out.println(playtime);
+                totalPlaytimeLabel.setText("Total Playtime: " + String.valueOf(playtime) + " seconds");
+                avgPlaytime = playtime/player.getLogin();
+                System.out.println(avgPlaytime);
+                averagePlaytimeLabel.setText("Average Playtime: " + avgPlaytime + " seconds");
             }
         });
 
@@ -358,13 +370,11 @@ public class ParentalControlScreen extends JPanel {
         statsBox.add(statsLabel);
 
         // Total Playtime Label
-        JLabel totalPlaytimeLabel = new JLabel("Total Playtime: 1h 3m"); // Replace with dynamic data if available
         totalPlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         totalPlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(totalPlaytimeLabel);
 
         // Average Playtime Label
-        JLabel averagePlaytimeLabel = new JLabel("Average Playtime: 0h 7m"); // Replace with dynamic data if available
         averagePlaytimeLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         averagePlaytimeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         statsBox.add(averagePlaytimeLabel);

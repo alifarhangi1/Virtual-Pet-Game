@@ -105,6 +105,8 @@ public class LoadSaveScreen extends GameScreen {
                             wrongPasswordLabel.setVisible(false);
                             GameManager.getInstance(player);
                             GameManager gm = GameManager.getInstance();
+                            gm.getPlayer().addLogin();
+                            gm.getPlayer().addTotalPlaytime();
                             if (screenManager.hasScreen("main")) {
                                 screenManager.deleteScreen("main");
                             }

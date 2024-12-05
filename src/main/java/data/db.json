@@ -5,6 +5,7 @@
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "111",
             "pet": null,
             "petList": [
@@ -12,12 +13,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Yazan"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "111",
             "pet": null,
             "petList": [
@@ -25,12 +28,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Luca"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -38,12 +43,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Ali"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -51,12 +58,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Robin"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "11",
             "pet": null,
             "petList": [
@@ -64,12 +73,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Robert"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "222",
             "pet": null,
             "petList": [
@@ -77,12 +88,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Albert"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -90,12 +103,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Chris"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -103,12 +118,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Jonas"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "111",
             "pet": null,
             "petList": [
@@ -116,12 +133,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Johnson"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "11",
             "pet": null,
             "petList": [
@@ -129,12 +148,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "blah"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -142,12 +163,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Amanda"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -155,12 +178,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Vanessa"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -168,12 +193,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Jamal"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "123",
             "pet": null,
             "petList": [
@@ -181,12 +208,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Andrew"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "1111",
             "pet": null,
             "petList": [
@@ -194,12 +223,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Paul"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0000",
             "pet": null,
             "petList": [
@@ -207,12 +238,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Jeremias"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "000",
             "pet": null,
             "petList": [
@@ -220,12 +253,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Bro"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "000",
             "pet": null,
             "petList": [
@@ -233,12 +268,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "LLLL"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0000",
             "pet": null,
             "petList": [
@@ -246,12 +283,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Lina"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "00",
             "pet": null,
             "petList": [
@@ -259,12 +298,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "oooo"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "1111",
             "pet": null,
             "petList": [
@@ -272,12 +313,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "1111"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "1111",
             "pet": null,
             "petList": [
@@ -285,12 +328,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "11111"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0",
             "pet": null,
             "petList": [
@@ -298,6 +343,7 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "00000"
         },
         {
@@ -316,6 +362,7 @@
                     "type": 0
                 }
             },
+            "login": 1,
             "passwordString": "xample",
             "pet": {
                 "HP": 110,
@@ -345,12 +392,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Antonio"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0000",
             "pet": null,
             "petList": [
@@ -358,12 +407,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Alexander"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "1111",
             "pet": null,
             "petList": [
@@ -371,12 +422,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Yoonha"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "1111",
             "pet": null,
             "petList": [
@@ -384,12 +437,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Yoomha"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0000",
             "pet": {
                 "HP": 120,
@@ -419,12 +474,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Sheila"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "00",
             "pet": {
                 "HP": 120,
@@ -454,12 +511,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Dog"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "000",
             "pet": {
                 "HP": 100,
@@ -489,12 +548,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Moe"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "0000",
             "pet": {
                 "HP": 110,
@@ -524,12 +585,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Momo"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "",
             "pet": {
                 "HP": 120,
@@ -564,12 +627,14 @@
             ],
             "playTime": 0,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Geraldo"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "",
             "pet": {
                 "HP": 45,
@@ -609,12 +674,14 @@
             ],
             "playTime": 9,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "TIciana"
         },
         {
             "inventory": {
 
             },
+            "login": 1,
             "passwordString": "",
             "pet": {
                 "HP": 120,
@@ -654,6 +721,7 @@
             ],
             "playTime": 5,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Dill"
         },
         {
@@ -672,6 +740,7 @@
                     "type": 0
                 }
             },
+            "login": 1,
             "passwordString": "--",
             "pet": {
                 "HP": 120,
@@ -711,6 +780,7 @@
             ],
             "playTime": 21,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "Person"
         },
         {
@@ -729,6 +799,7 @@
                     "type": 0
                 }
             },
+            "login": 1,
             "passwordString": "",
             "pet": {
                 "HP": 120,
@@ -768,7 +839,67 @@
             ],
             "playTime": 10,
             "score": 0,
+            "totalPlaytime": 0,
             "username": "PErson2"
+        },
+        {
+            "inventory": {
+                "Small Food": {
+                    "amount": 1,
+                    "description": null,
+                    "energyAmount": 0,
+                    "fullAmount": 10,
+                    "happyAmount": 5,
+                    "healAmount": 0,
+                    "image": "/visuals/SmallFood.jpg",
+                    "maxEnergyControl": 0,
+                    "maxHpControl": 0,
+                    "name": "Small Food",
+                    "type": 0
+                }
+            },
+            "login": 3,
+            "passwordString": "",
+            "pet": {
+                "HP": 120,
+                "energy": 100,
+                "fullness": 80,
+                "happiness": 70,
+                "images": [
+                    "/visuals/wolf.png",
+                    "/visuals/wolfDead.png",
+                    "/visuals/wolfSad.png",
+                    "/visuals/wolfSleep.png"
+                ],
+                "maxEnergy": 110,
+                "maxHP": 120,
+                "name": "rrrrrr",
+                "petCooldown": 0,
+                "type": null
+            },
+            "petList": [
+                {
+                    "HP": 120,
+                    "energy": 100,
+                    "fullness": 80,
+                    "happiness": 70,
+                    "images": [
+                        "/visuals/wolf.png",
+                        "/visuals/wolfDead.png",
+                        "/visuals/wolfSad.png",
+                        "/visuals/wolfSleep.png"
+                    ],
+                    "maxEnergy": 110,
+                    "maxHP": 120,
+                    "name": "rrrrrr",
+                    "petCooldown": 0,
+                    "type": null
+                }
+            ],
+            "playTime": 7,
+            "score": 0,
+            "totalPlaytime": 0,
+            "username": "rrrrrrr"
         }
     ],
     "timeLimit": 0

@@ -2,6 +2,7 @@ package screens;
 
 // Importing necessary Swing components for building the graphical user interface
 import managers.AudioManager;
+import managers.DatabaseManager;
 import managers.GameManager;
 import managers.ScreenManager;
 import misc.PetInventory;
@@ -20,6 +21,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // Importing classes for file operations
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -80,6 +83,7 @@ public class MainMenuScreen extends JPanel {
     // ImageIcon for the background image of the screen
     private ImageIcon backgroundIcon;
 
+    private DatabaseManager databaseManager;
     private ScreenManager screenManager;
     private GameManager gm;
     private AudioManager audioManager;
@@ -98,14 +102,16 @@ public class MainMenuScreen extends JPanel {
         this.gm = gm;
         screenManager = ScreenManager.getInstance();
         audioManager = AudioManager.getInstance();
-        mainFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        databaseManager = DatabaseManager.getInstance();
 
-//        JFrame frame = new JFrame();
-//        frame.setSize(800, 600);
-//        gameScreenManager = new GameScreenManager(frame, gm.getPlayer());
-//        frame.setVisible(true);
-//        gameScreenManager.showPetStatusScreen();
-
+        screenManager.getMainFrame().addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                gm.getPlayer().addTotalPlaytime();
+                databaseManager.saveDatabase();
+                System.exit(0);
+            }
+        });
         // Set layout to FlowLayout with custom alignment and gaps
         setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
