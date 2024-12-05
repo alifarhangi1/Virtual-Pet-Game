@@ -7,18 +7,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class PlayerScoreScreen {
     private Player player;
     private GameManager gameManager;
 
-    public PlayerScoreScreen(Player player) {
+    public PlayerScoreScreen(Player player)
+    {
         this.player = player;
-        this.gameManager = GameManager.getInstance(player); // Get managers.GameManager instance
+        this.gameManager = GameManager.getInstance(); // Get managers.GameManager instance
     }
 
     // Function to display the screen
-    public void displayScreen() {
+    public void displayScreen()
+    {
         // Create the frame
         JFrame frame = new JFrame("Player Score Screen");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +56,7 @@ public class PlayerScoreScreen {
         backButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
         backButton.setOpaque(true);
 
-// Action listener for Back button
+        // Action listener for Back button
         backButton.addActionListener(e -> frame.dispose()); // Lambda version
 
         backButtonPanel.add(backButton); // Add the button to its sub-panel
@@ -69,12 +72,14 @@ public class PlayerScoreScreen {
         frame.add(panel);
 
         // Timer to update the score and level dynamically
-        Timer timer = new Timer(1000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                // Update play time from managers.GameManager
                 long playTime = gameManager.getPlayTime();
+                Random rand = new Random();
+                player.setScore(player.getScore() + 3 + rand.nextInt(3) + 1);
                 scoreValue.setText(String.valueOf(player.getScore()));
                 levelValue.setText(String.valueOf(playTime));
             }
@@ -83,17 +88,4 @@ public class PlayerScoreScreen {
         timer.start(); // Start the timer
         frame.setVisible(true); // Show the frame
     }
-
-//    public static void main(String[] args)
-//    {
-//        // Mock scrap.Player instance
-//        Player player = new Player();
-//        player.setScore(0); // Set initial score
-//
-//        // Create an instance of the game and display the screen
-//        PlayerScoreScreen gameScreen = new PlayerScoreScreen(player);
-//        gameScreen.displayScreen();
-//    }
-
-
 }
