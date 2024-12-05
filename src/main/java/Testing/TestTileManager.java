@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import managers.TileManager;
 import misc.GamePanel;
+import misc.Player;
 import misc.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,11 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestTileManager {
 
+    private Player player;
+    private GameManager gm;
     private TileManager tileManager;
     private GamePanel gamePanel;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        gm = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         tileManager = new TileManager(gamePanel, "Maze Madness");
     }

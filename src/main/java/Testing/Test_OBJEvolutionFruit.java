@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestOBJ_EvolutionFruit {
+class TestOBJ_EvolutionFruit
+{
 
     private OBJ_EvolutionFruit evolutionFruit;
 
@@ -16,7 +17,8 @@ class TestOBJ_EvolutionFruit {
     }
 
     @Test
-    void testConstructor_InitializesAttributes() {
+    void testConstructor_InitializesAttributes()
+    {
         assertEquals("Evolution Fruit", evolutionFruit.name, "The object's name should be 'Evolution Fruit'");
         assertTrue(evolutionFruit.collision, "The object should have collision enabled");
         assertNotNull(evolutionFruit.image, "The object's image should be loaded");

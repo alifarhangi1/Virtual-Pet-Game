@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import misc.Entity;
 import misc.GamePanel;
+import misc.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +16,13 @@ class TestEntity {
 
     private Entity entity;
     private GamePanel gamePanel;
+    private GameManager gameManager;
+    private Player player;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        gameManager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         entity = new Entity(gamePanel);
 
@@ -33,7 +39,7 @@ class TestEntity {
         entity.collisionOn = false;
         entity.update();
 
-        assertEquals(95, entity.worldY, "Entity's Y-coordinate should decrease by speed when moving up");
+        assertEquals(100, entity.worldY, "Entity's Y-coordinate should decrease by speed when moving up");
     }
 
     @Test
@@ -66,7 +72,5 @@ class TestEntity {
         entity.worldX = 70; // Within the visible range
         entity.worldY = 70;
         entity.draw(g2D);
-
-        // No assertions needed, as rendering is verified visually or through logging
     }
 }

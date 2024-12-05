@@ -1,5 +1,6 @@
 package Testing;
 
+import managers.GameManager;
 import misc.*;
 import misc.GamePanel;
 import misc.Tile;
@@ -8,14 +9,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestCollisionChecker {
-
+class TestCollisionChecker
+{
     private CollisionChecker collisionChecker;
     private GamePanel gamePanel;
     private Entity entity;
+    private Player player;
+    private GameManager gameManager;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        gameManager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         gamePanel.tileManager = new managers.TileManager(gamePanel, "Maze Madness");
         collisionChecker = new CollisionChecker(gamePanel);
@@ -26,6 +31,8 @@ class TestCollisionChecker {
         entity.solidArea.setBounds(0, 0, 48, 48);
         entity.direction = "up";
         entity.speed = 5;
+
+
     }
 
     @Test

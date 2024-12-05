@@ -1,11 +1,7 @@
 package Testing;
 
-import misc.AssetSetter;
-import misc.GamePanel;
-import misc.OBJ_EvolutionFruit;
-import misc.NPC_Samurai;
-import misc.NPC_Minotaur;
-import misc.NPC_Villager;
+import managers.GameManager;
+import misc.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,11 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestAssetSetter {
 
+    private Player player;
+    private GameManager manager;
     private AssetSetter assetSetter;
     private GamePanel gamePanel;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        manager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         gamePanel.obj = new misc.SuperObject[1];
         gamePanel.npc = new misc.Entity[11];
@@ -49,7 +49,8 @@ class TestAssetSetter {
     }
 
     @Test
-    void testSetNPC_MazeMadness() {
+    void testSetNPC_MazeMadness()
+    {
         assetSetter.setNPC();
         assertNotNull(gamePanel.npc[0], "NPC should be initialized for Maze Madness");
         assertInstanceOf(NPC_Minotaur.class, gamePanel.npc[0], "The NPC should be an instance of NPC_Minotaur");
