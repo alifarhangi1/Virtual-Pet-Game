@@ -276,13 +276,11 @@ public class PetSelect extends JPanel {
         int menuButtonHeight = (int) (panelHeight * 0.08);
         int menuButtonX = (int) (panelWidth * 0.02);
         int menuButtonY = (int) (panelHeight * 0.02);
-        mainMenuButton.setBounds(menuButtonX, menuButtonY, menuButtonWidth, menuButtonHeight);
 
         int titleMenuButtonY = menuButtonY + menuButtonHeight + (int) (panelHeight * 0.02);
         titleMenuButton.setBounds(menuButtonX, titleMenuButtonY, menuButtonWidth, menuButtonHeight);
 
         // Update menu button images
-        updateButtonImage(mainMenuButton, "/visuals/mainMenuButtonDefault.png", menuButtonWidth, menuButtonHeight);
         updateButtonImage(titleMenuButton, "/visuals/titleMenuButtonDefault.png", menuButtonWidth, menuButtonHeight);
 
         // Update GIF positions if any are displayed

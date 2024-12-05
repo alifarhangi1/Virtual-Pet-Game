@@ -223,7 +223,7 @@ public class LevelSelect implements MouseListener {
      */
     private ImageIcon resizeImage(ImageIcon icon) {
         Image img = icon.getImage();
-        Image reSizedImg = img.getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+        Image reSizedImg = img.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
         return new ImageIcon(reSizedImg);
     }
 
