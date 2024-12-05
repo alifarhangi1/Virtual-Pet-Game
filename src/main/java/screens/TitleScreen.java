@@ -213,12 +213,12 @@ public class TitleScreen extends GameScreen {
             @Override
             public void mouseClicked(MouseEvent e) {
                 audioManager.playButtonClickSound();
-                if (databaseManager.getParentalPasword().isEmpty()) {
+                if (databaseManager.getParentalPassword().isEmpty()) {
                     String password = JOptionPane.showInputDialog("Create parental password: ");
                     databaseManager.updateParentalPassword(password);
                 } else {
                     String password = JOptionPane.showInputDialog("Input parental password: ");
-                    if (password.equals(databaseManager.getParentalPasword())) {
+                    if (password.equals(databaseManager.getParentalPassword())) {
                         screenManager.showScreen("parental");
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong password, try again.");

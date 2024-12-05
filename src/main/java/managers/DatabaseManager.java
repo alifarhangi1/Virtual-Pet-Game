@@ -52,7 +52,7 @@ public class DatabaseManager implements AutoCloseable {
     }
 
     /**
-     *
+     * Initializes the directory which will contain the backups for the database
      */
     private void initializeBackupDirectory() {
         File backupDirectory = new File(BACKUP_DIRECTORY);
@@ -61,8 +61,14 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Loads the JSON into the database class.
+     * Uses flexJSON to deserialize the JSON saved in the backend and the places the content within the
+     * Database class.
+     */
     private void loadDatabase() {
         try {
+            /** Checks if JSON database exists, if not creates one */
             File file = new File(DATABASE_FILE);
             if (!file.exists()) {
                 database = new Database();
@@ -70,6 +76,7 @@ public class DatabaseManager implements AutoCloseable {
                 return;
             }
 
+            /** Uses buffered reader to read through JSON file */
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder json = new StringBuilder();
             String line;
@@ -78,7 +85,7 @@ public class DatabaseManager implements AutoCloseable {
             }
             reader.close();
 
-            // Create a more robust deserializer
+            /** JSON deserializer which translates all the values in the JSON to the database */
             JSONDeserializer<Database> deserializer = new JSONDeserializer<Database>()
                     .use(null, Database.class)
                     .use("players", ArrayList.class)
@@ -86,9 +93,10 @@ public class DatabaseManager implements AutoCloseable {
                     .use("players.petList", ArrayList.class)
                     .use("players.login", Integer.class);
 
+            /** Creates database object from deserialized JSON */
             database = deserializer.deserialize(json.toString());
 
-            // Remove any empty players after deserialization
+            /** Remove any empty players after deserialization */
             database.getPlayers().removeIf(player ->
                     player.getUsername() == null || player.getUsername().isEmpty());
         }
@@ -100,19 +108,24 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Saves data and updates the JSON database.
+     * Uses FlexJSON to serialize all the data from the Database class into
+     * the JSON file.
+     */
     public void saveDatabase() {
         try {
-            // Ensure valid players are in the list (filtering out invalid players)
+            /** Ensure valid players are in the list (filtering out invalid players) */
             List<Player> validPlayers = database.getPlayers().stream()
                     .filter(player -> player.getUsername() != null && !player.getUsername().isEmpty())
                     .collect(Collectors.toList());
 
-            // Set the valid players list back to the database
+            /** Set the valid players list back to the database */
             database.setPlayers(validPlayers);
 
             createTimeStampedBackup();
 
-            // Serialize the entire database to JSON (not just players)
+            /** Serialize the entire database to JSON (not just players) */
             JSONSerializer serializer = new JSONSerializer().prettyPrint(true)
                     .include("players")
                     .include("players.login")
@@ -135,13 +148,13 @@ public class DatabaseManager implements AutoCloseable {
 
             String json = serializer.serialize(database);
 
-            // Write to a temporary file first
+            /** Write to a temporary file first */
             File tempFile = new File(DATABASE_FILE + "_tmp");
             try (FileWriter writer = new FileWriter(tempFile)) {
                 writer.write(json);
             }
 
-            // If main database file exists, delete it and rename the temporary file
+            /** If main database file exists, delete it and rename the temporary file */
             File mainFile = new File(DATABASE_FILE);
             if (mainFile.exists()) {
                 mainFile.delete();
@@ -156,6 +169,9 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Creates timestamped backup of the database
+     */
     private void createTimeStampedBackup() {
         try {
             File currentFile = new File(DATABASE_FILE);
@@ -184,6 +200,9 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Cleans old backups if the backup limit exceeds
+     */
     private void cleanupOldBackups() {
         File backupDir = new File(BACKUP_DIRECTORY);
         File[] backups = backupDir.listFiles((dir, name) -> name.endsWith(".backup"));
@@ -197,6 +216,10 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Restored file from backup if database is corrupted
+     * @return boolean value
+     */
     private boolean restoreFromBackup() {
         File backupDir = new File(BACKUP_DIRECTORY);
         File[] backups = backupDir.listFiles((dir, name) -> name.endsWith(".backup"));
@@ -225,6 +248,10 @@ public class DatabaseManager implements AutoCloseable {
         return false;
     }
 
+    /**
+     * Adds new player to the database
+     * @param player
+     */
     public void addPlayer(Player player) {
         if (player != null && player.getUsername() != null && !player.getUsername().isEmpty()) {
             // Add the new player to the list (appending)
@@ -236,6 +263,11 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Finds and returns a player with the given username from the database
+     * @param username
+     * @return player
+     */
     public Player findPlayer(String username) {
         return database.getPlayers().stream()
                 .filter(p -> p.getUsername().trim().equalsIgnoreCase(username.trim()))
@@ -243,20 +275,39 @@ public class DatabaseManager implements AutoCloseable {
                 .orElse(null);
     }
 
-    public String getParentalPasword() {
+    /**
+     * Parental password getter
+     * @return
+     */
+    public String getParentalPassword() {
         return database.getParentalPassword();
     }
 
+    /**
+     * Checks if given password matches with given password
+     * @param password
+     * @return boolean
+     */
     public boolean authenticateParental(String password) {
         return database.getParentalPassword().equals(password);
     }
 
+    /**
+     * Updates parental password
+     * @param newPassword
+     * @deprecated
+     */
     public void updateParentalPassword(String newPassword) {
         database.setParentalPassword(newPassword);
         hasUnsavedChanges = true;
         saveDatabase();
     }
 
+    /**
+     * Removes player from the database
+     * @param username
+     * @deprecated
+     */
     public void removePlayer(String username) {
         boolean removed = database.getPlayers().removeIf(p -> p.getUsername().equals(username));
         if (removed) {
@@ -265,16 +316,26 @@ public class DatabaseManager implements AutoCloseable {
         }
     }
 
+    /**
+     * Returns the entire list of players from the database
+     * @return
+     */
     public List<Player> getAllPlayers() {
         return new ArrayList<>(database.getPlayers());
     }
 
+    /**
+     * Saves all changes of the database if there are any unsaved changes
+     */
     public void saveAllChanges() {
         if (hasUnsavedChanges) {
             saveDatabase();
         }
     }
 
+    /**
+     * Saves the database on close
+     */
     @Override
     public void close() {
         saveAllChanges();

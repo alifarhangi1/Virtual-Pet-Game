@@ -858,7 +858,7 @@
                     "type": 0
                 }
             },
-            "login": 1,
+            "login": 2,
             "passwordString": "",
             "pet": {
                 "HP": 120,
@@ -896,9 +896,9 @@
                     "type": null
                 }
             ],
-            "playTime": 7,
+            "playTime": 14,
             "score": 0,
-            "totalPlaytime": 0,
+            "totalPlaytime": 7,
             "username": "rrrrrrr"
         }
     ],
