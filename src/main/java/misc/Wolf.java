@@ -13,9 +13,14 @@ public class Wolf extends Pet
      * Check if the pet has evolved
      */
     boolean isEvolve;
+
+    public Wolf () {
+
+    }
+
     /**
      * constructor for pet Wolf
-     * @param name name of the pet
+     * @param name of the pet
      */
     public Wolf(String name)
     {

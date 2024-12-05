@@ -322,7 +322,7 @@ public class ParentalControlScreen extends JPanel {
                 Player player = databaseManager.findPlayer(playerName.trim());
                 if (player != null) {
                     selectedPlayer = player;
-                    playtime = player.getTotalPlaytime();
+                    playtime = player.getTotalPlaytime() + player.getPlayTime();
                     System.out.println(playtime);
                     totalPlaytimeLabel.setText("Total Playtime: " + String.valueOf(playtime) + " seconds");
                     avgPlaytime = playtime / player.getLogin();

@@ -3,6 +3,7 @@ package managers;
 import data.Database;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
+import misc.Item;
 import misc.Pet;
 import misc.Player;
 
@@ -89,8 +90,11 @@ public class DatabaseManager implements AutoCloseable {
             JSONDeserializer<Database> deserializer = new JSONDeserializer<Database>()
                     .use(null, Database.class)
                     .use("players", ArrayList.class)
-                    .use("players.inventory", HashMap.class)
+                    .use("players.pet.*", Pet.class)
                     .use("players.petList", ArrayList.class)
+                    .use("players.petList.type", String.class)
+                    .use("players.inventory", HashMap.class)
+                    .use("players.inventory.*", Item.class)
                     .use("players.login", Integer.class);
 
             /** Creates database object from deserialized JSON */
@@ -131,18 +135,12 @@ public class DatabaseManager implements AutoCloseable {
                     .include("players.login")
                     .include("players.totalPlaytime")
                     .include("players.inventory")
+                    .include("players.inventory.*")
                     .include("players.petList")
                     .include("players.pet")
                     .include("players.pet.images")
-                    .include("players.petList.name")
-                    .include("players.petList.maxHP")
-                    .include("players.petList.HP")
-                    .include("players.petList.type")
-                    .include("players.petList.fullness")
-                    .include("players.petList.happiness")
-                    .include("players.petList.energy")
-                    .include("players.petList.maxEnergy")
-                    .include("players.petList.images")
+                    .include("players.pet.type")
+                    .include("players.petList.*")
                     .include("players.passwordString")
                     .exclude("*.class");
 
