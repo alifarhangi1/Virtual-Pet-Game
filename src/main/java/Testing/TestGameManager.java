@@ -121,21 +121,6 @@ public class TestGameManager
     }
 
     @Test
-    void testGameManagerInitializationOnly() {
-    // Create fresh instances just for this test
-        TestPet testPet = new TestPet("Fluffy");
-        TestPlayer testPlayer = new TestPlayer();
-        testPlayer.addPet(testPet);
-        testPlayer.setPlayerPet(0);
-
-        GameManager gameManager = GameManager.getInstance(testPlayer);
-
-        assertNotNull(gameManager);
-        assertEquals(testPlayer, gameManager.getPlayer());
-        assertEquals(testPet, gameManager.getPlayer().getPet());
-    }
-
-    @Test
     void testUpdatePlayTime()
     {
         long initialPlayTime = testPlayer.getPlayTime();

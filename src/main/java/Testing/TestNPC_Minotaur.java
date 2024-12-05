@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import misc.GamePanel;
 import misc.NPC_Minotaur;
+import misc.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +13,17 @@ class TestNPC_Minotaur {
 
     private NPC_Minotaur minotaur;
     private GamePanel gamePanel;
+    private Player player;
+    private GameManager manager;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        manager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         gamePanel.ui = new misc.MinigameUI(gamePanel);
         minotaur = new NPC_Minotaur(gamePanel);
+
     }
 
     @Test

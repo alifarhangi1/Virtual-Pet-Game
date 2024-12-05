@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import misc.GamePanel;
 import misc.NPC_Samurai;
+import misc.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +13,13 @@ class TestNPC_Samurai {
 
     private NPC_Samurai samurai;
     private GamePanel gamePanel;
+    private Player player;
+    private GameManager manager;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        manager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Kung Fu Chaos");
         samurai = new NPC_Samurai(gamePanel);
     }

@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import misc.GamePanel;
 import misc.KeyHandler;
+import misc.Player;
 import misc.PlayerMinigame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +15,13 @@ class TestPlayerMinigame {
     private PlayerMinigame player;
     private GamePanel gamePanel;
     private KeyHandler keyHandler;
+    private GameManager gameManager;
+    private Player player1;
 
     @BeforeEach
     void setUp() {
+        player1 = new Player();
+        gameManager = GameManager.getInstance(player1);
         gamePanel = new GamePanel("Kung Fu Chaos");
         keyHandler = new KeyHandler(gamePanel);
         player = new PlayerMinigame(gamePanel, keyHandler);

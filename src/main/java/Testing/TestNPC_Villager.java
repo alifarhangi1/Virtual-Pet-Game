@@ -1,19 +1,24 @@
 package Testing;
 
+import managers.GameManager;
 import misc.GamePanel;
 import misc.NPC_Villager;
+import misc.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestNPC_Villager {
-
+    private Player player;
+    private GameManager manager;
     private NPC_Villager villager;
     private GamePanel gamePanel;
 
     @BeforeEach
     void setUp() {
+        player = new Player();
+        manager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         gamePanel.ui = new misc.MinigameUI(gamePanel);
         villager = new NPC_Villager(gamePanel);

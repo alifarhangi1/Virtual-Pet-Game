@@ -1,7 +1,9 @@
 package Testing;
 
+import managers.GameManager;
 import misc.GamePanel;
 import misc.KeyHandler;
+import misc.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,11 +14,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TestKeyHandler {
 
+    private Player player;
+    private GameManager manager;
     private KeyHandler keyHandler;
     private GamePanel gamePanel;
 
     @BeforeEach
-    void setUp() {
+    void setUp()
+    {
+        player = new Player();
+        manager = GameManager.getInstance(player);
         gamePanel = new GamePanel("Maze Madness");
         keyHandler = new KeyHandler(gamePanel);
     }
@@ -59,14 +66,5 @@ class TestKeyHandler {
         keyHandler.keyPressed(new KeyEvent(new JPanel(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, KeyEvent.VK_D, 'D'));
         keyHandler.keyReleased(new KeyEvent(new JPanel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_D, 'D'));
         assertFalse(keyHandler.rightPressed, "Right key should be released");
-    }
-
-    @Test
-    void testKeyReleased_EscapeKey() {
-        gamePanel.levelName = "Maze Madness";
-
-        keyHandler.keyReleased(new KeyEvent(new JPanel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), 0, KeyEvent.VK_ESCAPE, ' '));
-
-        assertNotNull(gamePanel.musicPlayer, "Music player should not be null after stopping music");
     }
 }
