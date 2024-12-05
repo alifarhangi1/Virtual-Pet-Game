@@ -33,8 +33,11 @@ import java.net.URL;
  * - Pet interaction
  * - Gameplay mechanics
  * - Parental controls
+ * @author Yazan
+ * @version 1
  */
-public class TutorialScreen extends JPanel {
+public class TutorialScreen extends JPanel
+{
     // Index to track the current slide being displayed in the tutorial
     private int currentSlideIndex = 0;
 

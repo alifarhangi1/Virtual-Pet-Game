@@ -9,7 +9,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class LoadSaveScreen extends GameScreen {
+/**
+ * Manages game save loading and user authentication functionality.
+ * Provides secure login interface with custom styling and validation.
+ *
+ * @author Luca
+ * @version 1
+ */
+public class LoadSaveScreen extends GameScreen
+{
     private ImageIcon backgroundIcon;
     private JPanel mainPanel;
     private JPanel boxPanel;
@@ -20,6 +28,13 @@ public class LoadSaveScreen extends GameScreen {
         initializeBackButtonDimensions();
     }
 
+    /**
+     * Manages user authentication and game save loading functionality.
+     * Implements secure password handling and database validation.
+     *
+     * @throws FontFormatException If custom font loading fails
+     * @throws IOException If required resources are inaccessible
+     */
     @Override
     protected void initializeComponents() {
         try {
@@ -126,6 +141,13 @@ public class LoadSaveScreen extends GameScreen {
         }
     }
 
+    /**
+     * Handles dynamic resizing of all UI components while maintaining aspect ratios.
+     * Called automatically when the window size changes.
+     *
+     * @param width The new width of the window
+     * @param height The new height of the window
+     */
     @Override
     protected void onResize(int width, int height) {
         int[] backButtonDimensions = resizeBackButton();

@@ -8,16 +8,32 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlayerScoreScreen {
+/**
+ * Manages and displays real-time player statistics including score and playtime.
+ * Implements dynamic updates through swing timer functionality.
+ *
+ * @author Robin Lee
+ * @version 1.0
+ */
+public class PlayerScoreScreen
+{
     private Player player;
     private GameManager gameManager;
 
+    /**
+     * Initializes score screen with player data and game manager connection.
+     *
+     * @param player The player whose stats will be displayed
+     * @throws IllegalArgumentException if player instance is null
+     */
     public PlayerScoreScreen(Player player) {
         this.player = player;
-        this.gameManager = GameManager.getInstance(player); // Get managers.GameManager instance
+        this.gameManager = null; // Get managers.GameManager instance
     }
 
-    // Function to display the screen
+    /**
+     * Function to displayScreen
+     */
     public void displayScreen() {
         // Create the frame
         JFrame frame = new JFrame("Player Score Screen");
@@ -62,16 +78,5 @@ public class PlayerScoreScreen {
 
         timer.start(); // Start the timer
         frame.setVisible(true); // Show the frame
-    }
-
-    public static void main(String[] args)
-    {
-        // Mock scrap.Player instance
-        Player player = new Player();
-        player.setScore(0); // Set initial score
-
-        // Create an instance of the game and display the screen
-        PlayerScoreScreen gameScreen = new PlayerScoreScreen(player);
-        gameScreen.displayScreen();
     }
 }

@@ -22,6 +22,13 @@ public class GameManager {
     private PetStatusScreen statusScreen;
     private static GameManager instance; // Singleton instance
 
+    /**
+     * Manages the core game logic, including pet management, gameplay timers, and player interactions.
+     * Implements a singleton pattern to ensure a single instance.
+     *
+     * @version 1.0
+     * @author Sangjae Lee
+     */
     public GameManager(Player player)
     {
         this.player = player;
@@ -57,6 +64,12 @@ public class GameManager {
         this.timerStatus.start();
     }
 
+    /**
+     * Constructs a new GameManager instance for the given player.
+     * Initializes pets, timers, and sets the active pet.
+     *
+     * @param player the player managing the pets
+     */
     public static GameManager getInstance(Player player)
     {
         if (instance == null)
@@ -66,6 +79,9 @@ public class GameManager {
         return instance;
     }
 
+    /**
+     * Updates the player's total playtime by calculating the elapsed time.
+     */
     public void updatePlayTime()
     {
         // Calculate elapsed playtime
@@ -73,12 +89,22 @@ public class GameManager {
         player.setPlayTime(secondsElapsed);
     }
 
+    /**
+     * Retrieves the total playtime of the player.
+     *
+     * @return the total playtime in seconds
+     */
     public long getPlayTime()
     {
         updatePlayTime();
         return player.getPlayTime();
     }
 
+    /**
+     * Sets the active pet based on its index in the player's pet list.
+     *
+     * @param index the index of the pet in the list
+     */
     public void setPet(int index)
     {
         if (index >= 0 && index < pets.size())
@@ -88,11 +114,20 @@ public class GameManager {
         }
     }
 
+    /**
+     * Retrieves the list of all pets owned by the player.
+     *
+     * @return the list of pets
+     */
     public List<Pet> getPetArr()
     {
         return pets;
     }
 
+    /**
+     * Checks the status of the active pet and stops the game if the pet's health reaches zero.
+     * Prints warnings if the pet's fullness or energy is low.
+     */
     public void checkPetStatus()
     {
         if (pet == null) return;
@@ -111,12 +146,23 @@ public class GameManager {
         }
     }
 
+    /**
+     * Resizes an ImageIcon to a specified width and height.
+     *
+     * @param icon the ImageIcon to resize
+     * @return the resized ImageIcon
+     */
     public ImageIcon resizeIcon(ImageIcon icon) {
         Image img = icon.getImage();
         Image resizedImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImg);
     }
 
+    /**
+     * Retrieves the player associated with this GameManager.
+     *
+     * @return the player
+     */
     public Player getPlayer()
     {
         return player;

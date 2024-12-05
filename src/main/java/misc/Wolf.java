@@ -3,9 +3,23 @@ package misc;
 import javax.swing.*;
 import java.net.URL;
 
+/**
+ * Represents a Wolf pet
+ * Extends Pet
+ * @see Pet
+ * @author Sangjae
+ * @version 1
+ */
 public class Wolf extends Pet
 {
+    /**
+     * Check if the pet has evolved
+     */
     boolean isEvolve;
+    /**
+     * constructor for pet Owl
+     * @param name name of the pet
+     */
     public Wolf(String name) {
         super(name, "misc.Wolf"); // Pass name and type to the parent class
 
@@ -26,11 +40,9 @@ public class Wolf extends Pet
         });
     }
 
-    public boolean getIsEvolve()
-    {
-        return isEvolve;
-    }
-
+    /**
+     * Evolves the pet
+     */
     public void Evolve()
     {
         // Increase stats
@@ -50,4 +62,12 @@ public class Wolf extends Pet
         this.isEvolve = true;
     }
 
+    /**
+     * Getter for the is Evolve
+     * @return is Evolve in boolean
+     */
+    public boolean getIsEvolve()
+    {
+        return isEvolve;
+    }
 }

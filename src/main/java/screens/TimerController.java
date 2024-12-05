@@ -4,7 +4,14 @@ import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimerController {
+/**
+ * Class to take control of the time in the game world
+ *
+ * @author Adam
+ * @version 1
+ */
+public class TimerController
+{
     private Timer timer;
     private int timeLimit; // Time limit in minutes
     private JFrame parentFrame;
