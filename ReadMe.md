@@ -1,5 +1,10 @@
 # Project Name: **Pet Quest**
 
+## Demo Video
+
+[![Watch the Demo](https://img.youtube.com/vi/VwuX3Jx733o/0.jpg)](https://www.youtube.com/watch?v=VwuX3Jx733o)
+
+
 ## Description
 **Pet Quest** is a Java-based game application developed using Java Swing for the graphical user interface and FlexJSON for JSON data serialization/deserialization. The game provides a simulation pet care game, where the player's core experience will be taking care of a pet, including feeding, playing, and interacting, while offering players a low-stakes environment to manage routines. Some features inlcude an "evolution" mechanism, where the pets evolve based on the player’s care, affecting their appearance, animations, and behaviors and also a ...  
 
